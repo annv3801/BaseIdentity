@@ -2,16 +2,13 @@
 using Application.Common.Models;
 using Application.Identity.Account.Common;
 using MediatR;
-#pragma warning disable 8618
 
-namespace Application.Identity.Account.Commands
+namespace Application.Identity.Account.Commands;
+[ExcludeFromCodeCoverage]
+public class ChangePasswordAtFirstLoginCommand: IRequest<Result<AccountResult>>
 {
-    [ExcludeFromCodeCoverage]
-    public class ChangePasswordAtFirstLoginCommand: IRequest<Result<AccountResult>>
-    {
-        public string UserName { get; set; }
-        public string CurrentPassword { get; set; }
-        public string NewPassword { get; set; }
-        public string ConfirmPassword { get; set; }
-    }
+    public string UserName { get; set; }
+    public string CurrentPassword { get; set; }
+    public string NewPassword { get; set; }
+    public string ConfirmPassword { get; set; }
 }

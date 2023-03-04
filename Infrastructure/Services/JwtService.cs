@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Common;
 using Application.Common.Configurations;
 using Application.Common.Interfaces;
@@ -17,89 +13,87 @@ using Domain.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+public class JwtService : IJwtService
 {
-    public class JwtService : IJwtService
+    private readonly JwtConfiguration _jwtOptions;
+    private readonly ILoggerService _loggerService;
+    private readonly IDateTime _dateTime;
+
+    public JwtService(IOptions<JwtConfiguration> jwtOptions, ILoggerService loggerService, IDateTime dateTime)
     {
-        private readonly JwtConfiguration _jwtOptions;
-        private readonly ILoggerService _loggerService;
-        private readonly IDateTime _dateTime;
+        _jwtOptions = jwtOptions.Value;
+        _loggerService = loggerService;
+        _dateTime = dateTime;
+    }
 
-        public JwtService(IOptions<JwtConfiguration> jwtOptions, ILoggerService loggerService, IDateTime dateTime)
+    public async Task<Result<CreateJwtResponse>> GenerateJwtAsync(Account account, ClaimsIdentity claimsIdentity, CancellationToken cancellationToken)
+    {
+        try
         {
-            _jwtOptions = jwtOptions.Value;
-            _loggerService = loggerService;
-            _dateTime = dateTime;
-        }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_jwtOptions.SymmetricSecurityKey);
 
-        public async Task<Result<CreateJwtResponse>> GenerateJwtAsync(Account account, ClaimsIdentity claimsIdentity, CancellationToken cancellationToken)
-        {
-            try
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_jwtOptions.SymmetricSecurityKey);
-
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Audience = _jwtOptions.Audience,
-                    Issuer = _jwtOptions.Issuer,
-                    Subject = claimsIdentity,
-                    Expires = _dateTime.UtcNow.AddHours(_jwtOptions.Expires),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                        SecurityAlgorithms.HmacSha256Signature)
-                };
-                await Task.CompletedTask;
-                return Result<CreateJwtResponse>.Succeed(new CreateJwtResponse()
-                {
-                    Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor)),
-                    RefreshToken = GenerateRefreshJwtToken(account, cancellationToken)
-                });
-            }
-            catch (Exception e)
+                Audience = _jwtOptions.Audience,
+                Issuer = _jwtOptions.Issuer,
+                Subject = claimsIdentity,
+                Expires = _dateTime.UtcNow.AddHours(_jwtOptions.Expires),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+            await Task.CompletedTask;
+            return Result<CreateJwtResponse>.Succeed(new CreateJwtResponse()
             {
-                _loggerService.LogCritical(e, "Error while generating JWT");
-                throw;
-            }
+                Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor)),
+                RefreshToken = GenerateRefreshJwtToken(account, cancellationToken)
+            });
         }
-
-        // ReSharper disable once UnusedParameter.Local
-        private string GenerateRefreshJwtToken(Account account, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
+            _loggerService.LogCritical(e, "Error while generating JWT");
+            throw;
+        }
+    }
+
+    // ReSharper disable once UnusedParameter.Local
+    private string GenerateRefreshJwtToken(Account account, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_jwtOptions.SymmetricSecurityKey);
+            var claims = new List<Claim>()
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_jwtOptions.SymmetricSecurityKey);
-                var claims = new List<Claim>()
-                {
-                    new Claim(JwtClaimTypes.UserId, account.Id.ToString()),
-                    new Claim(JwtClaimTypes.IdentityProvider, Constants.LoginProviders.Self),
-                };
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Audience = _jwtOptions.Audience,
-                    Issuer = _jwtOptions.Issuer,
-                    Subject = new ClaimsIdentity(claims),
-                    Expires = _dateTime.UtcNow.AddHours(_jwtOptions.RefreshTokenExpires),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                        SecurityAlgorithms.HmacSha256Signature)
-                };
-                return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
-            }
-            catch (Exception e)
+                new Claim(JwtClaimTypes.UserId, account.Id.ToString()),
+                new Claim(JwtClaimTypes.IdentityProvider, Constants.LoginProviders.Self),
+            };
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                _loggerService.LogCritical(e, "Error while generating JWT Refresh Token");
-                throw;
-            }
+                Audience = _jwtOptions.Audience,
+                Issuer = _jwtOptions.Issuer,
+                Subject = new ClaimsIdentity(claims),
+                Expires = _dateTime.UtcNow.AddHours(_jwtOptions.RefreshTokenExpires),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
-
-        public Task<Result<CreateJwtResponse>> RenewJwtAsync(RenewJwtRequest renewJwtRequest, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            throw new NotImplementedException();
+            _loggerService.LogCritical(e, "Error while generating JWT Refresh Token");
+            throw;
         }
+    }
 
-        public Task<Result<DeleteJwtResponse>> DeleteJwtAsync(string token, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+    public Task<Result<CreateJwtResponse>> RenewJwtAsync(RenewJwtRequest renewJwtRequest, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result<DeleteJwtResponse>> DeleteJwtAsync(string token, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,10 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 
-#pragma warning disable 1591
-namespace WebApi.Localization
+namespace WebApi.Localization;
+[ExcludeFromCodeCoverage]
+public class SharedLocalization
 {
-    [ExcludeFromCodeCoverage]
-    public class SharedLocalization
-    {
-    }
 }

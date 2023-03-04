@@ -181,13 +181,13 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             AccessFailedCount = 0,
-                            Created = new DateTime(2023, 2, 15, 15, 34, 4, 19, DateTimeKind.Utc).AddTicks(9122),
+                            Created = new DateTime(2023, 3, 4, 3, 33, 29, 71, DateTimeKind.Utc).AddTicks(2712),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Email = "nva030801@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nguyen",
                             Gender = true,
-                            LastModified = new DateTime(2023, 2, 15, 15, 34, 4, 19, DateTimeKind.Utc).AddTicks(9119),
+                            LastModified = new DateTime(2023, 3, 4, 3, 33, 29, 71, DateTimeKind.Utc).AddTicks(2710),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             LastName = "An",
                             LockoutEnabled = true,
@@ -201,7 +201,7 @@ namespace Infrastructure.Persistence.Migrations
                             PasswordHash = "AMJoiJQ9xLazxisVPXx+lBDRw7wfWBerhXipsLpHNGLXGAAKIeCnwi5XhIRbTbqovA==",
                             PhoneNumber = "0966093801",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "8F412264-B014-458E-AEDE-8A0FA4665A86",
+                            SecurityStamp = "39C79723-1C4E-43CF-9A81-053298508A24",
                             Status = 3,
                             TwoFactorEnabled = false,
                             UserName = "nva3801"
@@ -359,10 +359,10 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"),
                             Code = "ROOT:ROOT:SYSADMIN",
-                            Created = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(7215),
+                            Created = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2212),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The system admin permission",
-                            LastModified = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(7216),
+                            LastModified = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2213),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "System Admin",
                             NormalizedName = "SYSTEM ADMIN"
@@ -371,10 +371,10 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6f"),
                             Code = "ROOT:ROOT:SYSADMIN",
-                            Created = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(7223),
+                            Created = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2221),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The supply chain user permission",
-                            LastModified = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(7223),
+                            LastModified = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2221),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "SPC",
                             NormalizedName = "SPC"
@@ -429,10 +429,10 @@ namespace Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e"),
-                            Created = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(8002),
+                            Created = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3311),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The system Admin Role",
-                            LastModified = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(8003),
+                            LastModified = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3312),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "System Admin",
                             NormalizedName = "SYSTEM ADMIN",
@@ -441,10 +441,10 @@ namespace Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
-                            Created = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(8009),
+                            Created = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3318),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The SP Role",
-                            LastModified = new DateTime(2023, 2, 15, 15, 34, 4, 20, DateTimeKind.Utc).AddTicks(8009),
+                            LastModified = new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3318),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "SP",
                             NormalizedName = "SP",
@@ -526,7 +526,7 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Identity.AccountToken", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.Account", "Account")
-                        .WithMany()
+                        .WithMany("AccountTokens")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -588,6 +588,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("AccountLogins");
 
                     b.Navigation("AccountRoles");
+
+                    b.Navigation("AccountTokens");
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.Permission", b =>

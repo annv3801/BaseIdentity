@@ -1,6 +1,4 @@
-namespace Application.Identity.Permission.Common
+namespace Application.Identity.Permission.Common;
+public class PermissionResult
 {
-    public class PermissionResult
-    {
-    }
 }

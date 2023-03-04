@@ -3,10 +3,8 @@ using Application.Identity.Role.Commands;
 using Application.Identity.Role.Commons;
 using MediatR;
 
-namespace Application.Identity.Role.Handlers
+namespace Application.Identity.Role.Handlers;
+public interface ICreateRoleHandler:IRequestHandler<CreateRoleCommand, Result<RoleResult>>
 {
-    public interface ICreateRoleHandler:IRequestHandler<CreateRoleCommand, Result<RoleResult>>
-    {
-        
-    }
+    
 }

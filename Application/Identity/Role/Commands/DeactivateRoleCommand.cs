@@ -4,11 +4,9 @@ using Application.Common.Models;
 using Application.Identity.Role.Commons;
 using MediatR;
 
-namespace Application.Identity.Role.Commands
+namespace Application.Identity.Role.Commands;
+[ExcludeFromCodeCoverage]
+public class DeactivateRoleCommand: IRequest<Result<RoleResult>>
 {
-    [ExcludeFromCodeCoverage]
-    public class DeactivateRoleCommand: IRequest<Result<RoleResult>>
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

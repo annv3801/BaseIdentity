@@ -4,10 +4,8 @@ using Application.DTO.Pagination.Responses;
 using Application.Identity.Account.Queries;
 using MediatR;
 
-namespace Application.Identity.Account.Handlers
+namespace Application.Identity.Account.Handlers;
+public interface IViewListAccountsHandler:IRequestHandler<ViewListAccountsQuery,Result<PaginationBaseResponse<ViewAccountResponse>>>
 {
-    public interface IViewListAccountsHandler:IRequestHandler<ViewListAccountsQuery,Result<PaginationBaseResponse<ViewAccountResponse>>>
-    {
-        
-    }
+    
 }

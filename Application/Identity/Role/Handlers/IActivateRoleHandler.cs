@@ -3,9 +3,7 @@ using Application.Identity.Role.Commands;
 using Application.Identity.Role.Commons;
 using MediatR;
 
-namespace Application.Identity.Role.Handlers
+namespace Application.Identity.Role.Handlers;
+public interface IActivateRoleHandler : IRequestHandler<ActivateRoleCommand, Result<RoleResult>>
 {
-    public interface IActivateRoleHandler : IRequestHandler<ActivateRoleCommand, Result<RoleResult>>
-    {
-    }
 }

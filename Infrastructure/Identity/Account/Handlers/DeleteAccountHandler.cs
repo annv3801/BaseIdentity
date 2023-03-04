@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 using Application.Common;
 using Application.Common.Models;
 using Application.Identity.Account.Commands;
@@ -10,33 +7,31 @@ using Application.Identity.Account.Handlers;
 using Application.Identity.Account.Services;
 using Domain.Interfaces;
 
-namespace Infrastructure.Identity.Account.Handlers
+namespace Infrastructure.Identity.Account.Handlers;
+[ExcludeFromCodeCoverage]
+public class DeleteAccountHandler : IDeleteAccountHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class DeleteAccountHandler : IDeleteAccountHandler
+    private readonly IAccountManagementService _accountManagementService;
+    private readonly ILoggerService _loggerService;
+
+    public DeleteAccountHandler(IAccountManagementService accountManagementService,
+        ILoggerService loggerService)
     {
-        private readonly IAccountManagementService _accountManagementService;
-        private readonly ILoggerService _loggerService;
+        _accountManagementService = accountManagementService;
+        _loggerService = loggerService;
+    }
 
-        public DeleteAccountHandler(IAccountManagementService accountManagementService,
-            ILoggerService loggerService)
+    public async Task<Result<AccountResult>> Handle(DeleteAccountCommand request,CancellationToken cancellationToken)
+    {
+        try
         {
-            _accountManagementService = accountManagementService;
-            _loggerService = loggerService;
+            return await _accountManagementService.DeleteAccountAsync(request.AccountId, cancellationToken);
         }
-
-        public async Task<Result<AccountResult>> Handle(DeleteAccountCommand request,CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                return await _accountManagementService.DeleteAccountAsync(request.AccountId, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(DeleteAccountHandler));
-                Console.WriteLine(e);
-                return Result<AccountResult>.Fail(Constants.CommitFailed);
-            }
+            _loggerService.LogCritical(e, nameof(DeleteAccountHandler));
+            Console.WriteLine(e);
+            return Result<AccountResult>.Fail(Constants.CommitFailed);
         }
     }
 }

@@ -1,21 +1,13 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Common;
-using Application.Common.Models;
+﻿using System.Diagnostics.CodeAnalysis;
 using Application.Identity.Account.EventHandlers;
 using Application.Identity.Account.Events;
 
-namespace Infrastructure.Identity.Account.EventHandlers
+namespace Infrastructure.Identity.Account.EventHandlers;
+[ExcludeFromCodeCoverage]
+public class DeleteAccountEventHandler : IDeleteAccountEventHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class DeleteAccountEventHandler : IDeleteAccountEventHandler
+    public Task Handle(DeletedAccountEvent notification, CancellationToken cancellationToken)
     {
-        public Task Handle(DeletedAccountEvent notification, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
 }

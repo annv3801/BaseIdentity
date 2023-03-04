@@ -3,9 +3,7 @@ using Application.Identity.Account.Commands;
 using Application.Identity.Account.Common;
 using MediatR;
 
-namespace Application.Identity.Account.Handlers
+namespace Application.Identity.Account.Handlers;
+public interface IForgotPasswordHandler : IRequestHandler<ForgotPasswordCommand, Result<AccountResult>>
 {
-    public interface IForgotPasswordHandler : IRequestHandler<ForgotPasswordCommand, Result<AccountResult>>
-    {
-    }
 }

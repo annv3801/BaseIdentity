@@ -4,10 +4,8 @@ using Application.DTO.Role.Responses;
 using Application.Identity.Role.Queries;
 using MediatR;
 
-namespace Application.Identity.Role.Handlers
+namespace Application.Identity.Role.Handlers;
+public interface IViewListRolesHandler: IRequestHandler<ViewListRolesQuery, Result<PaginationBaseResponse<ViewRoleResponse>>>
 {
-    public interface IViewListRolesHandler: IRequestHandler<ViewListRolesQuery, Result<PaginationBaseResponse<ViewRoleResponse>>>
-    {
-        
-    }
+    
 }

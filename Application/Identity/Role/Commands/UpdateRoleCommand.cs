@@ -5,11 +5,9 @@ using Application.DTO.Role.Requests;
 using Application.Identity.Role.Commons;
 using MediatR;
 
-namespace Application.Identity.Role.Commands
+namespace Application.Identity.Role.Commands;
+[ExcludeFromCodeCoverage]
+public class UpdateRoleCommand : UpdateRoleRequest, IRequest<Result<RoleResult>>
 {
-    [ExcludeFromCodeCoverage]
-    public class UpdateRoleCommand : UpdateRoleRequest, IRequest<Result<RoleResult>>
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

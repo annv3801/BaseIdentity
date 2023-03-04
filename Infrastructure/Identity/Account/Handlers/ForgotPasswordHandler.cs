@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 using Application.Common;
 using Application.Common.Models;
 using Application.DTO.Account.Requests;
@@ -12,35 +9,33 @@ using Application.Identity.Account.Services;
 using AutoMapper;
 using Domain.Interfaces;
 
-namespace Infrastructure.Identity.Account.Handlers
+namespace Infrastructure.Identity.Account.Handlers;
+[ExcludeFromCodeCoverage]
+public class ForgotPasswordHandler : IForgotPasswordHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class ForgotPasswordHandler : IForgotPasswordHandler
+    private readonly IMapper _mapper;
+    private readonly IAccountManagementService _accountManagementService;
+    private readonly ILoggerService _loggerService;
+
+    public ForgotPasswordHandler(IAccountManagementService accountManagementService, IMapper mapper, ILoggerService loggerService)
     {
-        private readonly IMapper _mapper;
-        private readonly IAccountManagementService _accountManagementService;
-        private readonly ILoggerService _loggerService;
+        _accountManagementService = accountManagementService;
+        _mapper = mapper;
+        _loggerService = loggerService;
+    }
 
-        public ForgotPasswordHandler(IAccountManagementService accountManagementService, IMapper mapper, ILoggerService loggerService)
+    public async Task<Result<AccountResult>> Handle(ForgotPasswordCommand command, CancellationToken cancellationToken)
+    {
+        try
         {
-            _accountManagementService = accountManagementService;
-            _mapper = mapper;
-            _loggerService = loggerService;
+            var request = _mapper.Map<ForgotPasswordRequest>(command);
+            return await _accountManagementService.ForgotPasswordAsync(request, cancellationToken);
         }
-
-        public async Task<Result<AccountResult>> Handle(ForgotPasswordCommand command, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var request = _mapper.Map<ForgotPasswordRequest>(command);
-                return await _accountManagementService.ForgotPasswordAsync(request, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(DeactivateAccountHandler));
-                Console.WriteLine(e);
-                return Result<AccountResult>.Fail(Constants.CommitFailed);
-            }
+            _loggerService.LogCritical(e, nameof(DeactivateAccountHandler));
+            Console.WriteLine(e);
+            return Result<AccountResult>.Fail(Constants.CommitFailed);
         }
     }
 }

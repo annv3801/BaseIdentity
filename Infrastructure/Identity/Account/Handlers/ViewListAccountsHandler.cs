@@ -9,24 +9,22 @@ using Application.Identity.Account.Queries;
 using Application.Identity.Account.Services;
 using AutoMapper;
 
-namespace Infrastructure.Identity.Account.Handlers
+namespace Infrastructure.Identity.Account.Handlers;
+[ExcludeFromCodeCoverage]
+public class GetListAccountsHandler : IViewListAccountsHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class GetListAccountsHandler : IViewListAccountsHandler
+    private readonly IAccountManagementService _accountManagementService;
+    private readonly IMapper _mapper;
+
+    public GetListAccountsHandler(IAccountManagementService accountManagementService, IMapper mapper)
     {
-        private readonly IAccountManagementService _accountManagementService;
-        private readonly IMapper _mapper;
+        _accountManagementService = accountManagementService;
+        _mapper = mapper;
+    }
 
-        public GetListAccountsHandler(IAccountManagementService accountManagementService, IMapper mapper)
-        {
-            _accountManagementService = accountManagementService;
-            _mapper = mapper;
-        }
-
-        public async Task<Result<PaginationBaseResponse<ViewAccountResponse>>> Handle(ViewListAccountsQuery viewAccountQuery, CancellationToken cancellationToken)
-        {
-            var request = _mapper.Map<Application.DTO.Account.Requests.ViewListAccountsRequest>(viewAccountQuery);
-            return await _accountManagementService.ViewListAccountsByAdminAsync(request,cancellationToken);
-        }
+    public async Task<Result<PaginationBaseResponse<ViewAccountResponse>>> Handle(ViewListAccountsQuery viewAccountQuery, CancellationToken cancellationToken)
+    {
+        var request = _mapper.Map<Application.DTO.Account.Requests.ViewListAccountsRequest>(viewAccountQuery);
+        return await _accountManagementService.ViewListAccountsByAdminAsync(request,cancellationToken);
     }
 }

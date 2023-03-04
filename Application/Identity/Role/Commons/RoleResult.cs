@@ -1,7 +1,5 @@
-namespace Application.Identity.Role.Commons
+namespace Application.Identity.Role.Commons;
+public class RoleResult
 {
-    public class RoleResult
-    {
-        
-    }
+    
 }

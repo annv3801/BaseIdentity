@@ -1,27 +1,21 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces;
-using Application.Common.Models;
 using Application.Identity.Account.EventHandlers;
 using Application.Identity.Account.Events;
 
-namespace Infrastructure.Identity.Account.EventHandlers
+namespace Infrastructure.Identity.Account.EventHandlers;
+[ExcludeFromCodeCoverage]
+public class SetMyNewPasswordEventHandler : ISetMyNewPasswordEventHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class SetMyNewPasswordEventHandler : ISetMyNewPasswordEventHandler
+    private readonly IJsonSerializerService _jsonSerializerService;
+
+    public SetMyNewPasswordEventHandler(IJsonSerializerService jsonSerializerService)
     {
-        private readonly IJsonSerializerService _jsonSerializerService;
+        _jsonSerializerService = jsonSerializerService;
+    }
 
-        public SetMyNewPasswordEventHandler(IJsonSerializerService jsonSerializerService)
-        {
-            _jsonSerializerService = jsonSerializerService;
-        }
-
-        public Task Handle(SetMyNewPasswordEvent notification, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+    public Task Handle(SetMyNewPasswordEvent notification, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

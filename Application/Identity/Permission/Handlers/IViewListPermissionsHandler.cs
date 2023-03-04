@@ -4,9 +4,7 @@ using Application.DTO.Permission.Responses;
 using Application.Identity.Permission.Queries;
 using MediatR;
 
-namespace Application.Identity.Permission.Handlers
+namespace Application.Identity.Permission.Handlers;
+public interface IViewListPermissionsHandler : IRequestHandler<ViewListPermissionsQuery, Result<PaginationBaseResponse<ViewPermissionResponse>>>
 {
-    public interface IViewListPermissionsHandler : IRequestHandler<ViewListPermissionsQuery, Result<PaginationBaseResponse<ViewPermissionResponse>>>
-    {
-    }
 }

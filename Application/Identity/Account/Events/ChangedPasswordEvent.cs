@@ -2,17 +2,14 @@
 using Domain.Common;
 using MediatR;
 
-namespace Application.Identity.Account.Events
+namespace Application.Identity.Account.Events;
+[ExcludeFromCodeCoverage]
+public class ChangedPasswordEvent : INotification
 {
-    /// <inheritdoc />
-    [ExcludeFromCodeCoverage]
-    public class ChangedPasswordEvent : INotification
+    public ChangedPasswordEvent(Domain.Entities.Identity.Account account)
     {
-        public ChangedPasswordEvent(Domain.Entities.Identity.Account account)
-        {
-            Account = account;
-        }
-
-        public Domain.Entities.Identity.Account Account { get; }
+        Account = account;
     }
+
+    public Domain.Entities.Identity.Account Account { get; }
 }

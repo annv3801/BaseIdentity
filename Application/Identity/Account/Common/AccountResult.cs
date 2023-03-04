@@ -1,6 +1,4 @@
-namespace Application.Identity.Account.Common
+namespace Application.Identity.Account.Common;
+public class AccountResult
 {
-    public class AccountResult
-    {
-    }
 }

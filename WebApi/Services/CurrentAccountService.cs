@@ -11,21 +11,11 @@ public class CurrentAccountService : ICurrentAccountService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="httpContextAccessor"></param>
-    /// <param name="unitOfWork"></param>
-    /// <param name="mapper"></param>
     public CurrentAccountService(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exception cref="NotLoggedYetException"></exception>
     public Guid Id
     {
         get
@@ -41,29 +31,17 @@ public class CurrentAccountService : ICurrentAccountService
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public GeneralAccountView Account
     {
         get { return new GeneralAccountView(); }
     }
 
-    /// <summary>
-    /// Check permission
-    /// </summary>
-    /// <param name="perm"></param>
-    /// <returns></returns>
     public bool HasPerm(string perm)
     {
         return _httpContextAccessor.HttpContext?.User.Claims.Any(claim =>
             claim.Type == JwtClaimTypes.Permission && claim.Value == perm) ?? false;
     }
 
-    /// <summary>
-    /// Get JWT
-    /// </summary>
-    /// <returns></returns>
     public string GetJwtToken()
     {
         var result =
@@ -71,10 +49,6 @@ public class CurrentAccountService : ICurrentAccountService
         return result?.Value.ToString().Replace("Bearer ", "");
     }
 
-    /// <summary>
-    /// Check current user has sys admin perm or not
-    /// </summary>
-    /// <returns></returns>
     public bool IsAdmin()
     {
         return _httpContextAccessor.HttpContext?.User.Claims.Any(claim =>

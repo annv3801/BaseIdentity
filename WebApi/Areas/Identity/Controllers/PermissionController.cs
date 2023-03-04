@@ -10,132 +10,98 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace WebApi.Areas.Identity.Controllers
+namespace WebApi.Areas.Identity.Controllers;
+[ApiController]
+[Area(Common.Url.Areas.Identity)]
+[SwaggerTag(Constants.SwaggerTags.Permission)]
+public class PermissionController : ControllerBase
 {
-    /// <inheritdoc />
-    [ApiController]
-    [Area(Common.Url.Areas.Identity)]
-    [SwaggerTag(Constants.SwaggerTags.Permission)]
-    public class PermissionController : ControllerBase
+    private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
+    private readonly ILoggerService _loggerService;
+
+    public PermissionController(IMediator mediator, IMapper mapper, ILoggerService loggerService)
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        private readonly ILoggerService _loggerService;
+        _mediator = mediator;
+        _mapper = mapper;
+        _loggerService = loggerService;
+    }
 
-        /// <summary>
-        /// Ctor
-        /// </summary>
-        /// <param name="mediator"></param>
-        /// <param name="mapper"></param>
-        /// <param name="loggerService"></param>
-        public PermissionController(IMediator mediator, IMapper mapper, ILoggerService loggerService)
+    [HttpPut]
+    [LogAction]
+    [Route(Common.Url.Identity.Permission.Update)]
+    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
+    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
+    [Produces(Constants.MimeTypes.Application.Json)]
+    public async Task<IActionResult> UpdatePermissionAsync(Guid permId, UpdatePermissionRequest updatePermissionRequest, CancellationToken cancellationToken)
+    {
+        try
         {
-            _mediator = mediator;
-            _mapper = mapper;
-            _loggerService = loggerService;
+            var updatePermissionCommand = new UpdatePermissionCommand()
+            {
+                Id = permId,
+                Description = updatePermissionRequest.Description,
+                Name = updatePermissionRequest.Name
+            };
+            var result = await _mediator.Send(updatePermissionCommand, cancellationToken);
+            if (result.Succeeded)
+                return Ok(new SuccessResponse());
+            return Accepted(new FailureResponse(result.Errors));
         }
-
-        /// <summary>
-        /// To update Permission
-        /// </summary>
-        /// <param name="permId">Permission Id</param>
-        /// <param name="updatePermissionRequest"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpPut]
-        [LogAction]
-        [Route(Common.Url.Identity.Permission.Update)]
-        [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
-        [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
-        [Produces(Constants.MimeTypes.Application.Json)]
-        public async Task<IActionResult> UpdatePermissionAsync(Guid permId, UpdatePermissionRequest updatePermissionRequest, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var updatePermissionCommand = new UpdatePermissionCommand()
-                {
-                    Id = permId,
-                    Description = updatePermissionRequest.Description,
-                    Name = updatePermissionRequest.Name
-                };
-                var result = await _mediator.Send(updatePermissionCommand, cancellationToken);
-                if (result.Succeeded)
-                    return Ok(new SuccessResponse());
-                return Accepted(new FailureResponse(result.Errors));
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(UpdatePermissionAsync));
-                Console.WriteLine(e);
-                throw;
-            }
+            _loggerService.LogCritical(e, nameof(UpdatePermissionAsync));
+            Console.WriteLine(e);
+            throw;
         }
+    }
 
-        /// <summary>
-        /// To view Permission
-        /// </summary>
-        /// <param name="permId">Permission Id</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [LogAction]
-        [Route(Common.Url.Identity.Permission.View)]
-        [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
-        [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
-        [Produces(Constants.MimeTypes.Application.Json)]
-        public async Task<IActionResult> ViewPermissionAsync(Guid permId, CancellationToken cancellationToken)
+    [HttpGet]
+    [LogAction]
+    [Route(Common.Url.Identity.Permission.View)]
+    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
+    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
+    [Produces(Constants.MimeTypes.Application.Json)]
+    public async Task<IActionResult> ViewPermissionAsync(Guid permId, CancellationToken cancellationToken)
+    {
+        try
         {
-            try
-            {
-                var result = await _mediator.Send(new ViewPermissionQuery() {PermissionId = permId}, cancellationToken);
-                if (result.Succeeded)
-                    return Ok(new SuccessResponse(data: result.Data));
-                return Accepted(new FailureResponse(result.Errors));
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(ViewPermissionAsync));
-                Console.WriteLine(e);
-                throw;
-            }
+            var result = await _mediator.Send(new ViewPermissionQuery() {PermissionId = permId}, cancellationToken);
+            if (result.Succeeded)
+                return Ok(new SuccessResponse(data: result.Data));
+            return Accepted(new FailureResponse(result.Errors));
         }
-
-        /// <summary>
-        /// To view list Permissions
-        /// </summary>
-        /// <remarks>
-        ///
-        /// Sortable:
-        ///
-        ///     Name, Code
-        /// </remarks>
-        /// <param name="viewListPermissionsRequest"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [LogAction]
-        [Route(Common.Url.Identity.Permission.ViewList)]
-        [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
-        [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
-        [Produces(Constants.MimeTypes.Application.Json)]
-        public async Task<IActionResult> ViewListPermissionsAsync([FromQuery] ViewListPermissionsRequest viewListPermissionsRequest, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var result = await _mediator.Send(_mapper.Map<ViewListPermissionsQuery>(viewListPermissionsRequest), cancellationToken);
-                if (result.Succeeded)
-                    return Ok(new SuccessResponse(data: result.Data));
-                return Accepted(new FailureResponse(result.Errors));    
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(ViewListPermissionsAsync));
-                Console.WriteLine(e);
-                throw;
-            }
+            _loggerService.LogCritical(e, nameof(ViewPermissionAsync));
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    [HttpGet]
+    [LogAction]
+    [Route(Common.Url.Identity.Permission.ViewList)]
+    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
+    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
+    [Produces(Constants.MimeTypes.Application.Json)]
+    public async Task<IActionResult> ViewListPermissionsAsync([FromQuery] ViewListPermissionsRequest viewListPermissionsRequest, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<ViewListPermissionsQuery>(viewListPermissionsRequest), cancellationToken);
+            if (result.Succeeded)
+                return Ok(new SuccessResponse(data: result.Data));
+            return Accepted(new FailureResponse(result.Errors));    
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewListPermissionsAsync));
+            Console.WriteLine(e);
+            throw;
         }
     }
 }

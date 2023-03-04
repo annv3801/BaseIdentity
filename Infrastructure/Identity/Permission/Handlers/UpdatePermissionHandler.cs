@@ -1,7 +1,4 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Common;
 using Application.Common.Models;
 using Application.Identity.Permission.Command;
@@ -11,35 +8,33 @@ using Application.Identity.Permission.Services;
 using AutoMapper;
 using Domain.Interfaces;
 
-namespace Infrastructure.Identity.Permission.Handlers
+namespace Infrastructure.Identity.Permission.Handlers;
+[ExcludeFromCodeCoverage]
+public class UpdatePermissionHandler : IUpdatePermissionHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class UpdatePermissionHandler : IUpdatePermissionHandler
+    private readonly IPermissionManagementService _permissionManagementService;
+    private readonly ILoggerService _loggerService;
+    private readonly IMapper _mapper;
+
+    public UpdatePermissionHandler(IPermissionManagementService permissionManagementService, ILoggerService loggerService, IMapper mapper)
     {
-        private readonly IPermissionManagementService _permissionManagementService;
-        private readonly ILoggerService _loggerService;
-        private readonly IMapper _mapper;
+        _permissionManagementService = permissionManagementService;
+        _loggerService = loggerService;
+        _mapper = mapper;
+    }
 
-        public UpdatePermissionHandler(IPermissionManagementService permissionManagementService, ILoggerService loggerService, IMapper mapper)
+    public async Task<Result<PermissionResult>> Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
+    {
+        try
         {
-            _permissionManagementService = permissionManagementService;
-            _loggerService = loggerService;
-            _mapper = mapper;
+            var perm = _mapper.Map<Domain.Entities.Identity.Permission>(request);
+            return await _permissionManagementService.UpdatePermissionAsync(perm, cancellationToken);
         }
-
-        public async Task<Result<PermissionResult>> Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var perm = _mapper.Map<Domain.Entities.Identity.Permission>(request);
-                return await _permissionManagementService.UpdatePermissionAsync(perm, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(UpdatePermissionHandler));
-                Console.WriteLine(e);
-                return Result<PermissionResult>.Fail(Constants.CommitFailed);
-            }
+            _loggerService.LogCritical(e, nameof(UpdatePermissionHandler));
+            Console.WriteLine(e);
+            return Result<PermissionResult>.Fail(Constants.CommitFailed);
         }
     }
 }

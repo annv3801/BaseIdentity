@@ -5,10 +5,8 @@ using Application.DTO.Pagination.Responses;
 using Application.DTO.Permission.Responses;
 using MediatR;
 
-namespace Application.Identity.Permission.Queries
+namespace Application.Identity.Permission.Queries;
+[ExcludeFromCodeCoverage]
+public class ViewListPermissionsQuery : PaginationBaseRequest, IRequest<Result<PaginationBaseResponse<ViewPermissionResponse>>>
 {
-    [ExcludeFromCodeCoverage]
-    public class ViewListPermissionsQuery : PaginationBaseRequest, IRequest<Result<PaginationBaseResponse<ViewPermissionResponse>>>
-    {
-    }
 }

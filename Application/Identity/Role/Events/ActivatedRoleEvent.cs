@@ -1,17 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain.Common;
 using MediatR;
 
-namespace Application.Identity.Role.Events
+namespace Application.Identity.Role.Events;
+[ExcludeFromCodeCoverage]
+public class ActivatedRoleEvent : INotification
 {
-    [ExcludeFromCodeCoverage]
-    public class ActivatedRoleEvent : INotification
+    public ActivatedRoleEvent(Domain.Entities.Identity.Role role)
     {
-        public ActivatedRoleEvent(Domain.Entities.Identity.Role role)
-        {
-            Role = role;
-        }
-
-        public Domain.Entities.Identity.Role Role { get; set; }
+        Role = role;
     }
+
+    public Domain.Entities.Identity.Role Role { get; set; }
 }

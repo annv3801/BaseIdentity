@@ -1,13 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-// ReSharper disable All
 
-#pragma warning disable 8618
-namespace Application.DTO.Account.Responses
+namespace Application.DTO.Account.Responses;
+[ExcludeFromCodeCoverage]
+public class SignInWithPhoneNumberResponse
 {
-    [ExcludeFromCodeCoverage]
-    public class SignInWithPhoneNumberResponse
-    {
-        public string Token { get; set; }
-        public string RefreshToken { get; set; }
-    }
+    public string Token { get; set; }
+    public string RefreshToken { get; set; }
 }

@@ -2,16 +2,14 @@
 using Domain.Common;
 using MediatR;
 
-namespace Application.Identity.Account.Events
+namespace Application.Identity.Account.Events;
+[ExcludeFromCodeCoverage]
+public class DeletedAccountEvent : INotification
 {
-    [ExcludeFromCodeCoverage]
-    public class DeletedAccountEvent : INotification
+    public DeletedAccountEvent(Domain.Entities.Identity.Account account)
     {
-        public DeletedAccountEvent(Domain.Entities.Identity.Account account)
-        {
-            Account = account;
-        }
-
-        public Domain.Entities.Identity.Account Account { get; }
+        Account = account;
     }
+
+    public Domain.Entities.Identity.Account Account { get; }
 }

@@ -1,12 +1,8 @@
-using System;
-
-namespace Application.Common.Extensions
+namespace Application.Common.Extensions;
+public static class DateTimeExtensions
 {
-    public static class DateTimeExtensions
+    public static string ToFormattedString(this DateTime? date)
     {
-        public static string ToFormattedString(this DateTime? date)
-        {
-            return date?.ToString(Constants.JsonDateTimeFormat) ?? string.Empty;
-        }
+        return date?.ToString(Constants.JsonDateTimeFormat) ?? string.Empty;
     }
 }

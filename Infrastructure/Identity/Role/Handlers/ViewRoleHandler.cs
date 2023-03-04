@@ -1,7 +1,4 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Common;
 using Application.Common.Models;
 using Application.DTO.Role.Responses;
@@ -11,37 +8,35 @@ using Application.Identity.Role.Services;
 using AutoMapper;
 using Domain.Interfaces;
 
-namespace Infrastructure.Identity.Role.Handlers
+namespace Infrastructure.Identity.Role.Handlers;
+[ExcludeFromCodeCoverage]
+public class ViewRoleHandler : IViewRoleHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class ViewRoleHandler : IViewRoleHandler
+    private readonly IRoleManagementService _roleManagementService;
+    private readonly ILoggerService _loggerService;
+    private readonly IMapper _mapper;
+
+    public ViewRoleHandler(IRoleManagementService roleManagementService, ILoggerService loggerService, IMapper mapper)
     {
-        private readonly IRoleManagementService _roleManagementService;
-        private readonly ILoggerService _loggerService;
-        private readonly IMapper _mapper;
+        _roleManagementService = roleManagementService;
+        _loggerService = loggerService;
+        _mapper = mapper;
+    }
 
-        public ViewRoleHandler(IRoleManagementService roleManagementService, ILoggerService loggerService, IMapper mapper)
+    public async Task<Result<ViewRoleResponse>> Handle(ViewRoleQuery query, CancellationToken cancellationToken)
+    {
+        try
         {
-            _roleManagementService = roleManagementService;
-            _loggerService = loggerService;
-            _mapper = mapper;
+            var result = await _roleManagementService.ViewRoleAsync(query.Id, cancellationToken);
+            if (result.Succeeded)
+                return Result<ViewRoleResponse>.Succeed(data: result.Data);
+            return Result<ViewRoleResponse>.Fail(result.Errors);
         }
-
-        public async Task<Result<ViewRoleResponse>> Handle(ViewRoleQuery query, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var result = await _roleManagementService.ViewRoleAsync(query.Id, cancellationToken);
-                if (result.Succeeded)
-                    return Result<ViewRoleResponse>.Succeed(data: result.Data);
-                return Result<ViewRoleResponse>.Fail(result.Errors);
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(CreateRoleHandler));
-                Console.WriteLine(e);
-                return Result<ViewRoleResponse>.Fail(Constants.CommitFailed);
-            }
+            _loggerService.LogCritical(e, nameof(CreateRoleHandler));
+            Console.WriteLine(e);
+            return Result<ViewRoleResponse>.Fail(Constants.CommitFailed);
         }
     }
 }

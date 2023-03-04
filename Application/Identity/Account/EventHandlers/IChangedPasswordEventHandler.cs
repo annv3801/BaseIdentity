@@ -1,12 +1,8 @@
-﻿using Application.Common.Models;
-using Application.Identity.Account.Events;
+﻿using Application.Identity.Account.Events;
 using MediatR;
 
-namespace Application.Identity.Account.EventHandlers
+namespace Application.Identity.Account.EventHandlers;
+public interface IChangedPasswordEventHandler: INotificationHandler<ChangedPasswordEvent>
 {
-    /// <inheritdoc />
-    public interface IChangedPasswordEventHandler: INotificationHandler<ChangedPasswordEvent>
-    {
-        
-    }
+    
 }

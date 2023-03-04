@@ -1,9 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Application.DTO.Jwt.Responses
+namespace Application.DTO.Jwt.Responses;
+[ExcludeFromCodeCoverage]
+public class RenewJwtResponse
 {
-    [ExcludeFromCodeCoverage]
-    public class RenewJwtResponse
-    {
-    }
 }

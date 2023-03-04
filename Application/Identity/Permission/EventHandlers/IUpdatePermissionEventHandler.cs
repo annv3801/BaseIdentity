@@ -1,10 +1,7 @@
-using Application.Common.Models;
 using Application.Identity.Permission.Events;
 using MediatR;
 
-namespace Application.Identity.Permission.EventHandlers
+namespace Application.Identity.Permission.EventHandlers;
+public interface IUpdatePermissionEventHandler : INotificationHandler<UpdatedPermissionEvent>
 {
-    public interface IUpdatePermissionEventHandler : INotificationHandler<UpdatedPermissionEvent>
-    {
-    }
 }

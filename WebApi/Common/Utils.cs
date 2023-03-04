@@ -1,30 +1,15 @@
 using System;
 using System.Linq;
 
-namespace WebApi.Common
+namespace WebApi.Common;
+public static class Utils
 {
-    /// <summary>
-    /// Utils for Web Api
-    /// </summary>
-    public static class Utils
+    public static class File
     {
-        /// <summary>
-        /// File service
-        /// </summary>
-        public static class File
+        public static string GenerateFileName(string fileName)
         {
-            /// <summary>
-            /// To generate base64 file name
-            /// </summary>
-            /// <param name="fileName"></param>
-            /// <returns></returns>
-            public static string GenerateFileName(string fileName)
-            {
-                var raw = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(fileName));
-                return raw.Substring(0, raw.Length > 20 ? 20 : raw.Length);
-            }
+            var raw = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(fileName));
+            return raw.Substring(0, raw.Length > 20 ? 20 : raw.Length);
         }
-
-        
     }
 }

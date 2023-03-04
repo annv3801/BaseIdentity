@@ -1,14 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Common.Models;
-/// <summary>
-/// To generate result for all action in this system.
-/// Result contains:
-///     1. Succeeded flag: true/false
-///     2. Errors list: List of errors if any in case of failure
-///     3. Data object: Data object if action need to pass data back to caller
-/// </summary>
-/// <typeparam name="TDto"></typeparam>
 [ExcludeFromCodeCoverage]
 public class Result<TDto> where TDto : class
 {

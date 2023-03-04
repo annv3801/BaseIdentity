@@ -2,17 +2,15 @@
 using Domain.Common;
 using MediatR;
 
-namespace Application.Identity.Account.Events
+namespace Application.Identity.Account.Events;
+[ExcludeFromCodeCoverage]
+public class ActivatedMyAccountEvent: INotification
 {
-    [ExcludeFromCodeCoverage]
-    public class ActivatedMyAccountEvent: INotification
+    /// <inheritdoc />
+    public ActivatedMyAccountEvent(Domain.Entities.Identity.Account account)
     {
-        /// <inheritdoc />
-        public ActivatedMyAccountEvent(Domain.Entities.Identity.Account account)
-        {
-            Account = account;
-        }
-
-        public Domain.Entities.Identity.Account Account { get; }
+        Account = account;
     }
+
+    public Domain.Entities.Identity.Account Account { get; }
 }

@@ -6,14 +6,8 @@ using Application.DTO.Jwt.Requests;
 using Application.DTO.Jwt.Responses;
 using Domain.Entities.Identity;
 
-namespace Application.Common.Interfaces
+namespace Application.Common.Interfaces;
+public interface IJwtService
 {
-    public interface IJwtService
-    {
-        
-        Task<Result<CreateJwtResponse>> GenerateJwtAsync(Account account, ClaimsIdentity claimsIdentity,
-            CancellationToken cancellationToken);
-
-       
-    }
+    Task<Result<CreateJwtResponse>> GenerateJwtAsync(Account account, ClaimsIdentity claimsIdentity, CancellationToken cancellationToken);
 }

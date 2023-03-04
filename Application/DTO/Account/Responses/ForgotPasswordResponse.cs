@@ -1,10 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Application.DTO.Account.Responses
+namespace Application.DTO.Account.Responses;
+[ExcludeFromCodeCoverage]
+public class ForgotPasswordResponse
 {
-    [ExcludeFromCodeCoverage]
-    public class ForgotPasswordResponse
-    {
-        
-    }
+    
 }

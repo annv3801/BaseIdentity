@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Application.DTO.Role.Responses;
 using Domain.Enums;
-#pragma warning disable 8618
 
-namespace Application.DTO.Account.Responses
+namespace Application.DTO.Account.Responses;
+[ExcludeFromCodeCoverage]
+public class ViewAccountResponse
 {
-    [ExcludeFromCodeCoverage]
-    public class ViewAccountResponse
-    {
-        public Guid Id { get; set; }
-        public string Email { get; set; }
-        public string NormalizedEmail { get; set; }
-        public string? UserName { get; set; }
-        public string? AvatarPhoto { get; set; }
-        public string? CoverPhoto { get; set; }
-        public string? FirstName { get; set; }
-        public string? MiddleName { get; set; }
-        public string? LastName { get; set; }
-        public bool Gender { get; set; } = true;
-        public AccountStatus Status { get; set; }
-        public string PhoneNumber { get; set; }
-        public string? Supplier { get; set; }
-        public string? Name { get; set; }
-        public List<ViewRoleResponse>? Roles { get; set; }
-    }
+    public Guid Id { get; set; }
+    public string Email { get; set; }
+    public string NormalizedEmail { get; set; }
+    public string? UserName { get; set; }
+    public string? AvatarPhoto { get; set; }
+    public string? CoverPhoto { get; set; }
+    public string? FirstName { get; set; }
+    public string? MiddleName { get; set; }
+    public string? LastName { get; set; }
+    public bool Gender { get; set; } = true;
+    public AccountStatus Status { get; set; }
+    public string PhoneNumber { get; set; }
+    public string? Supplier { get; set; }
+    public string? Name { get; set; }
+    public List<ViewRoleResponse>? Roles { get; set; }
 }

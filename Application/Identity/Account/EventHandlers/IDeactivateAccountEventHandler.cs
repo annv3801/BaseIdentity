@@ -1,10 +1,7 @@
-﻿using Application.Common.Models;
-using Application.Identity.Account.Events;
+﻿using Application.Identity.Account.Events;
 using MediatR;
 
-namespace Application.Identity.Account.EventHandlers
+namespace Application.Identity.Account.EventHandlers;
+public interface IDeactivateAccountEventHandler : INotificationHandler<DeactivatedAccountEvent>
 {
-    public interface IDeactivateAccountEventHandler : INotificationHandler<DeactivatedAccountEvent>
-    {
-    }
 }

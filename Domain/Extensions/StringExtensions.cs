@@ -2,14 +2,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 
-// ReSharper disable All
-#pragma warning disable 8603
-
 namespace Domain.Extensions
 {
-    /// <summary>
-    /// String extension stuff
-    /// </summary>
     public static class StringExtensions
     {
         public static string ToSpaceSeparatedString(this IEnumerable<string> list)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 using Application.Common;
 using Application.Common.Models;
 using Application.DTO.Account.Requests;
@@ -12,35 +9,33 @@ using Application.Identity.Account.Services;
 using AutoMapper;
 using Domain.Interfaces;
 
-namespace Infrastructure.Identity.Account.Handlers
+namespace Infrastructure.Identity.Account.Handlers;
+[ExcludeFromCodeCoverage]
+public class SetPasswordHandler : ISetPasswordHandler
 {
-    [ExcludeFromCodeCoverage]
-    public class SetPasswordHandler : ISetPasswordHandler
+    private readonly IAccountManagementService _accountManagementService;
+    private readonly ILoggerService _loggerService;
+    private readonly IMapper _mapper;
+
+    public SetPasswordHandler(IAccountManagementService accountManagementService, ILoggerService loggerService, IMapper mapper)
     {
-        private readonly IAccountManagementService _accountManagementService;
-        private readonly ILoggerService _loggerService;
-        private readonly IMapper _mapper;
+        _accountManagementService = accountManagementService;
+        _loggerService = loggerService;
+        _mapper = mapper;
+    }
 
-        public SetPasswordHandler(IAccountManagementService accountManagementService, ILoggerService loggerService, IMapper mapper)
+    public async Task<Result<SetPasswordResponse>> Handle(SetPasswordCommand command, CancellationToken cancellationToken)
+    {
+        try
         {
-            _accountManagementService = accountManagementService;
-            _loggerService = loggerService;
-            _mapper = mapper;
+            var request = _mapper.Map<SetPasswordRequest>(command);
+            return await _accountManagementService.SetPassWordAsync(request, cancellationToken);
         }
-
-        public async Task<Result<SetPasswordResponse>> Handle(SetPasswordCommand command, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var request = _mapper.Map<SetPasswordRequest>(command);
-                return await _accountManagementService.SetPassWordAsync(request, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                _loggerService.LogCritical(e, nameof(SetPasswordHandler));
-                Console.WriteLine(e);
-                return Result<SetPasswordResponse>.Fail(Constants.CommitFailed);
-            }
+            _loggerService.LogCritical(e, nameof(SetPasswordHandler));
+            Console.WriteLine(e);
+            return Result<SetPasswordResponse>.Fail(Constants.CommitFailed);
         }
     }
 }

@@ -1,10 +1,7 @@
-using Application.Common.Models;
 using Application.Identity.Account.Events;
 using MediatR;
 
-namespace Application.Identity.Account.EventHandlers
+namespace Application.Identity.Account.EventHandlers;
+public interface ISignInWithPhoneNumberEventHandler : INotificationHandler<SignedInWithPhoneNumberEvent>
 {
-    public interface ISignInWithPhoneNumberEventHandler : INotificationHandler<SignedInWithPhoneNumberEvent>
-    {
-    }
 }
