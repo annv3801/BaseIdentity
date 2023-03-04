@@ -38,8 +38,6 @@ public class AccountProfile : Profile
 
         // Map from create request to create command
         CreateMap<CreateAccountRequest, CreateAccountCommand>();
-        CreateMap<SignInWithPhoneNumberCommand, SignInWithPhoneNumberRequest>();
-        CreateMap<SignInWithPhoneNumberRequest, SignInWithPhoneNumberCommand>();
         CreateMap<Domain.Entities.Identity.Account, ViewAccountResponse>()
             .ForMember(d => d.Roles, opt => opt.MapFrom<ListRoleResolver>());
 
@@ -59,18 +57,6 @@ public class AccountProfile : Profile
 
         CreateMap<Domain.Entities.Identity.Account, ViewAccountResponse>()
             .ForMember(d => d.Roles, opt => opt.MapFrom<ListRoleResolver>());
-        CreateMap<ViewListAccountsRequest, ViewListAccountsQuery>();
-        CreateMap<ViewListAccountsQuery, ViewListAccountsRequest>();
-
-        CreateMap<UpdateMyAccountRequest, UpdateMyAccountCommand>();
-        CreateMap<UpdateMyAccountCommand, Domain.Entities.Identity.Account>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
-            .ForMember(d => d.NormalizedEmail, opt => opt.MapFrom(src => src.Email.ToUpper()))
-            .ForMember(d => d.NormalizedUserName, opt => opt.MapFrom(src => src.PhoneNumber))
-            .ForMember(d => d.UserName, opt => opt.MapFrom(src => src.PhoneNumber))
-            .ForMember(d => d.SecurityStamp, opt => opt.MapFrom(src => Guid.NewGuid().ToString().ToUpper().Replace("-", "")))
-            .ForMember(d => d.AccountRoles, opt => opt.MapFrom<AccountRoleResolverForUpdateMyAccount>())
-            ;
 
         // Map 2 account for update case, some field will be ignored
         CreateMap<Domain.Entities.Identity.Account, Domain.Entities.Identity.Account>()
@@ -100,41 +86,8 @@ public class AccountProfile : Profile
             .ForMember(d => d.AccountRoles, opt => opt.MapFrom<AccountRoleResolverForUpdate>())
             ;
 
-        CreateMap<ActivateMyAccountCommand, ActivateMyAccountRequest>();
-        CreateMap<ActivateMyAccountRequest, ActivateMyAccountCommand>();
-
-        CreateMap<ForgotPasswordRequest, ForgotPasswordCommand>();
-        CreateMap<ForgotPasswordCommand, ForgotPasswordRequest>();
-
         CreateMap<ChangePasswordRequest, ChangePasswordCommand>();
         CreateMap<ChangePasswordCommand, ChangePasswordRequest>();
-
-        CreateMap<SetPasswordRequest, SetPasswordCommand>();
-        CreateMap<SetPasswordCommand, SetPasswordRequest>();
-        CreateMap<SetMyNewPasswordRequest, SetMyNewPasswordCommand>();
-        CreateMap<SetMyNewPasswordCommand, SetMyNewPasswordRequest>();
-
-        CreateMap<ChangePasswordAtFirstLoginRequest, ChangePasswordAtFirstLoginCommand>();
-        CreateMap<ChangePasswordAtFirstLoginCommand, ChangePasswordAtFirstLoginRequest>();
-
-        CreateMap<LinkExternalAccountLoginRequest, Domain.Entities.Identity.Account>()
-            // generate new id
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
-            // set default gender as true
-            .ForMember(d => d.Gender, opt => opt.MapFrom(src => src.Gender ?? true))
-            .ForMember(d => d.NormalizedEmail, opt => opt.MapFrom(src => src.Email.ToUpper()))
-            .ForMember(d => d.NormalizedUserName, opt => opt.MapFrom(src => src.PhoneNumber))
-            .ForMember(d => d.UserName, opt => opt.MapFrom(src => src.PhoneNumber))
-            .ForMember(d => d.PasswordHash, opt => opt.MapFrom<PasswordDefaultResolver>())
-            .ForMember(d => d.Status, opt => opt.MapFrom(src => AccountStatus.Active))
-            .ForMember(d => d.SecurityStamp, opt => opt.MapFrom(src => Guid.NewGuid().ToString().ToUpper().Replace("-", "")))
-            .ForMember(d => d.PasswordChangeRequired, opt => opt.MapFrom(src => false))
-            .ForMember(d => d.AccountRoles, opt => opt.MapFrom<AccountRoleResolverForSignInOAuth>())
-            .AfterMap((s, d) =>
-            {
-                d.PhoneNumber = null;
-            })
-            ;
 
         CreateMap<SignInWithUserNameCommand, SignInWithUserNameRequest>();
         CreateMap<SignInWithUserNameRequest, SignInWithUserNameCommand>();
