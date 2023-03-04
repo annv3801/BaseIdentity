@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="DTO\DMP" />
       <Folder Include="Identity" />
     </ItemGroup>
 
