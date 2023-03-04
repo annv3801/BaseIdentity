@@ -55,7 +55,7 @@ public class AccountController : ControllerBase
     [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
     [Produces(Constants.MimeTypes.Application.Json)]
-    public async Task<IActionResult> CreateAccountByAdminAsync(CreateAccountRequest createAccountRequest, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAccountAsync(CreateAccountRequest createAccountRequest, CancellationToken cancellationToken)
     {
         try
         {
@@ -67,39 +67,11 @@ public class AccountController : ControllerBase
         }
         catch (Exception e)
         {
-            _loggerService.LogCritical(e, nameof(CreateAccountByAdminAsync));
+            _loggerService.LogCritical(e, nameof(CreateAccountAsync));
             Console.WriteLine(e);
             throw;
         }
     }
-
-    [HttpPost]
-    [LogAction]
-    // [Permissions(Permissions = new[] {Constants.Permissions.SysAdmin, Constants.Permissions.TenantAdmin})]
-    [Route(Common.Url.Identity.Account.SetAccountPassword)]
-    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
-    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
-    [Produces("application/json")]
-    public async Task<IActionResult> SetAccountPasswordAsync(SetPasswordRequest setPasswordRequest, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var command = _mapper.Map<SetPasswordCommand>(setPasswordRequest);
-            var result = await _mediator.Send(command, cancellationToken);
-            if (result.Succeeded)
-                return Ok(new SuccessResponse(data: result.Data));
-            return Accepted(new FailureResponse(result.Errors));
-        }
-        catch (Exception e)
-        {
-            _loggerService.LogCritical(e, nameof(SetAccountPasswordAsync));
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
-    #region User
 
     [HttpGet]
     [LogAction]
@@ -154,9 +126,6 @@ public class AccountController : ControllerBase
             throw;
         }
     }
-    #endregion
-
-    #region Guest
 
     [HttpPost]
     [LogAction]
@@ -181,13 +150,6 @@ public class AccountController : ControllerBase
             Console.WriteLine(e);
             throw;
         }
-    }
-
-
-   
-    public class LoginWithPo
-    {
-        public string Token { get; set; }
     }
     
     private static ClaimsIdentity BuildClaimsIdentity(Domain.Entities.Identity.Account account)
@@ -260,31 +222,4 @@ public class AccountController : ControllerBase
             throw;
         }
     }
-
-    [HttpPut]
-    [LogAction]
-    [Route(Common.Url.Identity.Account.ChangePasswordAtFirstLogin)]
-    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
-    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
-    [Produces("application/json")]
-    public async Task<IActionResult> ChangePasswordAtFirstLoginAsync(ChangePasswordAtFirstLoginRequest request, CancellationToken cancellationToken = default(CancellationToken))
-    {
-        try
-        {
-            var command = _mapper.Map<ChangePasswordAtFirstLoginCommand>(request);
-            var result = await _mediator.Send(command, cancellationToken);
-            if (result.Succeeded)
-                return Ok(new SuccessResponse());
-            return Accepted(new FailureResponse(result.Errors));
-        }
-        catch (Exception e)
-        {
-            _loggerService.LogCritical(e, nameof(ChangePasswordAtFirstLoginAsync));
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-    
-    #endregion
 }
