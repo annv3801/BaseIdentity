@@ -16,7 +16,7 @@ public class Account : AuditableEntity
     public string? FirstName { get; set; }
     public string? MiddleName { get; set; }
     public string? LastName { get; set; }
-    public bool PasswordChangeRequired { get; set; }
+    public bool PasswordChangeRequired { get; set; } = false;
     public DateTime? PasswordValidUntilDate { get; set; }
     public string? PasswordHashTemporary { get; set; }
     public bool Gender { get; set; } = true;

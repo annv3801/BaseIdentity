@@ -89,7 +89,7 @@ namespace WebApi.Areas.Identity.Controllers
                 var createUserCommand = _mapper.Map<CreateAccountCommand>(createAccountRequest);
                 var result = await _mediator.Send(createUserCommand, cancellationToken);
                 if (result.Succeeded)
-                    return Ok(new SuccessResponse(data: new {result.Data.GeneratedPassword}));
+                    return Ok(new SuccessResponse(data: new {result.Data}));
                 return Accepted(new FailureResponse(result.Errors));
             }
             catch (Exception e)
