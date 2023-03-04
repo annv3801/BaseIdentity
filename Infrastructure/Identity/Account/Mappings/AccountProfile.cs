@@ -35,7 +35,7 @@ namespace Infrastructure.Identity.Account.Mappings
                 .ForMember(d => d.Status, opt => opt.MapFrom<AccountDefaultStatusResolver>())
                 .ForMember(d => d.SecurityStamp,
                     opt => opt.MapFrom(src => Guid.NewGuid().ToString().ToUpper().Replace("-", "")))
-                .ForMember(d => d.PasswordChangeRequired, opt => opt.MapFrom(src => true))
+                .ForMember(d => d.PasswordChangeRequired, opt => opt.MapFrom(src => false))
                 // .ForMember(d => d.Otp, opt => opt.MapFrom<SmsOtpResolver>())
                 // .ForMember(d => d.OtpValidEnd, opt => opt.MapFrom<SmsOtpValidEndResolver>())
                 .ForMember(d => d.AccountRoles, opt => opt.MapFrom<AccountRoleResolver>())

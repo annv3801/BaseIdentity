@@ -34,14 +34,12 @@ namespace Infrastructure.Identity.Account.Handlers
             {
                 var account = _mapper.Map<Domain.Entities.Identity.Account>(request);
                 // Generate password
-                var password = _passwordGeneratorService.GenerateRandomPassword();
-                account.PasswordHash = _passwordGeneratorService.HashPassword(password);
+                account.PasswordHash = _passwordGeneratorService.HashPassword(request.Password);
                 account.PasswordHashTemporary = account.PasswordHash;
                 // End
                 var result = await _accountManagementService.CreateAccountByAdminAsync(account, cancellationToken);
                 return result.Succeeded
-                    ? Result<CreateAccountResponse>.Succeed(new CreateAccountResponse()
-                        {GeneratedPassword = password})
+                    ? Result<CreateAccountResponse>.Succeed()
                     : Result<CreateAccountResponse>.Fail(result.Errors);
             }
             catch (Exception e)

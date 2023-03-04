@@ -112,7 +112,7 @@ namespace Infrastructure.Identity.Account.Services
                     return Result<AccountResult>.Fail(Constants.DuplicatedItem);
                 }
                 await _unitOfWork.Accounts.AddAsync(account, cancellationToken);
-                var result = await _unitOfWork.CompleteAsync(cancellationToken);
+                var result = await _unitOfWork.CompleteAsync(account, cancellationToken);
                 if (result > 0)
                 {
                     // // Send OTP if enabled
