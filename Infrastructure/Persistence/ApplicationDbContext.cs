@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Common;
+using Domain.Entities.DMP;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -24,6 +25,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<AccountToken> AccountTokens { get; set; }
     public DbSet<AccountLogin> AccountLogins { get; set; }
     public DbSet<Permission> Permissions { get; set; }
+    public DbSet<Category> Categories { get; set; }
     public DbContext DbContext { get; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

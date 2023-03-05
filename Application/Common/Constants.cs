@@ -15,6 +15,7 @@ public static class Constants
         public const string Account = "To manage user accounts in this system";
         public const string Permission = "To manage permissions in this system";
         public const string Role = "To manage roles in this system";
+        public const string Category = "To manage category in this system";
     }
 
     public static class FieldLength
@@ -120,6 +121,13 @@ public static class Constants
             }
         }
 
+        public static class DMP
+        {
+            public static class Category
+            {
+                public const string Create = "DMP|Category|Create";
+            }
+        }
         public static class Resource
         {
             public static class File

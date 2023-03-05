@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DTO\DMP" />
+      <Folder Include="DMP\Category\Queries" />
       <Folder Include="Identity" />
     </ItemGroup>
 

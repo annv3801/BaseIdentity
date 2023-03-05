@@ -58,7 +58,13 @@ public static class Url
             public const string Deactivate = "Identity/Role/Status/{roleId}";
             public const string ViewList = "Identity/Role";
         }
+    }
 
-        
+    public static class DMP
+    {
+        public static class Category
+        {
+            public const string Create = "DMP/Category";
+        }
     }
 }
