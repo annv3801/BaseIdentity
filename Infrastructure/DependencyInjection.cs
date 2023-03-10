@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.DMP.Category.Services;
 using Application.Identity.Account.Services;
 using Application.Identity.Permission.EventHandlers;
 using Application.Identity.Permission.Handlers;
@@ -9,6 +10,7 @@ using Application.Identity.Role.Services;
 using Application.Logging.ActionLog.Services;
 using Domain.Interfaces;
 using Infrastructure.Common.UnitOfWork;
+using Infrastructure.DMP.Category.Services;
 using Infrastructure.Identity.Account.Services;
 using Infrastructure.Identity.Permission.EventHandlers;
 using Infrastructure.Identity.Permission.Handlers;
@@ -33,8 +35,6 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>()!);
         services.AddScoped<IAccountManagementService, AccountManagementService>();
         services.AddScoped<IJwtService, JwtService>();
-
-        
         services.AddScoped<IPermissionManagementService, PermissionManagementService>();
         services.AddScoped<IUpdatePermissionHandler, UpdatePermissionHandler>();
         services.AddScoped<IViewPermissionHandler, ViewPermissionHandler>();
@@ -52,6 +52,7 @@ public static class DependencyInjection
         services.AddScoped<IDeleteRoleEventHandler, DeleteRoleEventHandler>();
         services.AddScoped<IActivateRoleEventHandler, ActivateRoleEventHandler>();
         services.AddScoped<IDeactivateRoleEventHandler, DeactivateRoleEventHandler>();
+        services.AddScoped<ICategoryManagementService, CategoryManagementService>();
         services.AddScoped<IJsonSerializerService, JsonSerializerService>();
         services.AddScoped<ILoggerService, LoggerService>();
         services.AddScoped<IActionLogService, ActionLogService>();

@@ -105,6 +105,13 @@ public static class LocalizationString
     public static class Category
     {
         public const string FailedToCreate = "Failed to create Category {0}";
+        public const string AlreadyDeleted = "Category is already deleted, you cannot delete it again";
+        
+        public const string Deleted = "Deleted Category {0}";
+        public const string FailedToDelete = "Failed to delete Category {0}";
+        
+        public const string Updated = "Updated Category {0}";
+        public const string FailedToUpdate = "Failed to update Category {0}";
     }
 
     public static class PasswordValidation

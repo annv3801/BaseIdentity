@@ -65,6 +65,9 @@ public static class Url
         public static class Category
         {
             public const string Create = "DMP/Category";
+            public const string View = "DMP/Category/{categoryId}";
+            public const string Delete = "DMP/Category/{categoryId}";
+            public const string Update = "DMP/Category/{roleId}";
         }
     }
 }

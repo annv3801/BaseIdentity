@@ -126,6 +126,9 @@ public static class Constants
             public static class Category
             {
                 public const string Create = "DMP|Category|Create";
+                public const string Delete = "DMP|Category|Delete";
+                public const string Update = "DMP|Category|Update";
+
             }
         }
         public static class Resource

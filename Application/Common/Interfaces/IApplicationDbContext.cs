@@ -1,3 +1,4 @@
+using Domain.Entities.DMP;
 using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -5,6 +6,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace Application.Common.Interfaces;
 public interface IApplicationDbContext
 {
+    #region DMP
+
+    DbSet<Category> Categories { get; set; }
+
+    #endregion
+    
     #region DbSet
 
     DbSet<Account> Accounts { get; set; }
