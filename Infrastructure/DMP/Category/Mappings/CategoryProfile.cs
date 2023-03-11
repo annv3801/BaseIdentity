@@ -2,6 +2,7 @@ using Application.DMP.Category.Commands;
 using Application.DMP.Category.Queries;
 using Application.DTO.DMP.Category.Requests;
 using Application.DTO.DMP.Category.Responses;
+using Application.DTO.Pagination.Responses;
 using Application.DTO.Permission.Responses;
 using AutoMapper;
 
@@ -29,5 +30,6 @@ public class CategoryProfile : Profile
             .ForMember(d => d.ShortenUrl, o => o.MapFrom(s => s.ShortenUrl))
             .ForMember(d => d.Status, o => o.MapFrom(s => s.Status));
         CreateMap<ViewListCategoriesRequest, ViewListCategoriesQuery>();
+        CreateMap<ViewListCategoriesRequest, ViewCategoryQuery>();
     }
 }

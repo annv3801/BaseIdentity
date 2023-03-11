@@ -18,4 +18,13 @@ public class CategoryRepository : Repository<Domain.Entities.DMP.Category>, ICat
     { 
         return await _applicationDbContext.Categories.AsSplitQuery().FirstOrDefaultAsync(r => r.Id == categoryId, cancellationToken);
     }
+
+    public async Task<IQueryable<Domain.Entities.DMP.Category>> ViewListCategoriesAsync(CancellationToken cancellationToken = default(CancellationToken))
+    {
+        await Task.CompletedTask;
+        return _applicationDbContext.Categories
+            .AsSplitQuery()
+            .AsQueryable();
+    }
+
 }

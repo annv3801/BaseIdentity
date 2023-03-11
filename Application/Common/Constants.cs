@@ -128,7 +128,7 @@ public static class Constants
                 public const string Create = "DMP|Category|Create";
                 public const string Delete = "DMP|Category|Delete";
                 public const string Update = "DMP|Category|Update";
-
+                public const string ViewList = "DMP|Category|ViewList";
             }
         }
         public static class Resource

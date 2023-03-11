@@ -68,6 +68,7 @@ public static class Url
             public const string View = "DMP/Category/{categoryId}";
             public const string Delete = "DMP/Category/{categoryId}";
             public const string Update = "DMP/Category/{roleId}";
+            public const string ViewList = "DMP/Category";
         }
     }
 }

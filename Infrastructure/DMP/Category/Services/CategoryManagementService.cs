@@ -3,14 +3,19 @@ using Application.Common.Extensions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.DMP.Category.Commons;
+using Application.DMP.Category.Queries;
 using Application.DMP.Category.Services;
 using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Category.Responses;
+using Application.DTO.Pagination.Responses;
+using Application.DTO.Role.Responses;
 using Application.Identity.Role.Commons;
 using Application.Logging.ActionLog.Services;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Infrastructure.DMP.Category.Services;
 public class CategoryManagementService : ICategoryManagementService
@@ -186,5 +191,44 @@ public class CategoryManagementService : ICategoryManagementService
             throw;
         }
     }
-    
+    public async Task<Result<PaginationBaseResponse<ViewCategoryResponse>>> ViewListCategoriesAsync(ViewListCategoriesQuery query, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        try
+        {
+            var keyword = query.Keyword?.ToLower() ?? string.Empty;
+            var filterQuery = await _unitOfWork.Categories.ViewListCategoriesAsync(cancellationToken);
+            var p1 = filterQuery.Where(
+                u => keyword.Length <= 0
+                     || u.Name != null && u.Name.ToLower().Contains(keyword)
+            ).AsSplitQuery();
+            var source = p1.Select(p => new {p.Name, p.ShortenUrl, p.Status, p.Id});
+            var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
+            if (result.Result.Count == 0)
+            {
+                return Result<PaginationBaseResponse<ViewCategoryResponse>>.Fail(
+                    _localizationService[LocalizationString.Category.FailedToViewList].Value.ToErrors(_localizationService));
+            }
+            return Result<PaginationBaseResponse<ViewCategoryResponse>>.Succeed(new PaginationBaseResponse<ViewCategoryResponse>()
+            {
+                CurrentPage = result.CurrentPage,
+                OrderBy = result.OrderBy,
+                OrderByDesc = result.OrderByDesc,
+                PageSize = result.PageSize,
+                TotalItems = result.TotalItems,
+                TotalPages = result.TotalPages,
+                Result = result.Result.Select(a => new ViewCategoryResponse()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    ShortenUrl = a.ShortenUrl
+                }).ToList()
+            });
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewListCategoriesAsync));
+
+            throw;
+        }
+    }
 }

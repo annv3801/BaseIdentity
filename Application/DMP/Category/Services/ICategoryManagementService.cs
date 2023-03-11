@@ -12,4 +12,6 @@ public interface ICategoryManagementService
     Task<Result<ViewCategoryResponse>> ViewCategoryAsync(Guid categoryId, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<CategoryResult>> DeleteCategoryAsync(Guid categoryId, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<CategoryResult>> UpdateCategoryAsync(Domain.Entities.DMP.Category category, CancellationToken cancellationToken = default(CancellationToken));
+    Task<Result<PaginationBaseResponse<ViewCategoryResponse>>> ViewListCategoriesAsync(ViewListCategoriesQuery query, CancellationToken cancellationToken = default(CancellationToken));
+
 }

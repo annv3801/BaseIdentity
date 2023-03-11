@@ -112,6 +112,10 @@ public static class LocalizationString
         
         public const string Updated = "Updated Category {0}";
         public const string FailedToUpdate = "Failed to update Category {0}";
+        
+        public const string FailedToViewList = "Failed to view list category";
+        public const string EmptyCategoryList = "No Category";
+        public const string ViewedListCategory = "Viewed list Category";
     }
 
     public static class PasswordValidation

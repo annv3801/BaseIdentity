@@ -147,4 +147,29 @@ public class CategoryController : ControllerBase
             throw;
         }
     }
+    [HttpGet]
+    [LogAction]
+    [Route(Common.Url.DMP.Category.ViewList)]
+    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
+    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
+    [Produces(Constants.MimeTypes.Application.Json)]
+    // [Cached]
+    public async Task<IActionResult>? ViewListCategoriesAsync([FromQuery] ViewListCategoriesRequest request, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        try
+        {
+            var query = _mapper.Map<ViewListCategoriesQuery>(request);
+            var result = await _mediator.Send(query, cancellationToken);
+            if (result.Succeeded)
+                return Ok(new SuccessResponse(data: result.Data));
+            return Accepted(new FailureResponse(result.Errors));
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewListCategoriesAsync));
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
