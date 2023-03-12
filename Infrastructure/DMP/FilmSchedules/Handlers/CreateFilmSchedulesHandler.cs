@@ -27,7 +27,7 @@ public class CreateFilmSchedulesHandler : ICreateFilmSchedulesHandlers
     {
         try
         {
-            var filmSchedules = _mapper.Map<Domain.Entities.DMP.FilmSchedules>(command);
+            var filmSchedules = _mapper.Map<Domain.Entities.DMP.FilmSchedule>(command);
             var result = await _filmSchedulesManagementService.CreateFilmSchedulesAsync(filmSchedules, cancellationToken);
             if (result.Succeeded)
                 return Result<FilmSchedulesResult>.Succeed(data: result.Data);

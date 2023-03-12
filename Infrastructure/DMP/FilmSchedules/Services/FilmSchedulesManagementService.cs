@@ -35,10 +35,16 @@ public class FilmSchedulesManagementService : IFilmSchedulesManagementService
         _mapper = mapper;
         _paginationService = paginationService;
     }
-    public async Task<Result<FilmSchedulesResult>> CreateFilmSchedulesAsync(Domain.Entities.DMP.FilmSchedules filmSchedules, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<Result<FilmSchedulesResult>> CreateFilmSchedulesAsync(Domain.Entities.DMP.FilmSchedule filmSchedules, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
+            var film = await _unitOfWork.Films.GetFilmAsync(filmSchedules.FilmId, cancellationToken);
+            if (film == null)
+                return Result<FilmSchedulesResult>.Fail(LocalizationString.FilmSchedules.NotFoundFilm.ToErrors(_localizationService));
+            var room = await _unitOfWork.Rooms.GetRoomAsync(filmSchedules.RoomId, cancellationToken);
+            if (room == null)
+                return Result<FilmSchedulesResult>.Fail(LocalizationString.FilmSchedules.NotFoundRoom.ToErrors(_localizationService));
             await _unitOfWork.FilmSchedules.AddAsync(filmSchedules, cancellationToken);
             var result = await _unitOfWork.CompleteAsync(cancellationToken);
             if (result > 0)
@@ -139,11 +145,16 @@ public class FilmSchedulesManagementService : IFilmSchedulesManagementService
             throw;
         }
     }
-    public async Task<Result<FilmSchedulesResult>> UpdateFilmSchedulesAsync(Domain.Entities.DMP.FilmSchedules filmSchedules, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<Result<FilmSchedulesResult>> UpdateFilmSchedulesAsync(Domain.Entities.DMP.FilmSchedule filmSchedules, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
-            // Find role
+            var film = await _unitOfWork.Films.GetFilmAsync(filmSchedules.FilmId, cancellationToken);
+            if (film == null)
+                return Result<FilmSchedulesResult>.Fail(LocalizationString.FilmSchedules.NotFoundFilm.ToErrors(_localizationService));
+            var room = await _unitOfWork.Rooms.GetRoomAsync(filmSchedules.RoomId, cancellationToken);
+            if (room == null)
+                return Result<FilmSchedulesResult>.Fail(LocalizationString.FilmSchedules.NotFoundRoom.ToErrors(_localizationService));
             var c = await _unitOfWork.FilmSchedules.GetFilmSchedulesAsync(filmSchedules.Id, cancellationToken);
             if (c == null)
                 return Result<FilmSchedulesResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));

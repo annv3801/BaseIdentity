@@ -2,7 +2,9 @@ using Application.DMP.Category.Repositories;
 using Application.DMP.Film.Repositories;
 using Application.DMP.FilmSchedules.Repositories;
 using Application.DMP.Room.Repositories;
+using Application.DMP.Seat.Repositories;
 using Application.DMP.Theater.Repositories;
+using Application.DMP.Ticket.Repositories;
 using Application.Identity.Account.Repositories;
 using Application.Identity.Permission.Repositories;
 using Application.Identity.Role.Repositories;
@@ -21,6 +23,8 @@ public interface IUnitOfWork
     ITheaterRepository Theaters { get; }
     IRoomRepository Rooms { get; }
     IFilmSchedulesRepository FilmSchedules { get; }
+    ISeatRepository Seats { get; }
+    ITicketRepository Tickets { get; }
     
     Task<int> CompleteAsync(CancellationToken cancellationToken = default(CancellationToken));
     Task<int> CompleteAsync(Account account, CancellationToken cancellationToken = default(CancellationToken));

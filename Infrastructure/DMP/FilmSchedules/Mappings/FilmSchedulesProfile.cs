@@ -11,20 +11,20 @@ public class FilmSchedulesProfile : Profile
     {
         CreateMap<CreateFilmSchedulesRequest, CreateFilmSchedulesCommand>();
 
-        CreateMap<CreateFilmSchedulesCommand, Domain.Entities.DMP.FilmSchedules>()
+        CreateMap<CreateFilmSchedulesCommand, Domain.Entities.DMP.FilmSchedule>()
             .ForMember(d => d.Id, o => o.MapFrom(s => Guid.NewGuid()))
             .ForMember(d => d.FilmId, o => o.MapFrom(s => s.FilmId))
             .ForMember(d => d.RoomId, o => o.MapFrom(s => s.RoomId))
             .ForMember(d => d.StartTime, o => o.MapFrom(s => s.StartTime))
             .ForMember(d => d.EndTime, o => o.MapFrom(s => s.EndTime));
-        CreateMap<Domain.Entities.DMP.FilmSchedules, ViewFilmSchedulesResponse>()
+        CreateMap<Domain.Entities.DMP.FilmSchedule, ViewFilmSchedulesResponse>()
                     .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
                     .ForMember(d => d.FilmId, o => o.MapFrom(s => s.FilmId))
                     .ForMember(d => d.RoomId, o => o.MapFrom(s => s.RoomId))
                     .ForMember(d => d.StartTime, o => o.MapFrom(s => s.StartTime))
                     .ForMember(d => d.EndTime, o => o.MapFrom(s => s.EndTime));
         CreateMap<UpdateFilmSchedulesRequest, UpdateFilmSchedulesCommand>();
-        CreateMap<UpdateFilmSchedulesCommand, Domain.Entities.DMP.FilmSchedules>()
+        CreateMap<UpdateFilmSchedulesCommand, Domain.Entities.DMP.FilmSchedule>()
             .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
             .ForMember(d => d.FilmId, o => o.MapFrom(s => s.FilmId))
             .ForMember(d => d.RoomId, o => o.MapFrom(s => s.RoomId))

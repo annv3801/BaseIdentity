@@ -12,7 +12,9 @@ public interface IApplicationDbContext
     DbSet<Film> Films { get; set; }
     DbSet<Theater> Theaters { get; set; }
     DbSet<Room> Rooms { get; set; }
-    DbSet<FilmSchedules> FilmSchedules { get; set; }
+    DbSet<FilmSchedule> FilmSchedules { get; set; }
+    DbSet<Seat> Seats { get; set; }
+    DbSet<Ticket> Tickets { get; set; }
 
     #endregion
     

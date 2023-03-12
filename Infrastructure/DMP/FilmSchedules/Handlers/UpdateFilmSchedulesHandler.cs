@@ -27,7 +27,7 @@ public class UpdateFilmSchedulesHandler : IUpdateFilmSchedulesHandler
     {
         try
         {
-            var filmSchedules = _mapper.Map<Domain.Entities.DMP.FilmSchedules>(request);
+            var filmSchedules = _mapper.Map<Domain.Entities.DMP.FilmSchedule>(request);
             var result = await _filmSchedulesManagementService.UpdateFilmSchedulesAsync(filmSchedules, cancellationToken);
             if (result.Succeeded)
                 return Result<FilmSchedulesResult>.Succeed(data: result.Data);

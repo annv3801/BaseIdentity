@@ -29,9 +29,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Film> Films { get; set; }
     public DbSet<Theater> Theaters { get; set; }
     public DbSet<Room> Rooms { get; set; }
-    public DbSet<FilmSchedules> FilmSchedules { get; set; }
+    public DbSet<FilmSchedule> FilmSchedules { get; set; }
+    public DbSet<Seat> Seats { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    
     public DbContext DbContext { get; }
-
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>())

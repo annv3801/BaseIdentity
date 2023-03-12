@@ -2,7 +2,7 @@
 
 namespace Domain.Entities.DMP;
 
-public class FilmSchedules : AuditableEntity
+public class FilmSchedule : AuditableEntity
 {
     public Guid Id { get; set; }
     public Guid FilmId { get; set; }

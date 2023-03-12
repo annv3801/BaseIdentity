@@ -181,6 +181,38 @@ public static class LocalizationString
         public const string EmptyFilmSchedulesList = "No FilmSchedules";
         public const string ViewedListFilmSchedules = "Viewed list FilmSchedules";
     }
+    public static class Seat
+    {
+        public const string NotFoundRoom = "Not found room";
+        public const string FailedToCreate = "Failed to create Seat {0}";
+        public const string AlreadyDeleted = "Seat is already deleted, you cannot delete it again";
+        
+        public const string Deleted = "Deleted Seat {0}";
+        public const string FailedToDelete = "Failed to delete Seat {0}";
+        
+        public const string Updated = "Updated Seat {0}";
+        public const string FailedToUpdate = "Failed to update Seat {0}";
+        
+        public const string FailedToViewList = "Failed to view list seat";
+        public const string EmptySeatList = "No Seat";
+        public const string ViewedListSeat = "Viewed list Seat";
+    }
+    public static class Ticket
+    {
+        public const string NotFoundSchedule = "Not found schedule";
+        public const string FailedToCreate = "Failed to create Ticket {0}";
+        public const string AlreadyDeleted = "Ticket is already deleted, you cannot delete it again";
+        
+        public const string Deleted = "Deleted Ticket {0}";
+        public const string FailedToDelete = "Failed to delete Ticket {0}";
+        
+        public const string Updated = "Updated Ticket {0}";
+        public const string FailedToUpdate = "Failed to update Ticket {0}";
+        
+        public const string FailedToViewList = "Failed to view list tickets";
+        public const string EmptyTicketList = "No Ticket";
+        public const string ViewedListTicket = "Viewed list Ticket";
+    }
     public static class PasswordValidation
     {
         public const string UniqueCharsField = "The number character of {PropertyName} must be at least {UniqueCharacterRequired} unique characters. You entered {TotalUniqueCharacter} unique characters";

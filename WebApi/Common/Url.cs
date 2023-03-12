@@ -102,5 +102,21 @@ public static class Url
             public const string Update = "DMP/FilmSchedules/{filmScheduleId}";
             public const string ViewList = "DMP/FilmSchedules";
         }
+        public static class Seat
+        {
+            public const string Create = "DMP/Seat";
+            public const string View = "DMP/Seat/{seatId}";
+            public const string Delete = "DMP/Seat/{seatId}";
+            public const string Update = "DMP/Seat/{seatId}";
+            public const string ViewList = "DMP/Seat";
+        }
+        public static class Ticket
+        {
+            public const string Create = "DMP/Ticket";
+            public const string View = "DMP/Ticket/{ticketId}";
+            public const string Delete = "DMP/Ticket/{ticketId}";
+            public const string Update = "DMP/Ticket/{ticketId}";
+            public const string ViewList = "DMP/Ticket";
+        }
     }
 }

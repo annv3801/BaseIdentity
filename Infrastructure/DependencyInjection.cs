@@ -3,7 +3,9 @@ using Application.DMP.Category.Services;
 using Application.DMP.Film.Services;
 using Application.DMP.FilmSchedules.Services;
 using Application.DMP.Room.Services;
+using Application.DMP.Seat.Services;
 using Application.DMP.Theater.Services;
+using Application.DMP.Ticket.Services;
 using Application.Identity.Account.Services;
 using Application.Identity.Permission.EventHandlers;
 using Application.Identity.Permission.Handlers;
@@ -18,7 +20,9 @@ using Infrastructure.DMP.Category.Services;
 using Infrastructure.DMP.Film.Services;
 using Infrastructure.DMP.FilmSchedules.Services;
 using Infrastructure.DMP.Room.Services;
+using Infrastructure.DMP.Seat.Services;
 using Infrastructure.DMP.Theater.Services;
+using Infrastructure.DMP.Ticket.Services;
 using Infrastructure.Identity.Account.Services;
 using Infrastructure.Identity.Permission.EventHandlers;
 using Infrastructure.Identity.Permission.Handlers;
@@ -72,6 +76,7 @@ public static class DependencyInjection
         services.AddScoped<ITheaterManagementService, TheaterManagementService>();
         services.AddScoped<IRoomManagementService, RoomManagementService>();
         services.AddScoped<IFilmSchedulesManagementService, FilmSchedulesManagementService>();
-
+        services.AddScoped<ISeatManagementService, SeatManagementService>();
+        services.AddScoped<ITicketManagementService, TicketManagementService>();
     }
 }

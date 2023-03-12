@@ -20,6 +20,9 @@ public static class Constants
         public const string Theater = "To manage theater in this system";
         public const string Room = "To manage room in this system";
         public const string FilmSchedules = "To manage film schedules in this system";
+        public const string Seat = "To manage seat in this system";
+        public const string Ticket = "To manage ticket in this system";
+
     }
 
     public static class FieldLength
@@ -161,6 +164,20 @@ public static class Constants
                 public const string Delete = "DMP|FilmSchedules|Delete";
                 public const string Update = "DMP|FilmSchedules|Update";
                 public const string ViewList = "DMP|FilmSchedules|ViewList";
+            }
+            public static class Seat
+            {
+                public const string Create = "DMP|Seat|Create";
+                public const string Delete = "DMP|Seat|Delete";
+                public const string Update = "DMP|Seat|Update";
+                public const string ViewList = "DMP|Seat|ViewList";
+            }
+            public static class Ticket
+            {
+                public const string Create = "DMP|Ticket|Create";
+                public const string Delete = "DMP|Ticket|Delete";
+                public const string Update = "DMP|Ticket|Update";
+                public const string ViewList = "DMP|Ticket|ViewList";
             }
         }
         public static class Resource
