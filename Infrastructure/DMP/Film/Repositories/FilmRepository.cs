@@ -4,7 +4,7 @@ using Infrastructure.Common.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.DMP.Film.Repositories;
-public class FilmRepository : Repository<Domain.Entities.DMP.Films>, IFilmRepository
+public class FilmRepository : Repository<Domain.Entities.DMP.Film>, IFilmRepository
 {
     private readonly IApplicationDbContext _applicationDbContext;
 
@@ -12,12 +12,12 @@ public class FilmRepository : Repository<Domain.Entities.DMP.Films>, IFilmReposi
     {
         _applicationDbContext = applicationDbContext;
     }
-    public async Task<Domain.Entities.DMP.Films?> GetFilmAsync(Guid filmId, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<Domain.Entities.DMP.Film?> GetFilmAsync(Guid filmId, CancellationToken cancellationToken = default(CancellationToken))
     { 
         return await _applicationDbContext.Films.AsSplitQuery().FirstOrDefaultAsync(r => r.Id == filmId, cancellationToken);
     }
 
-    public async Task<IQueryable<Domain.Entities.DMP.Films>> ViewListFilmsAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<IQueryable<Domain.Entities.DMP.Film>> ViewListFilmsAsync(CancellationToken cancellationToken = default(CancellationToken))
     {
         await Task.CompletedTask;
         return _applicationDbContext.Films

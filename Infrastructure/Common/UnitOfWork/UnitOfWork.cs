@@ -2,12 +2,19 @@ using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces;
 using Application.DMP.Category.Repositories;
 using Application.DMP.Film.Repositories;
+using Application.DMP.FilmSchedules.Repositories;
+using Application.DMP.Room.Repositories;
+using Application.DMP.Theater.Repositories;
 using Application.Identity.Account.Repositories;
 using Application.Identity.Permission.Repositories;
 using Application.Identity.Role.Repositories;
+using Domain.Entities.DMP;
 using Domain.Entities.Identity;
 using Infrastructure.DMP.Category.Repositories;
 using Infrastructure.DMP.Film.Repositories;
+using Infrastructure.DMP.FilmSchedules.Repositories;
+using Infrastructure.DMP.Room.Repositories;
+using Infrastructure.DMP.Theater.Repositories;
 using Infrastructure.Identity.Account.Repositories;
 using Infrastructure.Identity.Permission.Repositories;
 using Infrastructure.Identity.Role.Repositories;
@@ -28,6 +35,9 @@ public class UnitOfWork : IUnitOfWork
         AccountLogins = new AccountLoginRepository(_applicationDbContext);
         Categories = new CategoryRepository(_applicationDbContext);
         Films = new FilmRepository(_applicationDbContext);
+        Theaters = new TheaterRepository(_applicationDbContext);
+        Rooms = new RoomRepository(_applicationDbContext);
+        FilmSchedules = new FilmSchedulesRepository(_applicationDbContext);
     }
 
     public IAccountTokenRepository AccountTokens { get; }
@@ -37,6 +47,9 @@ public class UnitOfWork : IUnitOfWork
     public IAccountLoginRepository AccountLogins { get; }
     public ICategoryRepository Categories { get; }
     public IFilmRepository Films { get; }
+    public ITheaterRepository Theaters { get; }
+    public IRoomRepository Rooms { get; }
+    public IFilmSchedulesRepository FilmSchedules { get; }
     public async Task<int> CompleteAsync(CancellationToken cancellationToken)
     {
         return await _applicationDbContext.SaveChangesAsync(cancellationToken);

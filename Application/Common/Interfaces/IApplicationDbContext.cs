@@ -9,7 +9,7 @@ public interface IApplicationDbContext
     #region DMP
 
     DbSet<Category> Categories { get; set; }
-    DbSet<Films> Films { get; set; }
+    DbSet<Film> Films { get; set; }
     DbSet<Theater> Theaters { get; set; }
     DbSet<Room> Rooms { get; set; }
     DbSet<FilmSchedules> FilmSchedules { get; set; }

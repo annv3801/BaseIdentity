@@ -27,7 +27,7 @@ public class UpdateFilmHandler : IUpdateFilmHandler
     {
         try
         {
-            var film = _mapper.Map<Domain.Entities.DMP.Films>(request);
+            var film = _mapper.Map<Domain.Entities.DMP.Film>(request);
             var result = await _filmManagementService.UpdateFilmAsync(film, cancellationToken);
             if (result.Succeeded)
                 return Result<FilmResult>.Succeed(data: result.Data);

@@ -34,7 +34,7 @@ public class FilmManagementService : IFilmManagementService
         _mapper = mapper;
         _paginationService = paginationService;
     }
-    public async Task<Result<FilmResult>> CreateFilmAsync(Domain.Entities.DMP.Films film, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<Result<FilmResult>> CreateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
@@ -108,7 +108,7 @@ public class FilmManagementService : IFilmManagementService
             throw;
         }
     }
-    public async Task<Result<FilmResult>> UpdateFilmAsync(Domain.Entities.DMP.Films film, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<Result<FilmResult>> UpdateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {

@@ -2,7 +2,7 @@
 
 namespace Domain.Entities.DMP;
 
-public class Films : AuditableEntity
+public class Film : AuditableEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

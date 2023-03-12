@@ -78,5 +78,29 @@ public static class Url
             public const string Update = "DMP/Film/{filmId}";
             public const string ViewList = "DMP/Film";
         }
+        public static class Theater
+        {
+            public const string Create = "DMP/Theater";
+            public const string View = "DMP/Theater/{theaterId}";
+            public const string Delete = "DMP/Theater/{theaterId}";
+            public const string Update = "DMP/Theater/{theaterId}";
+            public const string ViewList = "DMP/Theater";
+        }
+        public static class Room
+        {
+            public const string Create = "DMP/Room";
+            public const string View = "DMP/Room/{roomId}";
+            public const string Delete = "DMP/Room/{roomId}";
+            public const string Update = "DMP/Room/{roomId}";
+            public const string ViewList = "DMP/Room";
+        }
+        public static class FilmSchedules
+        {
+            public const string Create = "DMP/FilmSchedules";
+            public const string View = "DMP/FilmSchedules/{filmScheduleId}";
+            public const string Delete = "DMP/FilmSchedules/{filmScheduleId}";
+            public const string Update = "DMP/FilmSchedules/{filmScheduleId}";
+            public const string ViewList = "DMP/FilmSchedules";
+        }
     }
 }

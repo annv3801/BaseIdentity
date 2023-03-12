@@ -117,7 +117,6 @@ public static class LocalizationString
         public const string EmptyCategoryList = "No Category";
         public const string ViewedListCategory = "Viewed list Category";
     }
-    
     public static class Film
     {
         public const string NotFoundCategory = "Not found category";
@@ -134,7 +133,54 @@ public static class LocalizationString
         public const string EmptyFilmList = "No Film";
         public const string ViewedListFilm = "Viewed list Film";
     }
-
+    public static class Theater
+    {
+        public const string FailedToCreate = "Failed to create Theater {0}";
+        public const string AlreadyDeleted = "Theater is already deleted, you cannot delete it again";
+        
+        public const string Deleted = "Deleted Theater {0}";
+        public const string FailedToDelete = "Failed to delete Theater {0}";
+        
+        public const string Updated = "Updated Theater {0}";
+        public const string FailedToUpdate = "Failed to update Theater {0}";
+        
+        public const string FailedToViewList = "Failed to view list theater";
+        public const string EmptyTheaterList = "No Theater";
+        public const string ViewedListTheater = "Viewed list Theater";
+    }
+    public static class Room
+    {
+        public const string NotFoundTheater = "Not found theater";
+        public const string FailedToCreate = "Failed to create Room {0}";
+        public const string AlreadyDeleted = "Room is already deleted, you cannot delete it again";
+        
+        public const string Deleted = "Deleted Room {0}";
+        public const string FailedToDelete = "Failed to delete Room {0}";
+        
+        public const string Updated = "Updated Room {0}";
+        public const string FailedToUpdate = "Failed to update Room {0}";
+        
+        public const string FailedToViewList = "Failed to view list room";
+        public const string EmptyRoomList = "No Room";
+        public const string ViewedListRoom = "Viewed list Room";
+    }
+    public static class FilmSchedules
+    {
+        public const string NotFoundRoom = "Not found room";
+        public const string NotFoundFilm = "Not found film";
+        public const string FailedToCreate = "Failed to create FilmSchedules {0}";
+        public const string AlreadyDeleted = "FilmSchedules is already deleted, you cannot delete it again";
+        
+        public const string Deleted = "Deleted FilmSchedules {0}";
+        public const string FailedToDelete = "Failed to delete FilmSchedules {0}";
+        
+        public const string Updated = "Updated FilmSchedules {0}";
+        public const string FailedToUpdate = "Failed to update FilmSchedules {0}";
+        
+        public const string FailedToViewList = "Failed to view list film schedules";
+        public const string EmptyFilmSchedulesList = "No FilmSchedules";
+        public const string ViewedListFilmSchedules = "Viewed list FilmSchedules";
+    }
     public static class PasswordValidation
     {
         public const string UniqueCharsField = "The number character of {PropertyName} must be at least {UniqueCharacterRequired} unique characters. You entered {TotalUniqueCharacter} unique characters";

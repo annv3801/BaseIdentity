@@ -26,7 +26,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<AccountLogin> AccountLogins { get; set; }
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<Films> Films { get; set; }
+    public DbSet<Film> Films { get; set; }
     public DbSet<Theater> Theaters { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<FilmSchedules> FilmSchedules { get; set; }

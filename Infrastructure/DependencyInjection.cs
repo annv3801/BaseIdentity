@@ -1,6 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using Application.DMP.Category.Services;
 using Application.DMP.Film.Services;
+using Application.DMP.FilmSchedules.Services;
+using Application.DMP.Room.Services;
+using Application.DMP.Theater.Services;
 using Application.Identity.Account.Services;
 using Application.Identity.Permission.EventHandlers;
 using Application.Identity.Permission.Handlers;
@@ -13,6 +16,9 @@ using Domain.Interfaces;
 using Infrastructure.Common.UnitOfWork;
 using Infrastructure.DMP.Category.Services;
 using Infrastructure.DMP.Film.Services;
+using Infrastructure.DMP.FilmSchedules.Services;
+using Infrastructure.DMP.Room.Services;
+using Infrastructure.DMP.Theater.Services;
 using Infrastructure.Identity.Account.Services;
 using Infrastructure.Identity.Permission.EventHandlers;
 using Infrastructure.Identity.Permission.Handlers;
@@ -54,13 +60,18 @@ public static class DependencyInjection
         services.AddScoped<IDeleteRoleEventHandler, DeleteRoleEventHandler>();
         services.AddScoped<IActivateRoleEventHandler, ActivateRoleEventHandler>();
         services.AddScoped<IDeactivateRoleEventHandler, DeactivateRoleEventHandler>();
-        services.AddScoped<ICategoryManagementService, CategoryManagementService>();
-        services.AddScoped<IFilmManagementService, FilmManagementService>();
         services.AddScoped<IJsonSerializerService, JsonSerializerService>();
         services.AddScoped<ILoggerService, LoggerService>();
         services.AddScoped<IActionLogService, ActionLogService>();
         services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<IPasswordGeneratorService, PasswordGeneratorService>();
         services.AddScoped<IDateTime, DateTimeService>();
+        
+        services.AddScoped<ICategoryManagementService, CategoryManagementService>();
+        services.AddScoped<IFilmManagementService, FilmManagementService>();
+        services.AddScoped<ITheaterManagementService, TheaterManagementService>();
+        services.AddScoped<IRoomManagementService, RoomManagementService>();
+        services.AddScoped<IFilmSchedulesManagementService, FilmSchedulesManagementService>();
+
     }
 }

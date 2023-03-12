@@ -17,6 +17,9 @@ public static class Constants
         public const string Role = "To manage roles in this system";
         public const string Category = "To manage category in this system";
         public const string Film = "To manage film in this system";
+        public const string Theater = "To manage theater in this system";
+        public const string Room = "To manage room in this system";
+        public const string FilmSchedules = "To manage film schedules in this system";
     }
 
     public static class FieldLength
@@ -137,6 +140,27 @@ public static class Constants
                 public const string Delete = "DMP|Film|Delete";
                 public const string Update = "DMP|Film|Update";
                 public const string ViewList = "DMP|Film|ViewList";
+            }
+            public static class Theater
+            {
+                public const string Create = "DMP|Theater|Create";
+                public const string Delete = "DMP|Theater|Delete";
+                public const string Update = "DMP|Theater|Update";
+                public const string ViewList = "DMP|Theater|ViewList";
+            }
+            public static class Room
+            {
+                public const string Create = "DMP|Room|Create";
+                public const string Delete = "DMP|Room|Delete";
+                public const string Update = "DMP|Room|Update";
+                public const string ViewList = "DMP|Room|ViewList";
+            }
+            public static class FilmSchedules
+            {
+                public const string Create = "DMP|FilmSchedules|Create";
+                public const string Delete = "DMP|FilmSchedules|Delete";
+                public const string Update = "DMP|FilmSchedules|Update";
+                public const string ViewList = "DMP|FilmSchedules|ViewList";
             }
         }
         public static class Resource

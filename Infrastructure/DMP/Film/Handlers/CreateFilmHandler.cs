@@ -27,7 +27,7 @@ public class CreateFilmHandler : ICreateFilmHandlers
     {
         try
         {
-            var film = _mapper.Map<Domain.Entities.DMP.Films>(command);
+            var film = _mapper.Map<Domain.Entities.DMP.Film>(command);
             var result = await _filmManagementService.CreateFilmAsync(film, cancellationToken);
             if (result.Succeeded)
                 return Result<FilmResult>.Succeed(data: result.Data);
