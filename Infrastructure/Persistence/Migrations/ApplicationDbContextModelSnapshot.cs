@@ -130,6 +130,129 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("DMP_Films", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.DMP.FilmSchedules", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("FilmId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FilmsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("FilmsId");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("DMP_FilmSchedules", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.DMP.Room", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("TheaterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.HasIndex("TheaterId");
+
+                    b.ToTable("DMP_Rooms", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.DMP.Theater", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.ToTable("DMP_Theaters", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Identity.Account", b =>
                 {
                     b.Property<Guid>("Id")
@@ -289,13 +412,13 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             AccessFailedCount = 0,
-                            Created = new DateTime(2023, 3, 11, 14, 55, 23, 618, DateTimeKind.Utc).AddTicks(8519),
+                            Created = new DateTime(2023, 3, 12, 4, 12, 3, 766, DateTimeKind.Utc).AddTicks(7370),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Email = "nva030801@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nguyen",
                             Gender = true,
-                            LastModified = new DateTime(2023, 3, 11, 14, 55, 23, 618, DateTimeKind.Utc).AddTicks(8512),
+                            LastModified = new DateTime(2023, 3, 12, 4, 12, 3, 766, DateTimeKind.Utc).AddTicks(7368),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             LastName = "An",
                             LockoutEnabled = true,
@@ -309,7 +432,7 @@ namespace Infrastructure.Persistence.Migrations
                             PasswordHash = "AMJoiJQ9xLazxisVPXx+lBDRw7wfWBerhXipsLpHNGLXGAAKIeCnwi5XhIRbTbqovA==",
                             PhoneNumber = "0966093801",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "9C2D0BD7-60B4-4AB4-9535-F8DAFDB3A4C9",
+                            SecurityStamp = "2A1CAD53-F8FA-4B39-A4B6-1F572BAA26CC",
                             Status = 3,
                             TwoFactorEnabled = false,
                             UserName = "nva3801"
@@ -467,10 +590,10 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"),
                             Code = "ROOT:ROOT:SYSADMIN",
-                            Created = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5931),
+                            Created = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(6722),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The system admin permission",
-                            LastModified = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5937),
+                            LastModified = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(6724),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "System Admin",
                             NormalizedName = "SYSTEM ADMIN"
@@ -479,10 +602,10 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6f"),
                             Code = "ROOT:ROOT:SYSADMIN",
-                            Created = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5956),
+                            Created = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(6730),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The supply chain user permission",
-                            LastModified = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5957),
+                            LastModified = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(6731),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "SPC",
                             NormalizedName = "SPC"
@@ -537,10 +660,10 @@ namespace Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e"),
-                            Created = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8693),
+                            Created = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(7668),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The system Admin Role",
-                            LastModified = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8695),
+                            LastModified = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(7669),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "System Admin",
                             NormalizedName = "SYSTEM ADMIN",
@@ -549,10 +672,10 @@ namespace Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
-                            Created = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8710),
+                            Created = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(7675),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The SP Role",
-                            LastModified = new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8711),
+                            LastModified = new DateTime(2023, 3, 12, 4, 12, 3, 767, DateTimeKind.Utc).AddTicks(7675),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "SP",
                             NormalizedName = "SP",
@@ -616,6 +739,75 @@ namespace Infrastructure.Persistence.Migrations
                         .HasForeignKey("LastModifiedById");
 
                     b.Navigation("Category");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("LastModifiedBy");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DMP.FilmSchedules", b =>
+                {
+                    b.HasOne("Domain.Entities.Identity.Account", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Domain.Entities.DMP.Films", "Films")
+                        .WithMany()
+                        .HasForeignKey("FilmsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Identity.Account", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.HasOne("Domain.Entities.DMP.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("Films");
+
+                    b.Navigation("LastModifiedBy");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DMP.Room", b =>
+                {
+                    b.HasOne("Domain.Entities.Identity.Account", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Domain.Entities.Identity.Account", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.HasOne("Domain.Entities.DMP.Theater", "Theater")
+                        .WithMany()
+                        .HasForeignKey("TheaterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("LastModifiedBy");
+
+                    b.Navigation("Theater");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DMP.Theater", b =>
+                {
+                    b.HasOne("Domain.Entities.Identity.Account", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Domain.Entities.Identity.Account", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
 
                     b.Navigation("CreatedBy");
 

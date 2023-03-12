@@ -27,6 +27,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Films> Films { get; set; }
+    public DbSet<Theater> Theaters { get; set; }
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<FilmSchedules> FilmSchedules { get; set; }
     public DbContext DbContext { get; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

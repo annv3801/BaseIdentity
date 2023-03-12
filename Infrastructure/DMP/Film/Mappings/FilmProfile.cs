@@ -25,7 +25,7 @@ public class FilmProfile : Profile
             .ForMember(d => d.Language, o => o.MapFrom(s => s.Language))
             .ForMember(d => d.Rated, o => o.MapFrom(s => s.Rated));
         CreateMap<Domain.Entities.DMP.Films, ViewFilmResponse>()
-            .ForMember(d => d.Id, o => o.MapFrom(s => Guid.NewGuid()))
+            .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
             .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.ShortenUrl, o => o.MapFrom(s => s.ShortenUrl))
             .ForMember(d => d.CategoryId, o => o.MapFrom(s => s.CategoryId))
@@ -39,7 +39,7 @@ public class FilmProfile : Profile
             .ForMember(d => d.Rated, o => o.MapFrom(s => s.Rated));
         CreateMap<UpdateFilmRequest, UpdateFilmCommand>();
         CreateMap<UpdateFilmCommand, Domain.Entities.DMP.Films>()
-            .ForMember(d => d.Id, o => o.MapFrom(s => Guid.NewGuid()))
+            .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
             .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.ShortenUrl, o => o.MapFrom(s => s.ShortenUrl))
             .ForMember(d => d.CategoryId, o => o.MapFrom(s => s.CategoryId))

@@ -24,7 +24,14 @@
 
     <ItemGroup>
       <Folder Include="Common" />
+      <Folder Include="DMP\Film\Handlers" />
+      <Folder Include="DMP\Film\Mappings" />
       <Folder Include="Identity" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Persistence\Migrations\20230311095006_Init.cs" />
+      <Compile Remove="Persistence\Migrations\20230311095006_Init.Designer.cs" />
     </ItemGroup>
 
     <PropertyGroup>
