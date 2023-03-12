@@ -1,8 +1,8 @@
-﻿using Domain.Entities.Identity;
+﻿using Domain.Common;
 
 namespace Domain.Entities.DMP;
 
-public class Films
+public class Films : AuditableEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -17,8 +17,4 @@ public class Films
     public string? Duration { get; set; }
     public string? Language { get; set; }
     public string? Rated { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public Account CreatedBy { get; set; }
-    public DateTime ModifiedDate { get; set; }
-    public Account ModifiedBy { get; set; }
 }

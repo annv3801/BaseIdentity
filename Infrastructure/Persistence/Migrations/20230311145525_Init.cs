@@ -61,6 +61,34 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DMP_Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ShortenUrl = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DMP_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DMP_Categories_Identity_Accounts_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Identity_Accounts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DMP_Categories_Identity_Accounts_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "Identity_Accounts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Identity_AccountLogins",
                 columns: table => new
                 {
@@ -160,6 +188,48 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DMP_Films",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortenUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Director = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Actor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Premiere = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DMP_Films", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DMP_Films_DMP_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "DMP_Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DMP_Films_Identity_Accounts_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Identity_Accounts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DMP_Films_Identity_Accounts_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "Identity_Accounts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Identity_AccountRoles",
                 columns: table => new
                 {
@@ -210,15 +280,15 @@ namespace Infrastructure.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Identity_Accounts",
                 columns: new[] { "Id", "AvatarPhoto", "CoverPhoto", "Created", "CreatedById", "Email", "EmailConfirmed", "FirstName", "Gender", "LastModified", "LastModifiedById", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "Otp", "OtpCount", "OtpValidEnd", "PasswordHash", "PasswordHashTemporary", "PasswordValidUntilDate", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "UserName" },
-                values: new object[] { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), null, null, new DateTime(2023, 3, 4, 3, 33, 29, 71, DateTimeKind.Utc).AddTicks(2712), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "nva030801@gmail.com", true, "Nguyen", true, new DateTime(2023, 3, 4, 3, 33, 29, 71, DateTimeKind.Utc).AddTicks(2710), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "An", true, null, "Van", "NVA030801@GMAIL.COM", "NVA3801", "000000", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "AMJoiJQ9xLazxisVPXx+lBDRw7wfWBerhXipsLpHNGLXGAAKIeCnwi5XhIRbTbqovA==", null, null, "0966093801", true, "39C79723-1C4E-43CF-9A81-053298508A24", 3, "nva3801" });
+                values: new object[] { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), null, null, new DateTime(2023, 3, 11, 14, 55, 23, 618, DateTimeKind.Utc).AddTicks(8519), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "nva030801@gmail.com", true, "Nguyen", true, new DateTime(2023, 3, 11, 14, 55, 23, 618, DateTimeKind.Utc).AddTicks(8512), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "An", true, null, "Van", "NVA030801@GMAIL.COM", "NVA3801", "000000", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "AMJoiJQ9xLazxisVPXx+lBDRw7wfWBerhXipsLpHNGLXGAAKIeCnwi5XhIRbTbqovA==", null, null, "0966093801", true, "9C2D0BD7-60B4-4AB4-9535-F8DAFDB3A4C9", 3, "nva3801" });
 
             migrationBuilder.InsertData(
                 table: "Identity_Permissions",
                 columns: new[] { "Id", "Code", "Created", "CreatedById", "Description", "LastModified", "LastModifiedById", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2212), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system admin permission", new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2213), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN" },
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6f"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2221), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The supply chain user permission", new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(2221), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SPC", "SPC" }
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5931), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system admin permission", new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5937), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN" },
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6f"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5956), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The supply chain user permission", new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(5957), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SPC", "SPC" }
                 });
 
             migrationBuilder.InsertData(
@@ -226,8 +296,8 @@ namespace Infrastructure.Persistence.Migrations
                 columns: new[] { "Id", "Created", "CreatedById", "Description", "LastModified", "LastModifiedById", "Name", "NormalizedName", "Status" },
                 values: new object[,]
                 {
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e"), new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3311), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system Admin Role", new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3312), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN", 1 },
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3318), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The SP Role", new DateTime(2023, 3, 4, 3, 33, 29, 72, DateTimeKind.Utc).AddTicks(3318), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SP", "SP", 1 }
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e"), new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8693), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system Admin Role", new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8695), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN", 1 },
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8710), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The SP Role", new DateTime(2023, 3, 11, 14, 55, 23, 622, DateTimeKind.Utc).AddTicks(8711), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SP", "SP", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -244,6 +314,46 @@ namespace Infrastructure.Persistence.Migrations
                 table: "Identity_RolePermissions",
                 columns: new[] { "PermissionId", "RoleId" },
                 values: new object[] { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e") });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Categories_CreatedById",
+                table: "DMP_Categories",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Categories_LastModifiedById",
+                table: "DMP_Categories",
+                column: "LastModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Categories_Name",
+                table: "DMP_Categories",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Categories_ShortenUrl",
+                table: "DMP_Categories",
+                column: "ShortenUrl");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Categories_Status",
+                table: "DMP_Categories",
+                column: "Status");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Films_CategoryId",
+                table: "DMP_Films",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Films_CreatedById",
+                table: "DMP_Films",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DMP_Films_LastModifiedById",
+                table: "DMP_Films",
+                column: "LastModifiedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Identity_AccountLogins_AccountId",
@@ -356,6 +466,9 @@ namespace Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "DMP_Films");
+
+            migrationBuilder.DropTable(
                 name: "Identity_AccountLogins");
 
             migrationBuilder.DropTable(
@@ -366,6 +479,9 @@ namespace Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Identity_RolePermissions");
+
+            migrationBuilder.DropTable(
+                name: "DMP_Categories");
 
             migrationBuilder.DropTable(
                 name: "Identity_Permissions");

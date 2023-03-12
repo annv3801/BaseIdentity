@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj": {}
+    "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj": {
+    "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Learn\\BaseIdentity\\Domain\\obj\\",
+        "projectPath": "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\nva38\\.nuget\\packages\\",
+        "outputPath": "D:\\Learn\\BookingTicketMovie\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\nva38\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -63,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\6.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

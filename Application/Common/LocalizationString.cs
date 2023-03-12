@@ -117,6 +117,23 @@ public static class LocalizationString
         public const string EmptyCategoryList = "No Category";
         public const string ViewedListCategory = "Viewed list Category";
     }
+    
+    public static class Film
+    {
+        public const string NotFoundCategory = "Not found category";
+        public const string FailedToCreate = "Failed to create Film {0}";
+        public const string AlreadyDeleted = "Film is already deleted, you cannot delete it again";
+        
+        public const string Deleted = "Deleted Film {0}";
+        public const string FailedToDelete = "Failed to delete Film {0}";
+        
+        public const string Updated = "Updated Film {0}";
+        public const string FailedToUpdate = "Failed to update Film {0}";
+        
+        public const string FailedToViewList = "Failed to view list film";
+        public const string EmptyFilmList = "No Film";
+        public const string ViewedListFilm = "Viewed list Film";
+    }
 
     public static class PasswordValidation
     {

@@ -16,6 +16,7 @@ public static class Constants
         public const string Permission = "To manage permissions in this system";
         public const string Role = "To manage roles in this system";
         public const string Category = "To manage category in this system";
+        public const string Film = "To manage film in this system";
     }
 
     public static class FieldLength
@@ -129,6 +130,13 @@ public static class Constants
                 public const string Delete = "DMP|Category|Delete";
                 public const string Update = "DMP|Category|Update";
                 public const string ViewList = "DMP|Category|ViewList";
+            }
+            public static class Film
+            {
+                public const string Create = "DMP|Film|Create";
+                public const string Delete = "DMP|Film|Delete";
+                public const string Update = "DMP|Film|Update";
+                public const string ViewList = "DMP|Film|ViewList";
             }
         }
         public static class Resource

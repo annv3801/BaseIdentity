@@ -1,11 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces;
 using Application.DMP.Category.Repositories;
+using Application.DMP.Film.Repositories;
 using Application.Identity.Account.Repositories;
 using Application.Identity.Permission.Repositories;
 using Application.Identity.Role.Repositories;
 using Domain.Entities.Identity;
 using Infrastructure.DMP.Category.Repositories;
+using Infrastructure.DMP.Film.Repositories;
 using Infrastructure.Identity.Account.Repositories;
 using Infrastructure.Identity.Permission.Repositories;
 using Infrastructure.Identity.Role.Repositories;
@@ -25,6 +27,7 @@ public class UnitOfWork : IUnitOfWork
         Accounts = new AccountRepository(_applicationDbContext);
         AccountLogins = new AccountLoginRepository(_applicationDbContext);
         Categories = new CategoryRepository(_applicationDbContext);
+        Films = new FilmRepository(_applicationDbContext);
     }
 
     public IAccountTokenRepository AccountTokens { get; }
@@ -33,6 +36,7 @@ public class UnitOfWork : IUnitOfWork
     public IPermissionRepository Permissions { get; }
     public IAccountLoginRepository AccountLogins { get; }
     public ICategoryRepository Categories { get; }
+    public IFilmRepository Films { get; }
     public async Task<int> CompleteAsync(CancellationToken cancellationToken)
     {
         return await _applicationDbContext.SaveChangesAsync(cancellationToken);

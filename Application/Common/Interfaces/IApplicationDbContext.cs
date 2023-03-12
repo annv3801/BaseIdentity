@@ -9,6 +9,7 @@ public interface IApplicationDbContext
     #region DMP
 
     DbSet<Category> Categories { get; set; }
+    DbSet<Films> Films { get; set; }
 
     #endregion
     

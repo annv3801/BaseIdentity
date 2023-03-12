@@ -29,24 +29,12 @@ public class CategoryController : ControllerBase
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
     private readonly ILoggerService _loggerService;
-    private readonly ICurrentAccountService _currentAccountService;
-    private readonly IStringLocalizationService _localizationService;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IAccountManagementService _accountManagementService;
-    private readonly IApplicationDbContext _applicationDbContext;
-    private readonly IJwtService _jwtService;
 
-    public CategoryController(IMediator mediator, IMapper mapper, ILoggerService loggerService, ICurrentAccountService currentAccountService, IStringLocalizationService localizationService, IUnitOfWork unitOfWork, IAccountManagementService accountManagementService, IApplicationDbContext applicationDbContext, IJwtService jwtService)
+    public CategoryController(IMediator mediator, IMapper mapper, ILoggerService loggerService)
     {
         _mediator = mediator;
         _mapper = mapper;
         _loggerService = loggerService;
-        _currentAccountService = currentAccountService;
-        _localizationService = localizationService;
-        _unitOfWork = unitOfWork;
-        _accountManagementService = accountManagementService;
-        _applicationDbContext = applicationDbContext;
-        _jwtService = jwtService;
     }
 
     
@@ -129,12 +117,12 @@ public class CategoryController : ControllerBase
     [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
     [Produces(Constants.MimeTypes.Application.Json)]
-    public async Task<IActionResult> UpdateCategoryAsync(Guid roleId, UpdateCategoryRequest request, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<IActionResult> UpdateCategoryAsync(Guid categoryId, UpdateCategoryRequest request, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
             var command = _mapper.Map<UpdateCategoryCommand>(request);
-            command.Id = roleId;
+            command.Id = categoryId;
             var result = await _mediator.Send(command, cancellationToken);
             if (result.Succeeded)
                 return Ok(new SuccessResponse());

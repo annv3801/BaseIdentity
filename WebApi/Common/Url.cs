@@ -67,8 +67,16 @@ public static class Url
             public const string Create = "DMP/Category";
             public const string View = "DMP/Category/{categoryId}";
             public const string Delete = "DMP/Category/{categoryId}";
-            public const string Update = "DMP/Category/{roleId}";
+            public const string Update = "DMP/Category/{categoryId}";
             public const string ViewList = "DMP/Category";
+        }
+        public static class Film
+        {
+            public const string Create = "DMP/Film";
+            public const string View = "DMP/Film/{filmId}";
+            public const string Delete = "DMP/Film/{filmId}";
+            public const string Update = "DMP/Film/{filmId}";
+            public const string ViewList = "DMP/Film";
         }
     }
 }

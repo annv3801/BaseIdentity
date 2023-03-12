@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Learn\\BaseIdentity\\WebApi\\WebApi.csproj": {}
+    "D:\\Learn\\BookingTicketMovie\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "D:\\Learn\\BaseIdentity\\Application\\Application.csproj": {
+    "D:\\Learn\\BookingTicketMovie\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learn\\BaseIdentity\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\Learn\\BookingTicketMovie\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "D:\\Learn\\BaseIdentity\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Learn\\BaseIdentity\\Application\\obj\\",
+        "projectPath": "D:\\Learn\\BookingTicketMovie\\Application\\Application.csproj",
+        "packagesPath": "C:\\Users\\nva38\\.nuget\\packages\\",
+        "outputPath": "D:\\Learn\\BookingTicketMovie\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\nva38\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -26,8 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj"
+              "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj"
               }
             }
           }
@@ -91,21 +91,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\6.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj": {
+    "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Learn\\BaseIdentity\\Domain\\obj\\",
+        "projectPath": "D:\\Learn\\BookingTicketMovie\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\nva38\\.nuget\\packages\\",
+        "outputPath": "D:\\Learn\\BookingTicketMovie\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\nva38\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -154,21 +154,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\6.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Learn\\BaseIdentity\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\Learn\\BookingTicketMovie\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learn\\BaseIdentity\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\Learn\\BookingTicketMovie\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\Learn\\BaseIdentity\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Learn\\BaseIdentity\\Infrastructure\\obj\\",
+        "projectPath": "D:\\Learn\\BookingTicketMovie\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\nva38\\.nuget\\packages\\",
+        "outputPath": "D:\\Learn\\BookingTicketMovie\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\nva38\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -180,8 +180,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learn\\BaseIdentity\\Application\\Application.csproj": {
-                "projectPath": "D:\\Learn\\BaseIdentity\\Application\\Application.csproj"
+              "D:\\Learn\\BookingTicketMovie\\Application\\Application.csproj": {
+                "projectPath": "D:\\Learn\\BookingTicketMovie\\Application\\Application.csproj"
               }
             }
           }
@@ -273,21 +273,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\6.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Learn\\BaseIdentity\\WebApi\\WebApi.csproj": {
+    "D:\\Learn\\BookingTicketMovie\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learn\\BaseIdentity\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "D:\\Learn\\BookingTicketMovie\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "D:\\Learn\\BaseIdentity\\WebApi\\WebApi.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Learn\\BaseIdentity\\WebApi\\obj\\",
+        "projectPath": "D:\\Learn\\BookingTicketMovie\\WebApi\\WebApi.csproj",
+        "packagesPath": "C:\\Users\\nva38\\.nuget\\packages\\",
+        "outputPath": "D:\\Learn\\BookingTicketMovie\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\nva38\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -299,8 +299,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learn\\BaseIdentity\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\Learn\\BaseIdentity\\Infrastructure\\Infrastructure.csproj"
+              "D:\\Learn\\BookingTicketMovie\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\Learn\\BookingTicketMovie\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -393,7 +393,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\6.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
