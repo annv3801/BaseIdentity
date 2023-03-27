@@ -24,8 +24,9 @@ public class SeatManagementService : ISeatManagementService
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly IApplicationDbContext _applicationDbContext;
 
-    public SeatManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public SeatManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext)
     {
         _unitOfWork = unitOfWork;
         _loggerService = loggerService;
@@ -34,6 +35,7 @@ public class SeatManagementService : ISeatManagementService
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _applicationDbContext = applicationDbContext;
     }
     public async Task<Result<SeatResult>> CreateSeatAsync(Domain.Entities.DMP.Seat seat, CancellationToken cancellationToken = default(CancellationToken))
     {
@@ -204,7 +206,17 @@ public class SeatManagementService : ISeatManagementService
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)
             ).AsSplitQuery();
-            var source = p1.Select(p => new {p.Name, p.RoomId, p.Type, p.Status, p.Id});
+            var q1 = p1.Select(p => new {p.Name, p.RoomId, p.Type, p.Status, p.Id});
+            var room = _applicationDbContext.Rooms;
+            var j1 = q1.Join(room, x => x.RoomId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
+            var theater = _applicationDbContext.Theaters;
+            var source = j1.Join(theater, x => x.y.TheaterId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
             var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
             if (result.Result.Count == 0)
             {
@@ -221,10 +233,13 @@ public class SeatManagementService : ISeatManagementService
                 TotalPages = result.TotalPages,
                 Result = result.Result.Select(a => new ViewSeatResponse()
                 {
-                    Id = a.Id,
-                    Name = a.Name,
-                    RoomId = a.RoomId,
-                    Type = a.Type
+                    Id = a.x.x.Id,
+                    Name = a.x.x.Name,
+                    RoomId = a.x.x.RoomId,
+                    RoomName = a.x.y.Name,
+                    TheaterName = a.y.Name,
+                    Type = a.x.x.Type,
+                    Status = a.x.x.Status
                 }).ToList()
             });
         }

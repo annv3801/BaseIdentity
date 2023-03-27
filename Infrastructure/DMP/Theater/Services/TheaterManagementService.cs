@@ -217,7 +217,8 @@ public class TheaterManagementService : ITheaterManagementService
                 {
                     Id = a.Id,
                     Name = a.Name,
-                    Address = a.Address
+                    Address = a.Address,
+                    Status = a.Status
                 }).ToList()
             });
         }

@@ -1,3 +1,4 @@
+using System.Linq.Dynamic.Core;
 using Application.Common;
 using Application.Common.Extensions;
 using Application.Common.Interfaces;
@@ -24,8 +25,9 @@ public class FilmSchedulesManagementService : IFilmSchedulesManagementService
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly IApplicationDbContext _applicationDbContext;
 
-    public FilmSchedulesManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public FilmSchedulesManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext)
     {
         _unitOfWork = unitOfWork;
         _loggerService = loggerService;
@@ -34,6 +36,7 @@ public class FilmSchedulesManagementService : IFilmSchedulesManagementService
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _applicationDbContext = applicationDbContext;
     }
     public async Task<Result<FilmSchedulesResult>> CreateFilmSchedulesAsync(Domain.Entities.DMP.FilmSchedule filmSchedules, CancellationToken cancellationToken = default(CancellationToken))
     {
@@ -210,7 +213,22 @@ public class FilmSchedulesManagementService : IFilmSchedulesManagementService
                 u => keyword.Length <= 0
                      || u.StartTime != null && u.StartTime.ToString().ToLower().Contains(keyword)
             ).AsSplitQuery();
-            var source = p1.Select(p => new {p.RoomId, p.FilmId, p.StartTime, p.Id, p.EndTime});
+            var getListSchedules = p1.Select(p => new {p.RoomId, p.FilmId, p.StartTime, p.Id, p.EndTime});
+            var film = _applicationDbContext.Films;
+            var filmJoinSchedule = getListSchedules.Join(film, x => x.FilmId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
+            var room = _applicationDbContext.Rooms;
+            var roomJoin = filmJoinSchedule.Join(room, x => x.x.RoomId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
+            var theater = _applicationDbContext.Theaters;
+            var source = roomJoin.Join(theater, x => x.y.TheaterId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
             var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
             if (result.Result.Count == 0)
             {
@@ -227,11 +245,14 @@ public class FilmSchedulesManagementService : IFilmSchedulesManagementService
                 TotalPages = result.TotalPages,
                 Result = result.Result.Select(a => new ViewFilmSchedulesResponse()
                 {
-                    Id = a.Id,
-                    RoomId = a.RoomId,
-                    FilmId = a.FilmId,
-                    StartTime = a.StartTime,
-                    EndTime = a.EndTime,
+                    Id = a.x.x.x.Id,
+                    RoomId = a.x.x.x.RoomId,
+                    RoomName = a.x.y.Name,
+                    TheaterName = a.y.Name,
+                    FilmId = a.x.x.x.FilmId,
+                    FilmName = a.x.x.y.Name,
+                    StartTime = a.x.x.x.StartTime,
+                    EndTime = a.x.x.x.EndTime,
                 }).ToList()
             });
         }

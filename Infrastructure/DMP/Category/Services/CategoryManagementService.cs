@@ -220,7 +220,8 @@ public class CategoryManagementService : ICategoryManagementService
                 {
                     Id = a.Id,
                     Name = a.Name,
-                    ShortenUrl = a.ShortenUrl
+                    ShortenUrl = a.ShortenUrl,
+                    Status = a.Status
                 }).ToList()
             });
         }

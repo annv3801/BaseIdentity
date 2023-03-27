@@ -1,3 +1,4 @@
+using System.Linq.Dynamic.Core;
 using Application.Common;
 using Application.Common.Extensions;
 using Application.Common.Interfaces;
@@ -18,6 +19,7 @@ namespace Infrastructure.DMP.Room.Services;
 public class RoomManagementService : IRoomManagementService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IApplicationDbContext _applicationDbContext;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
     private readonly IStringLocalizationService _localizationService;
@@ -25,7 +27,7 @@ public class RoomManagementService : IRoomManagementService
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
 
-    public RoomManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public RoomManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext)
     {
         _unitOfWork = unitOfWork;
         _loggerService = loggerService;
@@ -34,6 +36,7 @@ public class RoomManagementService : IRoomManagementService
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _applicationDbContext = applicationDbContext;
     }
     public async Task<Result<RoomResult>> CreateRoomAsync(Domain.Entities.DMP.Room room, CancellationToken cancellationToken = default(CancellationToken))
     {
@@ -202,7 +205,13 @@ public class RoomManagementService : IRoomManagementService
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)
             ).AsSplitQuery();
-            var source = p1.Select(p => new {p.Name, p.TheaterId, p.Status, p.Id});
+            var listRoom = p1.Select(p => new {p.Name, p.TheaterId, p.Status, p.Id});
+            var theater = _applicationDbContext.Theaters;
+            var source = listRoom.Join(theater, x => x.TheaterId, y => y.Id, (x, y) => new
+            {
+                x,
+                y
+            });
             var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
             if (result.Result.Count == 0)
             {
@@ -219,9 +228,12 @@ public class RoomManagementService : IRoomManagementService
                 TotalPages = result.TotalPages,
                 Result = result.Result.Select(a => new ViewRoomResponse()
                 {
-                    Id = a.Id,
-                    Name = a.Name,
-                    TheaterId = a.TheaterId
+                    Id = a.x.Id,
+                    Name = a.x.Name,
+                    TheaterId = a.x.TheaterId,
+                    TheaterName = a.y.Name,
+                    TheaterAddress = a.y.Address,
+                    Status = a.x.Status
                 }).ToList()
             });
         }
