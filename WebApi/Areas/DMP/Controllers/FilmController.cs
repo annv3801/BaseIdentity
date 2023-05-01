@@ -77,6 +77,29 @@ public class FilmController : ControllerBase
             throw;
         }
     }
+    [HttpGet]
+    [LogAction]
+    [Route(Common.Url.DMP.Film.ViewByShortenUrl)]
+    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
+    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
+    [Produces(Constants.MimeTypes.Application.Json)]
+    public async Task<IActionResult> ViewFilmByShortenUrlAsync(string shortenUrl, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        try
+        {
+            var result = await _mediator.Send(new ViewFilmByShortenUrlQuery() {ShortenUrl = shortenUrl}, cancellationToken);
+            if (result.Succeeded)
+                return Ok(new SuccessResponse(data: result.Data));
+            return Accepted(new FailureResponse(result.Errors));
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewFilmAsync));
+            Console.WriteLine(e);
+            throw;
+        }
+    }
     [HttpPut]
     [LogAction]
     [Route(Common.Url.DMP.Film.Update)]

@@ -1,16 +1,17 @@
 using Application.Common;
 using Application.Common.Interfaces;
+using Application.Identity.Account.Repositories;
 using Domain.Extensions;
 using FluentValidation;
 
 namespace Infrastructure.Identity.Account.Validators;
 public class CreateAccountEntityValidator : AbstractValidator<Domain.Entities.Identity.Account>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IAccountRepository _accountRepository;
 
-    public CreateAccountEntityValidator(IStringLocalizationService localizationService, IUnitOfWork unitOfWork)
+    public CreateAccountEntityValidator(IStringLocalizationService localizationService, IAccountRepository accountRepository)
     {
-        _unitOfWork = unitOfWork;
+        _accountRepository = accountRepository;
         // Phone number must be unique
         RuleFor(u => u.PhoneNumber).MustAsync(IsUniquePhoneNumber)
             .WithMessage(localizationService[LocalizationString.Common.DuplicatedField].Value);
@@ -19,7 +20,7 @@ public class CreateAccountEntityValidator : AbstractValidator<Domain.Entities.Id
     private async Task<bool> IsUniquePhoneNumber(string? phoneNumber, CancellationToken cancellationToken = default(CancellationToken))
     {
         if (phoneNumber.IsMissing()) return true;
-        var existedAccount = await _unitOfWork.Accounts.GetAccountByPhoneNumberAsync(phoneNumber, cancellationToken);
+        var existedAccount = await _accountRepository.GetAccountByPhoneNumberAsync(phoneNumber, cancellationToken);
         return existedAccount == null;
     }
 }

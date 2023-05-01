@@ -4,6 +4,7 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.DMP.Seat.Commons;
 using Application.DMP.Seat.Queries;
+using Application.DMP.Seat.Repositories;
 using Application.DMP.Seat.Services;
 using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Seat.Responses;
@@ -17,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.DMP.Seat.Services;
 public class SeatManagementService : ISeatManagementService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
     private readonly IStringLocalizationService _localizationService;
@@ -25,10 +25,10 @@ public class SeatManagementService : ISeatManagementService
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
     private readonly IApplicationDbContext _applicationDbContext;
+    private readonly ISeatRepository _seatRepository;
 
-    public SeatManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext)
+    public SeatManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext, ISeatRepository seatRepository)
     {
-        _unitOfWork = unitOfWork;
         _loggerService = loggerService;
         _actionLogService = actionLogService;
         _localizationService = localizationService;
@@ -36,16 +36,14 @@ public class SeatManagementService : ISeatManagementService
         _mapper = mapper;
         _paginationService = paginationService;
         _applicationDbContext = applicationDbContext;
+        _seatRepository = seatRepository;
     }
     public async Task<Result<SeatResult>> CreateSeatAsync(Domain.Entities.DMP.Seat seat, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
-            var room = await _unitOfWork.Rooms.GetRoomAsync(seat.RoomId, cancellationToken);
-            if (room == null)
-                return Result<SeatResult>.Fail(LocalizationString.Seat.NotFoundRoom.ToErrors(_localizationService));
-            await _unitOfWork.Seats.AddAsync(seat, cancellationToken);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            await _seatRepository.AddAsync(seat, cancellationToken);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -86,7 +84,7 @@ public class SeatManagementService : ISeatManagementService
         try
         {
             // Find role
-            var seat = await _unitOfWork.Seats.GetSeatAsync(seatId, cancellationToken);
+            var seat = await _seatRepository.GetSeatAsync(seatId, cancellationToken);
             if (seat == null)
                 return Result<ViewSeatResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             return Result<ViewSeatResponse>.Succeed(data: _mapper.Map<ViewSeatResponse>(seat));
@@ -102,13 +100,13 @@ public class SeatManagementService : ISeatManagementService
         try
         {
             // Find seat
-            var seat = await _unitOfWork.Seats.GetSeatAsync(seatId, cancellationToken);
+            var seat = await _seatRepository.GetSeatAsync(seatId, cancellationToken);
             if (seat.Status == DMPStatus.Deleted)
                 return Result<SeatResult>.Fail(LocalizationString.Seat.AlreadyDeleted.ToErrors(_localizationService));
             // Update data
             seat.Status = DMPStatus.Deleted;
-            _unitOfWork.Seats.Update(seat);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _seatRepository.Update(seat);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -148,19 +146,17 @@ public class SeatManagementService : ISeatManagementService
     {
         try
         {
-            var room = await _unitOfWork.Rooms.GetRoomAsync(seat.RoomId, cancellationToken);
-            if (room == null)
-                return Result<SeatResult>.Fail(LocalizationString.Seat.NotFoundRoom.ToErrors(_localizationService));
-            var c = await _unitOfWork.Seats.GetSeatAsync(seat.Id, cancellationToken);
+            
+            var c = await _seatRepository.GetSeatAsync(seat.Id, cancellationToken);
             if (c == null)
                 return Result<SeatResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             // Update data
             c.Name = seat.Name;
             c.Status = seat.Status;
-            c.RoomId = seat.RoomId;
+            c.ScheduleId = seat.ScheduleId;
             c.Type = seat.Type;
-            _unitOfWork.Seats.Update(c);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _seatRepository.Update(c);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -201,22 +197,12 @@ public class SeatManagementService : ISeatManagementService
         try
         {
             var keyword = query.Keyword?.ToLower() ?? string.Empty;
-            var filterQuery = await _unitOfWork.Seats.ViewListSeatsAsync(cancellationToken);
+            var filterQuery = await _seatRepository.ViewListSeatsAsync(cancellationToken);
             var p1 = filterQuery.Where(
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)
             ).AsSplitQuery();
-            var q1 = p1.Select(p => new {p.Name, p.RoomId, p.Type, p.Status, p.Id});
-            var room = _applicationDbContext.Rooms;
-            var j1 = q1.Join(room, x => x.RoomId, y => y.Id, (x, y) => new
-            {
-                x, y
-            });
-            var theater = _applicationDbContext.Theaters;
-            var source = j1.Join(theater, x => x.y.TheaterId, y => y.Id, (x, y) => new
-            {
-                x, y
-            });
+            var source = p1.Select(p => new {p.Name, p.ScheduleId, p.Type, p.Status, p.Id});
             var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
             if (result.Result.Count == 0)
             {
@@ -233,13 +219,62 @@ public class SeatManagementService : ISeatManagementService
                 TotalPages = result.TotalPages,
                 Result = result.Result.Select(a => new ViewSeatResponse()
                 {
-                    Id = a.x.x.Id,
-                    Name = a.x.x.Name,
-                    RoomId = a.x.x.RoomId,
-                    RoomName = a.x.y.Name,
-                    TheaterName = a.y.Name,
-                    Type = a.x.x.Type,
-                    Status = a.x.x.Status
+                    Id = a.Id,
+                    Name = a.Name,
+                    ScheduleId = a.ScheduleId,
+                    RoomName = a.Name,
+                    TheaterName = a.Name,
+                    Type = a.Type,
+                    Status = a.Status
+                }).ToList()
+            });
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewListSeatsAsync));
+
+            throw;
+        }
+    }
+
+    public async Task<Result<PaginationBaseResponse<ViewSeatResponse>>> ViewListSeatsByScheduleAsync(ViewListSeatsByScheduleQuery query, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        try
+        {
+            var filterQuery = await _seatRepository.ViewListSeatsByScheduleAsync(query, cancellationToken);
+            var response = filterQuery.Where(x => x.ScheduleId == query.ScheduleId);
+            var source = response.Select(p => new {p.Name, p.ScheduleId, p.Type, p.Status, p.Id});
+            var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
+            if (result.Result.Count == 0)
+            {
+                return Result<PaginationBaseResponse<ViewSeatResponse>>.Succeed(new PaginationBaseResponse<ViewSeatResponse>()
+                {
+                    CurrentPage = result.CurrentPage,
+                    OrderBy = result.OrderBy,
+                    OrderByDesc = result.OrderByDesc,
+                    PageSize = result.PageSize,
+                    TotalItems = result.TotalItems,
+                    TotalPages = result.TotalPages,
+                    Result = {}
+                });
+            }
+            return Result<PaginationBaseResponse<ViewSeatResponse>>.Succeed(new PaginationBaseResponse<ViewSeatResponse>()
+            {
+                CurrentPage = result.CurrentPage,
+                OrderBy = result.OrderBy,
+                OrderByDesc = result.OrderByDesc,
+                PageSize = result.PageSize,
+                TotalItems = result.TotalItems,
+                TotalPages = result.TotalPages,
+                Result = result.Result.Select(a => new ViewSeatResponse()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    ScheduleId = a.ScheduleId,
+                    RoomName = a.Name,
+                    TheaterName = a.Name,
+                    Type = a.Type,
+                    Status = a.Status
                 }).ToList()
             });
         }

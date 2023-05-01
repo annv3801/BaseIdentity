@@ -24,4 +24,9 @@ public class FilmRepository : Repository<Domain.Entities.DMP.Film>, IFilmReposit
             .AsSplitQuery()
             .AsQueryable();
     }
+
+    public async Task<Domain.Entities.DMP.Film?> GetFilmByShortenUrlAsync(string url, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        return await _applicationDbContext.Films.AsSplitQuery().FirstOrDefaultAsync(r => r.ShortenUrl == url, cancellationToken);
+    }
 }

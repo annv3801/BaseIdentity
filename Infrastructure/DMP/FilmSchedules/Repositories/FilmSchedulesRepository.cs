@@ -1,5 +1,7 @@
 using Application.Common.Interfaces;
+using Application.DMP.FilmSchedules.Queries;
 using Application.DMP.FilmSchedules.Repositories;
+using Domain.Entities.DMP;
 using Infrastructure.Common.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,4 +28,11 @@ public class FilmSchedulesRepository : Repository<Domain.Entities.DMP.FilmSchedu
             .AsQueryable();
     }
 
+    public async Task<IQueryable<FilmSchedule>> ViewListFilmSchedulesByTimeAsync(ViewListFilmSchedulesByTimeQuery request, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        await Task.CompletedTask;
+        return _applicationDbContext.FilmSchedules
+            .AsSplitQuery()
+            .AsQueryable();
+    }
 }

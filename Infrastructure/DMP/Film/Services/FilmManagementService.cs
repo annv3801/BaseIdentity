@@ -2,8 +2,10 @@ using Application.Common;
 using Application.Common.Extensions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.DMP.Category.Repositories;
 using Application.DMP.Film.Commons;
 using Application.DMP.Film.Queries;
+using Application.DMP.Film.Repositories;
 using Application.DMP.Film.Services;
 using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Film.Responses;
@@ -16,33 +18,38 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.DMP.Film.Services;
 public class FilmManagementService : IFilmManagementService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
     private readonly IStringLocalizationService _localizationService;
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly IApplicationDbContext _applicationDbContext;
+    private readonly ICategoryRepository _categoryRepository;
+    private readonly IFilmRepository _filmRepository;
+    
 
-    public FilmManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public FilmManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IFilmRepository filmRepository, IApplicationDbContext applicationDbContext, ICategoryRepository categoryRepository)
     {
-        _unitOfWork = unitOfWork;
         _loggerService = loggerService;
         _actionLogService = actionLogService;
         _localizationService = localizationService;
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _filmRepository = filmRepository;
+        _applicationDbContext = applicationDbContext;
+        _categoryRepository = categoryRepository;
     }
     public async Task<Result<FilmResult>> CreateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
-            var category = await _unitOfWork.Categories.GetCategoryAsync(film.CategoryId, cancellationToken);
+            var category = await _categoryRepository.GetCategoryAsync(film.CategoryId, cancellationToken);
             if (category == null)
                 return Result<FilmResult>.Fail(LocalizationString.Film.NotFoundCategory.ToErrors(_localizationService));
-            await _unitOfWork.Films.AddAsync(film, cancellationToken);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            await _filmRepository.AddAsync(film, cancellationToken);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -83,7 +90,7 @@ public class FilmManagementService : IFilmManagementService
         try
         {
             // Find role
-            var film = await _unitOfWork.Films.GetFilmAsync(filmId, cancellationToken);
+            var film = await _filmRepository.GetFilmAsync(filmId, cancellationToken);
             if (film == null)
                 return Result<ViewFilmResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             return Result<ViewFilmResponse>.Succeed(new ViewFilmResponse()
@@ -108,22 +115,54 @@ public class FilmManagementService : IFilmManagementService
             throw;
         }
     }
+    
+    public async Task<Result<ViewFilmResponse>> ViewFilmByShortenUrlAsync(string url, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        try
+        {
+            // Find role
+            var film = await _filmRepository.GetFilmByShortenUrlAsync(url, cancellationToken);
+            if (film == null)
+                return Result<ViewFilmResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
+            return Result<ViewFilmResponse>.Succeed(new ViewFilmResponse()
+            {
+                Id = film.Id,
+                Name = film.Name,
+                ShortenUrl = film.ShortenUrl,
+                Description = film.Description,
+                CategoryId = film.CategoryId,
+                Director = film.Director,
+                Genre = film.Genre,
+                Actor = film.Actor,
+                Premiere = film.Premiere,
+                Duration = film.Duration,
+                Language = film.Language,
+                Rated = film.Rated
+            });
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewFilmAsync));
+            throw;
+        }
+    }
+    
     public async Task<Result<FilmResult>> UpdateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
             // Find role
-            var category = await _unitOfWork.Categories.GetCategoryAsync(film.CategoryId, cancellationToken);
+            var category = await _categoryRepository.GetCategoryAsync(film.CategoryId, cancellationToken);
             if (category == null)
                 return Result<FilmResult>.Fail(LocalizationString.Film.NotFoundCategory.ToErrors(_localizationService));
-            var c = await _unitOfWork.Films.GetFilmAsync(film.Id, cancellationToken);
+            var c = await _filmRepository.GetFilmAsync(film.Id, cancellationToken);
             if (c == null)
                     return Result<FilmResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             // Update data
             c.Name = film.Name;
             c.ShortenUrl = film.ShortenUrl;
-            _unitOfWork.Films.Update(c);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+           _filmRepository.Update(c);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -164,7 +203,7 @@ public class FilmManagementService : IFilmManagementService
         try
         {
             var keyword = query.Keyword?.ToLower() ?? string.Empty;
-            var filterQuery = await _unitOfWork.Films.ViewListFilmsAsync(cancellationToken);
+            var filterQuery = await _filmRepository.ViewListFilmsAsync(cancellationToken);
             var p1 = filterQuery.Where(
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)

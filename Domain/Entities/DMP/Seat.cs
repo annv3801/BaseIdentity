@@ -7,8 +7,8 @@ namespace Domain.Entities.DMP;
 public class Seat : AuditableEntity
 {
     public Guid Id { get; set; }
-    public Guid RoomId { get; set; }
-    public Room Room { get; set; }
+    public Guid ScheduleId { get; set; }
+    public FilmSchedule Schedule { get; set; }
     public string Name { get; set; }
     public int Type { get; set; }
     public DMPStatus Status { get; set; }

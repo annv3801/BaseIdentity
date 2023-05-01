@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <Folder Include="Common" />
-      <Folder Include="DMP\Film\Handlers" />
       <Folder Include="DMP\Film\Mappings" />
       <Folder Include="Identity" />
     </ItemGroup>

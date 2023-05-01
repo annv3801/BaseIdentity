@@ -8,6 +8,7 @@ using Application.DTO.Pagination.Responses;
 using Application.DTO.Role.Responses;
 using Application.Identity.Role.Commons;
 using Application.Identity.Role.Queries;
+using Application.Identity.Role.Repositories;
 using Application.Identity.Role.Services;
 using Application.Logging.ActionLog.Services;
 using AutoMapper;
@@ -17,34 +18,36 @@ using Domain.Interfaces;
 namespace Infrastructure.Identity.Role.Services;
 public class RoleManagementService : IRoleManagementService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
     private readonly IStringLocalizationService _localizationService;
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly IRoleRepository _roleRepository;
+    private readonly IApplicationDbContext _applicationDbContext;
 
-    public RoleManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public RoleManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext, IRoleRepository roleRepository)
     {
-        _unitOfWork = unitOfWork;
         _loggerService = loggerService;
         _actionLogService = actionLogService;
         _localizationService = localizationService;
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _applicationDbContext = applicationDbContext;
+        _roleRepository = roleRepository;
     }
     public async Task<Result<RoleResult>> CreateRoleAsync(Domain.Entities.Identity.Role role, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
             // Find role
-            var existedRole = await _unitOfWork.Roles.GetRoleAsync(role.Name, cancellationToken);
+            var existedRole = await _roleRepository.GetRoleAsync(role.Name, cancellationToken);
             if (existedRole != null)
                 return Result<RoleResult>.Fail(LocalizationString.Role.Duplicated.ToErrors(_localizationService));
-            await _unitOfWork.Roles.AddAsync(role, cancellationToken);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            await _roleRepository.AddAsync(role, cancellationToken);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -86,7 +89,7 @@ public class RoleManagementService : IRoleManagementService
         try
         {
             // Find role
-            var r = await _unitOfWork.Roles.GetRoleAsync(role.Id, cancellationToken);
+            var r = await _roleRepository.GetRoleAsync(role.Id, cancellationToken);
             if (r == null)
                 return Result<RoleResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             // Update data
@@ -96,8 +99,8 @@ public class RoleManagementService : IRoleManagementService
             r.Status = role.Status;
             r.RolePermissions.Clear();
             r.RolePermissions = role.RolePermissions;
-            _unitOfWork.Roles.Update(r);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _roleRepository.Update(r);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -140,7 +143,7 @@ public class RoleManagementService : IRoleManagementService
         try
         {
             // Find role
-            var role = await _unitOfWork.Roles.GetRoleToViewDetail(roleId, cancellationToken);
+            var role = await _roleRepository.GetRoleToViewDetail(roleId, cancellationToken);
             if (role == null)
                 return Result<ViewRoleResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             return Result<ViewRoleResponse>.Succeed(data: _mapper.Map<ViewRoleResponse>(role));
@@ -157,7 +160,7 @@ public class RoleManagementService : IRoleManagementService
     {
         try
         {
-            var queryable = await _unitOfWork.Roles.SearchRoleByName(query, cancellationToken);
+            var queryable = await _roleRepository.SearchRoleByName(query, cancellationToken);
             var result = await _paginationService.PaginateAsync(queryable, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
             return Result<PaginationBaseResponse<ViewRoleResponse>>.Succeed(data: _mapper.Map<PaginationBaseResponse<ViewRoleResponse>>(result));
         }
@@ -175,15 +178,15 @@ public class RoleManagementService : IRoleManagementService
         try
         {
             // Find role
-            var role = await _unitOfWork.Roles.GetRoleAsync(roleId, cancellationToken);
+            var role = await _roleRepository.GetRoleAsync(roleId, cancellationToken);
             if (role == null)
                 return Result<RoleResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             if (role.Status == RoleStatus.Deleted)
                 return Result<RoleResult>.Fail(LocalizationString.Role.AlreadyDeleted.ToErrors(_localizationService));
             // Update data
             role.Status = RoleStatus.Deleted;
-            _unitOfWork.Roles.Update(role);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _roleRepository.Update(role);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -226,15 +229,15 @@ public class RoleManagementService : IRoleManagementService
         try
         {
             // Find role
-            var role = await _unitOfWork.Roles.GetRoleAsync(roleId, cancellationToken);
+            var role = await _roleRepository.GetRoleAsync(roleId, cancellationToken);
             if (role == null)
                 return Result<RoleResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             if (role.Status == RoleStatus.Active)
                 return Result<RoleResult>.Fail(LocalizationString.Role.AlreadyActivated.ToErrors(_localizationService));
             // Update data
             role.Status = RoleStatus.Active;
-            _unitOfWork.Roles.Update(role);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _roleRepository.Update(role);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -276,15 +279,15 @@ public class RoleManagementService : IRoleManagementService
         try
         {
             // Find role
-            var role = await _unitOfWork.Roles.GetRoleAsync(roleId, cancellationToken);
+            var role = await _roleRepository.GetRoleAsync(roleId, cancellationToken);
             if (role == null)
                 return Result<RoleResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             if (role.Status == RoleStatus.Inactive)
                 return Result<RoleResult>.Fail(LocalizationString.Role.AlreadyDeactivated.ToErrors(_localizationService));
             // Update data
             role.Status = RoleStatus.Inactive;
-            _unitOfWork.Roles.Update(role);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _roleRepository.Update(role);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()

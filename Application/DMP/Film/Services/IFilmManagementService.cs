@@ -1,5 +1,4 @@
 using Application.Common.Models;
-using Application.DMP.Category.Queries;
 using Application.DMP.Film.Commons;
 using Application.DMP.Film.Queries;
 using Application.DTO.DMP.Film.Responses;
@@ -12,5 +11,6 @@ public interface IFilmManagementService
     Task<Result<ViewFilmResponse>> ViewFilmAsync(Guid filmId, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<FilmResult>> UpdateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<PaginationBaseResponse<ViewFilmResponse>>> ViewListFilmsAsync(ViewListFilmsQuery query, CancellationToken cancellationToken = default(CancellationToken));
+    Task<Result<ViewFilmResponse>> ViewFilmByShortenUrlAsync(string url, CancellationToken cancellationToken = default(CancellationToken));
 
 }

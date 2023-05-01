@@ -7,7 +7,7 @@ using Infrastructure.Common.Validators;
 namespace Infrastructure.Identity.Account.Validators;
 public class CreateAccountRequestValidator : AbstractValidator<CreateAccountRequest>
 {
-    public CreateAccountRequestValidator(IUnitOfWork unitOfWork, IStringLocalizationService localizationService)
+    public CreateAccountRequestValidator(IStringLocalizationService localizationService)
     {
         //RuleFor(x => x.PhoneNumber).Cascade(CascadeMode.Stop).VietnamesePhoneNumber(localizationService);
         RuleFor(x => x.Email).Cascade(CascadeMode.Stop).Email(localizationService);
@@ -41,9 +41,5 @@ public class CreateAccountRequestValidator : AbstractValidator<CreateAccountRequ
             .Cascade(CascadeMode.Stop)
             .MaximumLength(Constants.FieldLength.UrlMaxLength).WithMessage(LocalizationString.Common.MaxLengthField)
             .When(x => !string.IsNullOrEmpty(x.CoverPhoto));
-        RuleFor(x => x.Roles)
-            .Cascade(CascadeMode.Stop)
-            .IsValidRoles(unitOfWork, localizationService)
-            .When(x => x.Roles != null);
     }
 }

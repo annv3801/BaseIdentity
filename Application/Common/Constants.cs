@@ -225,7 +225,7 @@ public static class Constants
     public static class Pagination
     {
         public const int DefaultPage = 1;
-        public const int DefaultSize = 30;
+        public const int DefaultSize = 100;
         public const bool DefaultOrderByDesc = false;
         public const int DefaultCurrentPage = 0;
         public const int DefaultTotalPages = 0;

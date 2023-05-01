@@ -5,6 +5,7 @@ using Application.Common;
 using Application.Common.Configurations;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Identity.Account.Repositories;
 using Domain.Constants;
 using Domain.Extensions;
 using MediatR;
@@ -128,7 +129,7 @@ namespace WebApi
                                 context.Fail("JWT Token does not contain User Id Claim.");
                             }
 
-                            var unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+                            var accountRepository = context.HttpContext.RequestServices.GetRequiredService<IAccountRepository>();
 
                             var token = context.HttpContext.Request.Headers["Authorization"].ToString()
                                 .Replace("Bearer ", "");
@@ -139,7 +140,7 @@ namespace WebApi
                             }
 
                             // Check the token from the db
-                            if (!await unitOfWork.Accounts.IsValidJwtAsync(
+                            if (!await accountRepository.IsValidJwtAsync(
                                 Guid.Parse(userIdClaim?.Value ?? string.Empty), token,
                                 Constants.LoginProviders.Self, CancellationToken.None))
                             {

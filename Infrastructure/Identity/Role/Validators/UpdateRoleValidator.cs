@@ -1,12 +1,13 @@
 using Application.Common;
 using Application.Common.Interfaces;
 using Application.DTO.Role.Requests;
+using Application.Identity.Permission.Repositories;
 using FluentValidation;
 
 namespace Infrastructure.Identity.Role.Validators;
 public class UpdateRoleValidator : AbstractValidator<UpdateRoleRequest>
 {
-    public UpdateRoleValidator(IStringLocalizationService localizationService, IUnitOfWork unitOfWork)
+    public UpdateRoleValidator(IStringLocalizationService localizationService, IPermissionRepository permissionRepository)
     {
         RuleFor(d => d.Name).Cascade(CascadeMode.Stop)
             .NotEmpty().WithMessage(localizationService[LocalizationString.Common.EmptyField].Value)
@@ -20,7 +21,7 @@ public class UpdateRoleValidator : AbstractValidator<UpdateRoleRequest>
             .MustAsync(async (x, cancellationToken) =>
             {
                 var uniquePermIds = x.Distinct().ToList();
-                return await unitOfWork.Permissions.AllAsync(p => uniquePermIds.Contains(p.Id), cancellationToken);
+                return await permissionRepository.AllAsync(p => uniquePermIds.Contains(p.Id), cancellationToken);
             }).WithMessage(localizationService[LocalizationString.Permission.NotFound].Value)
             ;
     }

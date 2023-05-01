@@ -4,6 +4,7 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.DMP.Theater.Commons;
 using Application.DMP.Theater.Queries;
+using Application.DMP.Theater.Repositories;
 using Application.DMP.Theater.Services;
 using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Theater.Responses;
@@ -17,30 +18,32 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.DMP.Theater.Services;
 public class TheaterManagementService : ITheaterManagementService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
     private readonly IStringLocalizationService _localizationService;
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly ITheaterRepository _theaterRepository;
+    private readonly IApplicationDbContext _applicationDbContext;
 
-    public TheaterManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public TheaterManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext, ITheaterRepository theaterRepository)
     {
-        _unitOfWork = unitOfWork;
         _loggerService = loggerService;
         _actionLogService = actionLogService;
         _localizationService = localizationService;
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _applicationDbContext = applicationDbContext;
+        _theaterRepository = theaterRepository;
     }
     public async Task<Result<TheaterResult>> CreateTheaterAsync(Domain.Entities.DMP.Theater theater, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
-            await _unitOfWork.Theaters.AddAsync(theater, cancellationToken);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            await _theaterRepository.AddAsync(theater, cancellationToken);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -81,7 +84,7 @@ public class TheaterManagementService : ITheaterManagementService
         try
         {
             // Find role
-            var theater = await _unitOfWork.Theaters.GetTheaterAsync(theaterId, cancellationToken);
+            var theater = await _theaterRepository.GetTheaterAsync(theaterId, cancellationToken);
             if (theater == null)
                 return Result<ViewTheaterResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             return Result<ViewTheaterResponse>.Succeed(data: _mapper.Map<ViewTheaterResponse>(theater));
@@ -97,13 +100,13 @@ public class TheaterManagementService : ITheaterManagementService
         try
         {
             // Find theater
-            var theater = await _unitOfWork.Theaters.GetTheaterAsync(theaterId, cancellationToken);
+            var theater = await _theaterRepository.GetTheaterAsync(theaterId, cancellationToken);
             if (theater.Status == DMPStatus.Deleted)
                 return Result<TheaterResult>.Fail(LocalizationString.Theater.AlreadyDeleted.ToErrors(_localizationService));
             // Update data
             theater.Status = DMPStatus.Deleted;
-            _unitOfWork.Theaters.Update(theater);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _theaterRepository.Update(theater);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -144,15 +147,15 @@ public class TheaterManagementService : ITheaterManagementService
         try
         {
             // Find role
-            var c = await _unitOfWork.Theaters.GetTheaterAsync(theater.Id, cancellationToken);
+            var c = await _theaterRepository.GetTheaterAsync(theater.Id, cancellationToken);
             if (c == null)
                 return Result<TheaterResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             // Update data
             c.Name = theater.Name;
             c.Status = theater.Status;
             c.Address = theater.Address;
-            _unitOfWork.Theaters.Update(c);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _theaterRepository.Update(c);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -193,7 +196,7 @@ public class TheaterManagementService : ITheaterManagementService
         try
         {
             var keyword = query.Keyword?.ToLower() ?? string.Empty;
-            var filterQuery = await _unitOfWork.Theaters.ViewListTheatersAsync(cancellationToken);
+            var filterQuery = await _theaterRepository.ViewListTheatersAsync(cancellationToken);
             var p1 = filterQuery.Where(
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)

@@ -15,6 +15,8 @@ public interface IApplicationDbContext
     DbSet<FilmSchedule> FilmSchedules { get; set; }
     DbSet<Seat> Seats { get; set; }
     DbSet<Ticket> Tickets { get; set; }
+    DbSet<Booking> Bookings { get; set; }
+    DbSet<BookingDetail> BookingDetails { get; set; }
 
     #endregion
     

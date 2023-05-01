@@ -5,10 +5,13 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.DMP.Room.Commons;
 using Application.DMP.Room.Queries;
+using Application.DMP.Room.Repositories;
 using Application.DMP.Room.Services;
+using Application.DMP.Theater.Repositories;
 using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Room.Responses;
 using Application.DTO.Pagination.Responses;
+using Application.Identity.Role.Repositories;
 using Application.Logging.ActionLog.Services;
 using AutoMapper;
 using Domain.Enums;
@@ -18,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.DMP.Room.Services;
 public class RoomManagementService : IRoomManagementService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IApplicationDbContext _applicationDbContext;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
@@ -26,10 +28,11 @@ public class RoomManagementService : IRoomManagementService
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly IRoomRepository _roomRepository;
+    private readonly ITheaterRepository _theaterRepository;
 
-    public RoomManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext)
+    public RoomManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext, ITheaterRepository theaterRepository, IRoomRepository roomRepository)
     {
-        _unitOfWork = unitOfWork;
         _loggerService = loggerService;
         _actionLogService = actionLogService;
         _localizationService = localizationService;
@@ -37,16 +40,18 @@ public class RoomManagementService : IRoomManagementService
         _mapper = mapper;
         _paginationService = paginationService;
         _applicationDbContext = applicationDbContext;
+        _theaterRepository = theaterRepository;
+        _roomRepository = roomRepository;
     }
     public async Task<Result<RoomResult>> CreateRoomAsync(Domain.Entities.DMP.Room room, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
-            var theater = await _unitOfWork.Theaters.GetTheaterAsync(room.TheaterId, cancellationToken);
+            var theater = await _theaterRepository.GetTheaterAsync(room.TheaterId, cancellationToken);
             if (theater == null)
                 return Result<RoomResult>.Fail(LocalizationString.Room.NotFoundTheater.ToErrors(_localizationService));
-            await _unitOfWork.Rooms.AddAsync(room, cancellationToken);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            await _roomRepository.AddAsync(room, cancellationToken);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -87,7 +92,7 @@ public class RoomManagementService : IRoomManagementService
         try
         {
             // Find role
-            var room = await _unitOfWork.Rooms.GetRoomAsync(roomId, cancellationToken);
+            var room = await _roomRepository.GetRoomAsync(roomId, cancellationToken);
             if (room == null)
                 return Result<ViewRoomResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             return Result<ViewRoomResponse>.Succeed(data: _mapper.Map<ViewRoomResponse>(room));
@@ -103,13 +108,13 @@ public class RoomManagementService : IRoomManagementService
         try
         {
             // Find room
-            var room = await _unitOfWork.Rooms.GetRoomAsync(roomId, cancellationToken);
+            var room = await _roomRepository.GetRoomAsync(roomId, cancellationToken);
             if (room.Status == DMPStatus.Deleted)
                 return Result<RoomResult>.Fail(LocalizationString.Room.AlreadyDeleted.ToErrors(_localizationService));
             // Update data
             room.Status = DMPStatus.Deleted;
-            _unitOfWork.Rooms.Update(room);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _roomRepository.Update(room);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -149,17 +154,17 @@ public class RoomManagementService : IRoomManagementService
     {
         try
         {
-            var theater = await _unitOfWork.Theaters.GetTheaterAsync(room.TheaterId, cancellationToken);
+            var theater = await _theaterRepository.GetTheaterAsync(room.TheaterId, cancellationToken);
             if (theater == null)
                 return Result<RoomResult>.Fail(LocalizationString.Room.NotFoundTheater.ToErrors(_localizationService));
-            var c = await _unitOfWork.Rooms.GetRoomAsync(room.Id, cancellationToken);
+            var c = await _roomRepository.GetRoomAsync(room.Id, cancellationToken);
             if (c == null)
                 return Result<RoomResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             c.Name = room.Name;
             c.Status = room.Status;
             c.TheaterId = room.TheaterId;
-            _unitOfWork.Rooms.Update(c);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _roomRepository.Update(c);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -200,7 +205,7 @@ public class RoomManagementService : IRoomManagementService
         try
         {
             var keyword = query.Keyword?.ToLower() ?? string.Empty;
-            var filterQuery = await _unitOfWork.Rooms.ViewListRoomsAsync(cancellationToken);
+            var filterQuery = await _roomRepository.ViewListRoomsAsync(cancellationToken);
             var p1 = filterQuery.Where(
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)

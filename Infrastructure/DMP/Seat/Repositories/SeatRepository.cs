@@ -1,4 +1,5 @@
 using Application.Common.Interfaces;
+using Application.DMP.Seat.Queries;
 using Application.DMP.Seat.Repositories;
 using Infrastructure.Common.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -26,4 +27,11 @@ public class SeatRepository : Repository<Domain.Entities.DMP.Seat>, ISeatReposit
             .AsQueryable();
     }
 
+    public async Task<IQueryable<Domain.Entities.DMP.Seat>> ViewListSeatsByScheduleAsync(ViewListSeatsByScheduleQuery query, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        await Task.CompletedTask;
+        return _applicationDbContext.Seats
+            .AsSplitQuery()
+            .AsQueryable();
+    }
 }

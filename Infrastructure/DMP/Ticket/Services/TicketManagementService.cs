@@ -2,8 +2,10 @@ using Application.Common;
 using Application.Common.Extensions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.DMP.FilmSchedules.Repositories;
 using Application.DMP.Ticket.Commons;
 using Application.DMP.Ticket.Queries;
+using Application.DMP.Ticket.Repositories;
 using Application.DMP.Ticket.Services;
 using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Ticket.Responses;
@@ -17,33 +19,37 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.DMP.Ticket.Services;
 public class TicketManagementService : ITicketManagementService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
     private readonly IStringLocalizationService _localizationService;
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly IApplicationDbContext _applicationDbContext;
+    private readonly ITicketRepository _ticketRepository;
+    private readonly IFilmSchedulesRepository _filmSchedulesRepository;
 
-    public TicketManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public TicketManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, ITicketRepository ticketRepository, IApplicationDbContext applicationDbContext, IFilmSchedulesRepository filmSchedulesRepository)
     {
-        _unitOfWork = unitOfWork;
         _loggerService = loggerService;
         _actionLogService = actionLogService;
         _localizationService = localizationService;
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _ticketRepository = ticketRepository;
+        _applicationDbContext = applicationDbContext;
+        _filmSchedulesRepository = filmSchedulesRepository;
     }
     public async Task<Result<TicketResult>> CreateTicketAsync(Domain.Entities.DMP.Ticket ticket, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
-            var schedule = await _unitOfWork.FilmSchedules.GetFilmSchedulesAsync(ticket.ScheduleId, cancellationToken);
+            var schedule = await _filmSchedulesRepository.GetFilmSchedulesAsync(ticket.ScheduleId, cancellationToken);
             if (schedule == null)
                 return Result<TicketResult>.Fail(LocalizationString.Ticket.NotFoundSchedule.ToErrors(_localizationService));
-            await _unitOfWork.Tickets.AddAsync(ticket, cancellationToken);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            await _ticketRepository.AddAsync(ticket, cancellationToken);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -84,7 +90,7 @@ public class TicketManagementService : ITicketManagementService
         try
         {
             // Find role
-            var ticket = await _unitOfWork.Tickets.GetTicketAsync(ticketId, cancellationToken);
+            var ticket = await _ticketRepository.GetTicketAsync(ticketId, cancellationToken);
             if (ticket == null)
                 return Result<ViewTicketResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             return Result<ViewTicketResponse>.Succeed(data: _mapper.Map<ViewTicketResponse>(ticket));
@@ -100,13 +106,13 @@ public class TicketManagementService : ITicketManagementService
         try
         {
             // Find ticket
-            var ticket = await _unitOfWork.Tickets.GetTicketAsync(ticketId, cancellationToken);
+            var ticket = await _ticketRepository.GetTicketAsync(ticketId, cancellationToken);
             // if (ticket.Status == DMPStatus.Deleted)
             //     return Result<TicketResult>.Fail(LocalizationString.Ticket.AlreadyDeleted.ToErrors(_localizationService));
             // // Update data
             // ticket.Status = DMPStatus.Deleted;
-            _unitOfWork.Tickets.Update(ticket);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _ticketRepository.Update(ticket);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -146,10 +152,10 @@ public class TicketManagementService : ITicketManagementService
     {
         try
         {
-            var schedule = await _unitOfWork.FilmSchedules.GetFilmSchedulesAsync(ticket.ScheduleId, cancellationToken);
+            var schedule = await _filmSchedulesRepository.GetFilmSchedulesAsync(ticket.ScheduleId, cancellationToken);
             if (schedule == null)
                 return Result<TicketResult>.Fail(LocalizationString.Ticket.NotFoundSchedule.ToErrors(_localizationService));
-            var c = await _unitOfWork.Tickets.GetTicketAsync(ticket.Id, cancellationToken);
+            var c = await _ticketRepository.GetTicketAsync(ticket.Id, cancellationToken);
             if (c == null)
                 return Result<TicketResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             // Update data
@@ -157,8 +163,8 @@ public class TicketManagementService : ITicketManagementService
             c.ScheduleId = ticket.ScheduleId;
             c.Price = ticket.Price;
             c.Type = ticket.Type;
-            _unitOfWork.Tickets.Update(c);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _ticketRepository.Update(c);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -199,7 +205,7 @@ public class TicketManagementService : ITicketManagementService
         try
         {
             var keyword = query.Keyword?.ToLower() ?? string.Empty;
-            var filterQuery = await _unitOfWork.Tickets.ViewListTicketsAsync(cancellationToken);
+            var filterQuery = await _ticketRepository.ViewListTicketsAsync(cancellationToken);
             var p1 = filterQuery.Where(
                 u => keyword.Length <= 0
                      || u.Price != null && u.Price.ToString().ToLower().Contains(keyword)

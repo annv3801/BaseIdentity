@@ -77,6 +77,8 @@ public static class Url
             public const string Delete = "DMP/Film/{filmId}";
             public const string Update = "DMP/Film/{filmId}";
             public const string ViewList = "DMP/Film";
+            public const string ViewByShortenUrl = "DMP/Film-By-ShortenUrl/{shortenUrl}";
+
         }
         public static class Theater
         {
@@ -101,6 +103,8 @@ public static class Url
             public const string Delete = "DMP/FilmSchedules/{filmScheduleId}";
             public const string Update = "DMP/FilmSchedules/{filmScheduleId}";
             public const string ViewList = "DMP/FilmSchedules";
+            public const string ViewByFilmId = "DMP/FilmSchedulesByFilmId";
+
         }
         public static class Seat
         {
@@ -109,6 +113,7 @@ public static class Url
             public const string Delete = "DMP/Seat/{seatId}";
             public const string Update = "DMP/Seat/{seatId}";
             public const string ViewList = "DMP/Seat";
+            public const string ViewListBySchedule = "DMP/SeatBySchedule";
         }
         public static class Ticket
         {

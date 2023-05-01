@@ -32,7 +32,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<FilmSchedule> FilmSchedules { get; set; }
     public DbSet<Seat> Seats { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
-    
+    public DbSet<Booking> Bookings { get; set; }
+    public DbSet<BookingDetail> BookingDetails { get; set; }
+
     public DbContext DbContext { get; }
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

@@ -12,5 +12,5 @@ public interface IFilmSchedulesManagementService
     Task<Result<FilmSchedulesResult>> DeleteFilmSchedulesAsync(Guid filmScheduleId, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<FilmSchedulesResult>> UpdateFilmSchedulesAsync(Domain.Entities.DMP.FilmSchedule filmSchedule, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<PaginationBaseResponse<ViewFilmSchedulesResponse>>> ViewListFilmSchedulesAsync(ViewListFilmSchedulesQuery query, CancellationToken cancellationToken = default(CancellationToken));
-
+    Task<Result<List<TheaterScheduleResponse>>> ViewListFilmSchedulesByTimeAsync(ViewListFilmSchedulesByTimeQuery query, CancellationToken cancellationToken = default(CancellationToken));
 }

@@ -32,5 +32,7 @@ public class FilmSchedulesProfile : Profile
             .ForMember(d => d.EndTime, o => o.MapFrom(s => s.EndTime));
         CreateMap<ViewListFilmSchedulesRequest, ViewListFilmSchedulesQuery>();
         CreateMap<ViewListFilmSchedulesRequest, ViewFilmSchedulesQuery>();
+        CreateMap<ViewListFilmSchedulesByTimeRequest, ViewListFilmSchedulesByTimeQuery>();
+
     }
 }

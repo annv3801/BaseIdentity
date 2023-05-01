@@ -4,6 +4,7 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.DMP.Category.Commons;
 using Application.DMP.Category.Queries;
+using Application.DMP.Category.Repositories;
 using Application.DMP.Category.Services;
 using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Category.Responses;
@@ -20,30 +21,32 @@ using Newtonsoft.Json;
 namespace Infrastructure.DMP.Category.Services;
 public class CategoryManagementService : ICategoryManagementService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILoggerService _loggerService;
     private readonly IActionLogService _actionLogService;
     private readonly IStringLocalizationService _localizationService;
     private readonly IJsonSerializerService _jsonSerializerService;
     private readonly IMapper _mapper;
     private readonly IPaginationService _paginationService;
+    private readonly IApplicationDbContext _applicationDbContext;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public CategoryManagementService(IUnitOfWork unitOfWork, ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService)
+    public CategoryManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext, ICategoryRepository categoryRepository)
     {
-        _unitOfWork = unitOfWork;
         _loggerService = loggerService;
         _actionLogService = actionLogService;
         _localizationService = localizationService;
         _jsonSerializerService = jsonSerializerService;
         _mapper = mapper;
         _paginationService = paginationService;
+        _applicationDbContext = applicationDbContext;
+        _categoryRepository = categoryRepository;
     }
     public async Task<Result<CategoryResult>> CreateCategoryAsync(Domain.Entities.DMP.Category category, CancellationToken cancellationToken = default(CancellationToken))
     {
         try
         {
-            await _unitOfWork.Categories.AddAsync(category, cancellationToken);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            await _categoryRepository.AddAsync(category, cancellationToken);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -84,7 +87,7 @@ public class CategoryManagementService : ICategoryManagementService
         try
         {
             // Find role
-            var category = await _unitOfWork.Categories.GetCategoryAsync(categoryId, cancellationToken);
+            var category = await _categoryRepository.GetCategoryAsync(categoryId, cancellationToken);
             if (category == null)
                 return Result<ViewCategoryResponse>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             return Result<ViewCategoryResponse>.Succeed(data: _mapper.Map<ViewCategoryResponse>(category));
@@ -100,13 +103,13 @@ public class CategoryManagementService : ICategoryManagementService
         try
         {
             // Find category
-            var category = await _unitOfWork.Categories.GetCategoryAsync(categoryId, cancellationToken);
+            var category = await _categoryRepository.GetCategoryAsync(categoryId, cancellationToken);
             if (category.Status == DMPStatus.Deleted)
                 return Result<CategoryResult>.Fail(LocalizationString.Category.AlreadyDeleted.ToErrors(_localizationService));
             // Update data
             category.Status = DMPStatus.Deleted;
-            _unitOfWork.Categories.Update(category);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _categoryRepository.Update(category);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -147,15 +150,15 @@ public class CategoryManagementService : ICategoryManagementService
         try
         {
             // Find role
-            var c = await _unitOfWork.Categories.GetCategoryAsync(category.Id, cancellationToken);
+            var c = await _categoryRepository.GetCategoryAsync(category.Id, cancellationToken);
             if (c == null)
                 return Result<CategoryResult>.Fail(LocalizationString.Common.ItemNotFound.ToErrors(_localizationService));
             // Update data
             c.Name = category.Name;
             c.Status = category.Status;
             c.ShortenUrl = category.ShortenUrl;
-            _unitOfWork.Categories.Update(c);
-            var result = await _unitOfWork.CompleteAsync(cancellationToken);
+            _categoryRepository.Update(c);
+            var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
             {
                 await _actionLogService.LogSucceededEventAsync(new CreateActionLogRequest()
@@ -196,7 +199,7 @@ public class CategoryManagementService : ICategoryManagementService
         try
         {
             var keyword = query.Keyword?.ToLower() ?? string.Empty;
-            var filterQuery = await _unitOfWork.Categories.ViewListCategoriesAsync(cancellationToken);
+            var filterQuery = await _categoryRepository.ViewListCategoriesAsync(cancellationToken);
             var p1 = filterQuery.Where(
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)

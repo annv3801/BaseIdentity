@@ -28,19 +28,17 @@ public class AccountController : ControllerBase
     private readonly ILoggerService _loggerService;
     private readonly ICurrentAccountService _currentAccountService;
     private readonly IStringLocalizationService _localizationService;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IAccountManagementService _accountManagementService;
     private readonly IApplicationDbContext _applicationDbContext;
     private readonly IJwtService _jwtService;
 
-    public AccountController(IMediator mediator, IMapper mapper, ILoggerService loggerService, ICurrentAccountService currentAccountService, IStringLocalizationService localizationService, IUnitOfWork unitOfWork, IAccountManagementService accountManagementService, IApplicationDbContext applicationDbContext, IJwtService jwtService)
+    public AccountController(IMediator mediator, IMapper mapper, ILoggerService loggerService, ICurrentAccountService currentAccountService, IStringLocalizationService localizationService, IAccountManagementService accountManagementService, IApplicationDbContext applicationDbContext, IJwtService jwtService)
     {
         _mediator = mediator;
         _mapper = mapper;
         _loggerService = loggerService;
         _currentAccountService = currentAccountService;
         _localizationService = localizationService;
-        _unitOfWork = unitOfWork;
         _accountManagementService = accountManagementService;
         _applicationDbContext = applicationDbContext;
         _jwtService = jwtService;
