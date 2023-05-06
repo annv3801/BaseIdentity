@@ -27,8 +27,8 @@ public class CreateSeatHandler : ICreateSeatHandlers
     {
         try
         {
-            var seat = _mapper.Map<Domain.Entities.DMP.Seat>(command);
-                var result = await _seatManagementService.CreateSeatAsync(seat, cancellationToken);
+            var seat = _mapper.Map<Domain.Entities.DMP.Seat>(command); 
+            var result = await _seatManagementService.CreateSeatAsync(seat, cancellationToken);
             if (result.Succeeded)
                 return Result<SeatResult>.Succeed(data: result.Data);
             return Result<SeatResult>.Fail(result.Errors);

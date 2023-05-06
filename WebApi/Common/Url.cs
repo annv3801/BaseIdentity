@@ -62,6 +62,11 @@ public static class Url
 
     public static class DMP
     {
+        public static class Booking
+        {
+            public const string Create = "DMP/Booking";
+            
+        }
         public static class Category
         {
             public const string Create = "DMP/Category";
@@ -69,6 +74,11 @@ public static class Url
             public const string Delete = "DMP/Category/{categoryId}";
             public const string Update = "DMP/Category/{categoryId}";
             public const string ViewList = "DMP/Category";
+        }
+
+        public static class Email
+        {
+            public const string SendEmail = "DMP/Email";
         }
         public static class Film
         {

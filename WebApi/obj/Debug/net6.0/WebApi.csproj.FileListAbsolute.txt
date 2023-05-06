@@ -236,3 +236,6 @@ D:\Learn\BookingTicketMovie\WebApi\obj\Debug\net6.0\refint\WebApi.dll
 D:\Learn\BookingTicketMovie\WebApi\obj\Debug\net6.0\WebApi.pdb
 D:\Learn\BookingTicketMovie\WebApi\obj\Debug\net6.0\WebApi.genruntimeconfig.cache
 D:\Learn\BookingTicketMovie\WebApi\obj\Debug\net6.0\ref\WebApi.dll
+D:\Learn\BookingTicketMovie\WebApi\bin\Debug\net6.0\MailKit.dll
+D:\Learn\BookingTicketMovie\WebApi\bin\Debug\net6.0\MimeKit.dll
+D:\Learn\BookingTicketMovie\WebApi\bin\Debug\net6.0\BouncyCastle.Crypto.dll

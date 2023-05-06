@@ -1,4 +1,6 @@
 ﻿using Application.Common.Interfaces;
+using Application.DMP.Booking.Repositories;
+using Application.DMP.Booking.Services;
 using Application.DMP.Category.Repositories;
 using Application.DMP.Category.Services;
 using Application.DMP.Film.Repositories;
@@ -25,8 +27,11 @@ using Application.Identity.Role.Repositories;
 using Application.Identity.Role.Services;
 using Application.Logging.ActionLog.Services;
 using Domain.Interfaces;
+using Infrastructure.DMP.Booking.Repositories;
+using Infrastructure.DMP.Booking.Services;
 using Infrastructure.DMP.Category.Repositories;
 using Infrastructure.DMP.Category.Services;
+using Infrastructure.DMP.Email;
 using Infrastructure.DMP.Film.Repositories;
 using Infrastructure.DMP.Film.Services;
 using Infrastructure.DMP.FilmSchedules.Repositories;
@@ -107,8 +112,8 @@ public static class DependencyInjection
         services.AddScoped<ISeatRepository, SeatRepository>();
         services.AddScoped<ITicketManagementService, TicketManagementService>();
         services.AddScoped<ITicketRepository, TicketRepository>();
-        
-        
-
+        services.AddScoped<IBookingManagementService, BookingManagementService>();
+        services.AddScoped<IBookingRepository, BookingRepository>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 }

@@ -243,7 +243,22 @@ public class SeatManagementService : ISeatManagementService
         {
             var filterQuery = await _seatRepository.ViewListSeatsByScheduleAsync(query, cancellationToken);
             var response = filterQuery.Where(x => x.ScheduleId == query.ScheduleId);
-            var source = response.Select(p => new {p.Name, p.ScheduleId, p.Type, p.Status, p.Id});
+            var p1 = response.Select(p => new {p.Name, p.ScheduleId, p.Type, p.Status, p.Id});
+            var schedule = _applicationDbContext.FilmSchedules;
+            var q1 = p1.Join(schedule, x => x.ScheduleId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
+            var room = _applicationDbContext.Rooms;
+            var q2 = q1.Join(room, x => x.y.RoomId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
+            var theater = _applicationDbContext.Theaters;
+            var source = q2.Join(theater, x => x.y.TheaterId, y => y.Id, (x, y) => new
+            {
+                x, y
+            });
             var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
             if (result.Result.Count == 0)
             {
@@ -268,13 +283,15 @@ public class SeatManagementService : ISeatManagementService
                 TotalPages = result.TotalPages,
                 Result = result.Result.Select(a => new ViewSeatResponse()
                 {
-                    Id = a.Id,
-                    Name = a.Name,
-                    ScheduleId = a.ScheduleId,
-                    RoomName = a.Name,
-                    TheaterName = a.Name,
-                    Type = a.Type,
-                    Status = a.Status
+                    Id = a.x.x.x.Id,
+                    Name = a.x.x.x.Name,
+                    ScheduleId = a.x.x.x.ScheduleId,
+                    StartTime = a.x.x.y.StartTime,
+                    EndTime = a.x.x.y.EndTime,
+                    RoomName = a.x.y.Name,
+                    TheaterName = a.y.Name,
+                    Type = a.x.x.x.Type,
+                    Status = a.x.x.x.Status
                 }).ToList()
             });
         }
