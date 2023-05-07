@@ -27,9 +27,9 @@ public class FilmManagementService : IFilmManagementService
     private readonly IApplicationDbContext _applicationDbContext;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IFilmRepository _filmRepository;
-    
+    private readonly IFileService _fileService;
 
-    public FilmManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IFilmRepository filmRepository, IApplicationDbContext applicationDbContext, ICategoryRepository categoryRepository)
+    public FilmManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IFilmRepository filmRepository, IApplicationDbContext applicationDbContext, ICategoryRepository categoryRepository, IFileService fileService)
     {
         _loggerService = loggerService;
         _actionLogService = actionLogService;
@@ -40,6 +40,7 @@ public class FilmManagementService : IFilmManagementService
         _filmRepository = filmRepository;
         _applicationDbContext = applicationDbContext;
         _categoryRepository = categoryRepository;
+        _fileService = fileService;
     }
     public async Task<Result<FilmResult>> CreateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken))
     {
@@ -48,6 +49,14 @@ public class FilmManagementService : IFilmManagementService
             var category = await _categoryRepository.GetCategoryAsync(film.CategoryId, cancellationToken);
             if (category == null)
                 return Result<FilmResult>.Fail(LocalizationString.Film.NotFoundCategory.ToErrors(_localizationService));
+            if (film.ImageFile != null)
+            {
+                var fileResult = _fileService.SaveImage(film.ImageFile);
+                if (fileResult.Item1 == 1)
+                {
+                    film.Image = fileResult.Item2; // getting name of image
+                }
+            }
             await _filmRepository.AddAsync(film, cancellationToken);
             var result = await _applicationDbContext.SaveChangesAsync(cancellationToken);
             if (result > 0)
@@ -137,7 +146,8 @@ public class FilmManagementService : IFilmManagementService
                 Premiere = film.Premiere,
                 Duration = film.Duration,
                 Language = film.Language,
-                Rated = film.Rated
+                Rated = film.Rated,
+                Image = film.Image
             });
         }
         catch (Exception e)

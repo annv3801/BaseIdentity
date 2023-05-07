@@ -509,7 +509,7 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Http/2.2.0": {
+      "Microsoft.AspNetCore.Http/2.2.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
@@ -3214,6 +3214,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Http": "2.2.2",
           "Microsoft.EntityFrameworkCore.Abstractions": "6.0.5",
           "Microsoft.Extensions.Logging": "6.0.5"
         },
@@ -3713,16 +3714,16 @@
         "microsoft.aspnetcore.hosting.server.abstractions.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Http/2.2.0": {
-      "sha512": "YogBSMotWPAS/X5967pZ+yyWPQkThxhmzAwyCHCSSldzYBkW5W5d6oPfBaPqQOnSHYTpSOSOkpZoAce0vwb6+A==",
+    "Microsoft.AspNetCore.Http/2.2.2": {
+      "sha512": "BAibpoItxI5puk7YJbIGj95arZueM8B8M5xT1fXBn3hb3L2G3ucrZcYXv1gXdaroLbntUs8qeV8iuBrpjQsrKw==",
       "type": "package",
-      "path": "microsoft.aspnetcore.http/2.2.0",
+      "path": "microsoft.aspnetcore.http/2.2.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/Microsoft.AspNetCore.Http.dll",
         "lib/netstandard2.0/Microsoft.AspNetCore.Http.xml",
-        "microsoft.aspnetcore.http.2.2.0.nupkg.sha512",
+        "microsoft.aspnetcore.http.2.2.2.nupkg.sha512",
         "microsoft.aspnetcore.http.nuspec"
       ]
     },
@@ -9101,19 +9102,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "/Users/annv/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learn\\BookingTicketMovie\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "/Users/annv/Documents/Learn/BaseIdentity/Infrastructure/Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "D:\\Learn\\BookingTicketMovie\\Infrastructure\\Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Learn\\BookingTicketMovie\\Infrastructure\\obj\\",
+      "projectPath": "/Users/annv/Documents/Learn/BaseIdentity/Infrastructure/Infrastructure.csproj",
+      "packagesPath": "/Users/annv/.nuget/packages/",
+      "outputPath": "/Users/annv/Documents/Learn/BaseIdentity/Infrastructure/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/annv/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -9125,8 +9126,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Learn\\BookingTicketMovie\\Application\\Application.csproj": {
-              "projectPath": "D:\\Learn\\BookingTicketMovie\\Application\\Application.csproj"
+            "/Users/annv/Documents/Learn/BaseIdentity/Application/Application.csproj": {
+              "projectPath": "/Users/annv/Documents/Learn/BaseIdentity/Application/Application.csproj"
             }
           }
         }
@@ -9222,7 +9223,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
       }
     }
   },

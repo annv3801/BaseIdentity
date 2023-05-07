@@ -10,5 +10,4 @@ public class BookingDetail : AuditableEntity
     public Guid ScheduleId { get; set; }
     public FilmSchedule Schedule { get; set; }
     public Guid SeatId { get; set; }
-    public Seat Seat { get; set; }
 }

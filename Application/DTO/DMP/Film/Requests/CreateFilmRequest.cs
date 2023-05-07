@@ -1,4 +1,6 @@
-﻿namespace Application.DTO.DMP.Film.Requests;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Application.DTO.DMP.Film.Requests;
 
 public class CreateFilmRequest
 {
@@ -13,4 +15,5 @@ public class CreateFilmRequest
     public string? Duration { get; set; }
     public string? Language { get; set; }
     public string? Rated { get; set; }
+    public IFormFile? Image { get; set; }
 }

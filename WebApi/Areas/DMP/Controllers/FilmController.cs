@@ -37,7 +37,7 @@ public class FilmController : ControllerBase
     [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
     [Produces(Constants.MimeTypes.Application.Json)]
-    public async Task<IActionResult> CreateFilmAsync(CreateFilmRequest createFilmRequest, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateFilmAsync([FromForm]CreateFilmRequest createFilmRequest, CancellationToken cancellationToken)
     {
         try
         {

@@ -264,6 +264,7 @@ namespace Infrastructure.Persistence.Migrations
                     Duration = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -526,15 +527,15 @@ namespace Infrastructure.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Identity_Accounts",
                 columns: new[] { "Id", "AvatarPhoto", "CoverPhoto", "Created", "CreatedById", "Email", "EmailConfirmed", "FirstName", "Gender", "LastModified", "LastModifiedById", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "Otp", "OtpCount", "OtpValidEnd", "PasswordHash", "PasswordHashTemporary", "PasswordValidUntilDate", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "UserName" },
-                values: new object[] { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), null, null, new DateTime(2023, 4, 30, 15, 14, 7, 445, DateTimeKind.Utc).AddTicks(642), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "nva030801@gmail.com", true, "Nguyen", true, new DateTime(2023, 4, 30, 15, 14, 7, 445, DateTimeKind.Utc).AddTicks(638), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "An", true, null, "Van", "NVA030801@GMAIL.COM", "NVA3801", "000000", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "AMJoiJQ9xLazxisVPXx+lBDRw7wfWBerhXipsLpHNGLXGAAKIeCnwi5XhIRbTbqovA==", null, null, "0966093801", true, "811033A0-22BE-4804-9BBA-4A634AA333C6", 3, "nva3801" });
+                values: new object[] { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), null, null, new DateTime(2023, 5, 7, 6, 55, 15, 786, DateTimeKind.Utc).AddTicks(2180), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "nva030801@gmail.com", true, "Nguyen", true, new DateTime(2023, 5, 7, 6, 55, 15, 786, DateTimeKind.Utc).AddTicks(2180), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "An", true, null, "Van", "NVA030801@GMAIL.COM", "NVA3801", "000000", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "AMJoiJQ9xLazxisVPXx+lBDRw7wfWBerhXipsLpHNGLXGAAKIeCnwi5XhIRbTbqovA==", null, null, "0966093801", true, "DECB18C0-9BBB-4F3D-8348-E709B1C70F24", 3, "nva3801" });
 
             migrationBuilder.InsertData(
                 table: "Identity_Permissions",
                 columns: new[] { "Id", "Code", "Created", "CreatedById", "Description", "LastModified", "LastModifiedById", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 4, 30, 15, 14, 7, 445, DateTimeKind.Utc).AddTicks(9850), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system admin permission", new DateTime(2023, 4, 30, 15, 14, 7, 445, DateTimeKind.Utc).AddTicks(9851), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN" },
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6f"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 4, 30, 15, 14, 7, 445, DateTimeKind.Utc).AddTicks(9860), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The supply chain user permission", new DateTime(2023, 4, 30, 15, 14, 7, 445, DateTimeKind.Utc).AddTicks(9861), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SPC", "SPC" }
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(1170), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system admin permission", new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(1170), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN" },
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6f"), "ROOT:ROOT:SYSADMIN", new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(1180), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The supply chain user permission", new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(1180), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SPC", "SPC" }
                 });
 
             migrationBuilder.InsertData(
@@ -542,8 +543,8 @@ namespace Infrastructure.Persistence.Migrations
                 columns: new[] { "Id", "Created", "CreatedById", "Description", "LastModified", "LastModifiedById", "Name", "NormalizedName", "Status" },
                 values: new object[,]
                 {
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e"), new DateTime(2023, 4, 30, 15, 14, 7, 446, DateTimeKind.Utc).AddTicks(859), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system Admin Role", new DateTime(2023, 4, 30, 15, 14, 7, 446, DateTimeKind.Utc).AddTicks(860), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN", 1 },
-                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), new DateTime(2023, 4, 30, 15, 14, 7, 446, DateTimeKind.Utc).AddTicks(866), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The SP Role", new DateTime(2023, 4, 30, 15, 14, 7, 446, DateTimeKind.Utc).AddTicks(866), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SP", "SP", 1 }
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e"), new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(2130), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The system Admin Role", new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(2130), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "System Admin", "SYSTEM ADMIN", 1 },
+                    { new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(2140), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "The SP Role", new DateTime(2023, 5, 7, 6, 55, 15, 787, DateTimeKind.Utc).AddTicks(2140), new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"), "SP", "SP", 1 }
                 });
 
             migrationBuilder.InsertData(

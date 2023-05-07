@@ -23,7 +23,8 @@ public class FilmProfile : Profile
             .ForMember(d => d.Premiere, o => o.MapFrom(s => s.Premiere))
             .ForMember(d => d.Duration, o => o.MapFrom(s => s.Duration))
             .ForMember(d => d.Language, o => o.MapFrom(s => s.Language))
-            .ForMember(d => d.Rated, o => o.MapFrom(s => s.Rated));
+            .ForMember(d => d.Rated, o => o.MapFrom(s => s.Rated))
+            .ForMember(d => d.ImageFile, o => o.MapFrom(s => s.Image));
         CreateMap<Domain.Entities.DMP.Film, ViewFilmResponse>()
             .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
             .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
@@ -36,7 +37,8 @@ public class FilmProfile : Profile
             .ForMember(d => d.Premiere, o => o.MapFrom(s => s.Premiere))
             .ForMember(d => d.Duration, o => o.MapFrom(s => s.Duration))
             .ForMember(d => d.Language, o => o.MapFrom(s => s.Language))
-            .ForMember(d => d.Rated, o => o.MapFrom(s => s.Rated));
+            .ForMember(d => d.Rated, o => o.MapFrom(s => s.Rated))
+            .ForMember(d => d.Image, o => o.MapFrom(s => s.Image));
         CreateMap<UpdateFilmRequest, UpdateFilmCommand>();
         CreateMap<UpdateFilmCommand, Domain.Entities.DMP.Film>()
             .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))

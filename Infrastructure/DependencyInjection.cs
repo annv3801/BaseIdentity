@@ -115,5 +115,6 @@ public static class DependencyInjection
         services.AddScoped<IBookingManagementService, BookingManagementService>();
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IFileService, FileService>();
     }
 }
