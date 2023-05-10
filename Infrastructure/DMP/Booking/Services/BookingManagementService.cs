@@ -1,51 +1,35 @@
-using System.Linq.Dynamic.Core;
 using Application.Common;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.DMP.Booking.Commands;
 using Application.DMP.Booking.Commons;
 using Application.DMP.Booking.Services;
-using Application.DMP.Category.Commons;
 using Application.DMP.Category.Repositories;
-using Application.DMP.Category.Services;
-using Application.DMP.FilmSchedules.Repositories;
-using Application.DMP.Room.Repositories;
 using Application.DMP.Seat.Repositories;
-using Application.DTO.ActionLog.Requests;
 using Application.DTO.DMP.Booking.Requests;
-using Application.DTO.DMP.FilmSchedules.Responses;
-using Application.Identity.Account.Repositories;
+using Application.DTO.VnPay;
 using Application.Logging.ActionLog.Services;
 using AutoMapper;
 using Domain.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Infrastructure.DMP.Booking.Services;
 public class BookingManagementService : IBookingManagementService
 {
     private readonly ILoggerService _loggerService;
-    private readonly IActionLogService _actionLogService;
-    private readonly IStringLocalizationService _localizationService;
-    private readonly IJsonSerializerService _jsonSerializerService;
-    private readonly IMapper _mapper;
-    private readonly IPaginationService _paginationService;
     private readonly IApplicationDbContext _applicationDbContext;
-    private readonly IMediator _mediator;
     private readonly IEmailService _emailService;
     private readonly ISeatRepository _seatRepository;
+    private readonly IVnPayService _vnPayService;
 
-    public BookingManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext, ICategoryRepository categoryRepository, IMediator mediator, IEmailService emailService, ISeatRepository seatRepository)
+    public BookingManagementService(ILoggerService loggerService, IActionLogService actionLogService, IStringLocalizationService localizationService, IJsonSerializerService jsonSerializerService, IMapper mapper, IPaginationService paginationService, IApplicationDbContext applicationDbContext, ICategoryRepository categoryRepository, IMediator mediator, IEmailService emailService, ISeatRepository seatRepository, IVnPayService vnPayService)
     {
         _loggerService = loggerService;
-        _actionLogService = actionLogService;
-        _localizationService = localizationService;
-        _jsonSerializerService = jsonSerializerService;
-        _mapper = mapper;
-        _paginationService = paginationService;
         _applicationDbContext = applicationDbContext;
-        _mediator = mediator;
         _emailService = emailService;
         _seatRepository = seatRepository;
+        _vnPayService = vnPayService;
     }
     
     public async Task<Result<BookingResult>> BookingAsync(BookingRequest request, CancellationToken cancellationToken)
@@ -58,7 +42,7 @@ public class BookingManagementService : IBookingManagementService
                 var seat = await _seatRepository.GetSeatAsync(seatId, cancellationToken);
                 seatNames.Add(seat.Name);
             }
-
+            
             var filmSchedule = _applicationDbContext.FilmSchedules.Where(x => x.Id == request.ScheduleId);
             var room = _applicationDbContext.Rooms;
             var p1 = filmSchedule.Join(room, x => x.RoomId, y => y.Id, (x, y) => new

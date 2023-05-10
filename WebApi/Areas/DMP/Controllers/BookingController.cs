@@ -1,8 +1,8 @@
 ﻿using Application.Common;
+using Application.Common.Interfaces;
 using Application.DMP.Booking.Commands;
-using Application.DMP.Category.Commands;
 using Application.DTO.DMP.Booking.Requests;
-using Application.DTO.DMP.Category.Requests;
+using Application.DTO.VnPay;
 using AutoMapper;
 using Domain.Interfaces;
 using Infrastructure.Common.Attributes.ActionLog;
@@ -20,14 +20,14 @@ public class BookingController : ControllerBase
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
     private readonly ILoggerService _loggerService;
-
-    public BookingController(IMediator mediator, IMapper mapper, ILoggerService loggerService)
+    private readonly IVnPayService _vnPayService;
+    public BookingController(IMediator mediator, IMapper mapper, ILoggerService loggerService, IVnPayService vnPayService)
     {
         _mediator = mediator;
         _mapper = mapper;
         _loggerService = loggerService;
+        _vnPayService = vnPayService;
     }
-
     
     [HttpPost]
     [LogAction]
@@ -53,5 +53,20 @@ public class BookingController : ControllerBase
             Console.WriteLine(e);
             throw;
         }
+    }
+    
+    [HttpPost]
+    [Route(Common.Url.DMP.Booking.PaymentVnpay)]
+    public async Task<IActionResult> CreatePaymentUrl(PaymentInformationModel model)
+    {
+        var test = new PaymentInformationModel()
+        {
+            OrderType = "other",
+            Amount = 120000,
+            OrderDescription = "Test 1",
+            Name = "An"
+        };
+        var url = _vnPayService.CreatePaymentUrl(test);
+        return Redirect(url);
     }
 }

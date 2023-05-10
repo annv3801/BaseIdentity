@@ -22,6 +22,8 @@ public static class Constants
         public const string FilmSchedules = "To manage film schedules in this system";
         public const string Seat = "To manage seat in this system";
         public const string Ticket = "To manage ticket in this system";
+        public const string Slider = "To manage slider in this system";
+        public const string Coupon = "To manage coupon in this system";
 
     }
 

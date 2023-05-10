@@ -3,6 +3,8 @@ using Application.DMP.Booking.Repositories;
 using Application.DMP.Booking.Services;
 using Application.DMP.Category.Repositories;
 using Application.DMP.Category.Services;
+using Application.DMP.Coupon.Repositories;
+using Application.DMP.Coupon.Services;
 using Application.DMP.Film.Repositories;
 using Application.DMP.Film.Services;
 using Application.DMP.FilmSchedules.Repositories;
@@ -11,6 +13,8 @@ using Application.DMP.Room.Repositories;
 using Application.DMP.Room.Services;
 using Application.DMP.Seat.Repositories;
 using Application.DMP.Seat.Services;
+using Application.DMP.Slider.Repositories;
+using Application.DMP.Slider.Services;
 using Application.DMP.Theater.Repositories;
 using Application.DMP.Theater.Services;
 using Application.DMP.Ticket.Repositories;
@@ -31,6 +35,8 @@ using Infrastructure.DMP.Booking.Repositories;
 using Infrastructure.DMP.Booking.Services;
 using Infrastructure.DMP.Category.Repositories;
 using Infrastructure.DMP.Category.Services;
+using Infrastructure.DMP.Coupon.Repositories;
+using Infrastructure.DMP.Coupon.Services;
 using Infrastructure.DMP.Email;
 using Infrastructure.DMP.Film.Repositories;
 using Infrastructure.DMP.Film.Services;
@@ -40,6 +46,8 @@ using Infrastructure.DMP.Room.Repositories;
 using Infrastructure.DMP.Room.Services;
 using Infrastructure.DMP.Seat.Repositories;
 using Infrastructure.DMP.Seat.Services;
+using Infrastructure.DMP.Slider.Repositories;
+using Infrastructure.DMP.Slider.Services;
 using Infrastructure.DMP.Theater.Repositories;
 using Infrastructure.DMP.Theater.Services;
 using Infrastructure.DMP.Ticket.Repositories;
@@ -64,7 +72,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Infrastructure;
 public static class DependencyInjection
 {
-    public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
+    public static void AddRepositories(this IServiceCollection services)
     {
         services.AddHttpContextAccessor();
         services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>()!);
@@ -116,5 +124,10 @@ public static class DependencyInjection
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IVnPayService, VnPayService>();
+        services.AddScoped<ISliderRepository, SliderRepository>();
+        services.AddScoped<ISliderManagementService, SliderManagementService>();
+        services.AddScoped<ICouponRepository, CouponRepository>();
+        services.AddScoped<ICouponManagementService, CouponManagementService>();
     }
 }

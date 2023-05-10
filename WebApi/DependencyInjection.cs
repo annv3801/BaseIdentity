@@ -40,7 +40,6 @@ namespace WebApi
         public static IServiceCollection AddWebApi(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentityService(configuration);
-            services.ConfigureServerOptions();
             services.AddWebCoreServices();
             services.ConfigureCorsOptions();
             services.AddLocalizationServices();
@@ -194,20 +193,6 @@ namespace WebApi
                 });
         }
 
-
-        /// <summary>
-        /// Configure Server option
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        private static void ConfigureServerOptions(this IServiceCollection services)
-        {
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.Limits.MaxRequestBodySize = int.MaxValue; // if don't set default value is: 30 MB
-            });
-        }
-
         /// <summary>
         /// Configure CORS
         /// </summary>
@@ -242,26 +227,4 @@ namespace WebApi
             services.AddSwaggerExamplesFromAssemblyOf<Program>();
         }
     }
-
-    /// <summary>
-    /// Register localization services
-    /// </summary>
-    [ExcludeFromCodeCoverage]
-    public static class AppLocalizationServiceExtension
-    {
-        /// <summary>
-        /// Localization services
-        /// </summary>
-        /// <param name="app"></param>
-        public static void UseAppLocalizationService(this IApplicationBuilder app)
-        {
-            // Configure supported languages
-            var localizationOptions = new RequestLocalizationOptions()
-                .SetDefaultCulture(Constants.SupportedCultures.English)
-                .AddSupportedCultures(Constants.SupportedCultures.Cultures)
-                .AddSupportedUICultures(Constants.SupportedCultures.Cultures);
-            app.UseRequestLocalization(localizationOptions);
-        }
-    }
-    
 }

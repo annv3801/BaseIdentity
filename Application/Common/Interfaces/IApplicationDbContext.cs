@@ -17,6 +17,9 @@ public interface IApplicationDbContext
     DbSet<Ticket> Tickets { get; set; }
     DbSet<Booking> Bookings { get; set; }
     DbSet<BookingDetail> BookingDetails { get; set; }
+    DbSet<Coupon> Coupons { get; set; }
+    DbSet<News> News { get; set; }
+    DbSet<Slider> Sliders { get; set; }
 
     #endregion
     

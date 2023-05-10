@@ -65,7 +65,7 @@ public static class Url
         public static class Booking
         {
             public const string Create = "DMP/Booking";
-            
+            public const string PaymentVnpay = "DMP/PaymentVnPay";
         }
         public static class Category
         {
@@ -132,6 +132,19 @@ public static class Url
             public const string Delete = "DMP/Ticket/{ticketId}";
             public const string Update = "DMP/Ticket/{ticketId}";
             public const string ViewList = "DMP/Ticket";
+        }
+        public static class Slider
+        {
+            public const string Create = "DMP/Slider";
+            public const string View = "DMP/Slider/{sliderId}";
+            public const string ViewList = "DMP/SliderList";
+        }
+        public static class Coupon
+        {
+            public const string Create = "DMP/Coupon";
+            public const string View = "DMP/Coupon/{couponId}";
+            public const string ViewList = "DMP/Coupon";
+            public const string ViewByCode = "DMP/CouponByCode/{code}";
         }
     }
 }

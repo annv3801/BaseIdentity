@@ -34,6 +34,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<BookingDetail> BookingDetails { get; set; }
+    public DbSet<Coupon> Coupons { get; set; }
+    public DbSet<News> News { get; set; }
+    public DbSet<Slider> Sliders { get; set; }
 
     public DbContext DbContext { get; }
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

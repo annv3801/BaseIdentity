@@ -15,5 +15,6 @@ public class CreateFilmRequest
     public string? Duration { get; set; }
     public string? Language { get; set; }
     public string? Rated { get; set; }
+    public string? Trailer { get; set; }
     public IFormFile? Image { get; set; }
 }
