@@ -88,7 +88,7 @@ public static class Url
             public const string Update = "DMP/Film/{filmId}";
             public const string ViewList = "DMP/Film";
             public const string ViewByShortenUrl = "DMP/Film-By-ShortenUrl/{shortenUrl}";
-
+            public const string ViewListByCategory = "DMP/FilmByCategory";
         }
         public static class Theater
         {

@@ -10,4 +10,5 @@ namespace Application.DMP.FilmSchedules.Queries;
 public class ViewListFilmSchedulesByTimeQuery : IRequest<Result<List<TheaterScheduleResponse>>>
 {
     public DateTime Date { get; set; }
+    public Guid FilmId { get; set; }
 }

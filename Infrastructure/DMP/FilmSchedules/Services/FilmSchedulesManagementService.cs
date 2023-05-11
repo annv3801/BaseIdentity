@@ -278,7 +278,7 @@ public class FilmSchedulesManagementService : IFilmSchedulesManagementService
         try
         {
             var filterQuery = await _filmSchedulesRepository.ViewListFilmSchedulesByTimeAsync(query, cancellationToken);
-            var response = filterQuery.Where(p => p.StartTime.Date == query.Date.Date);
+            var response = filterQuery.Where(p => p.StartTime.Date == query.Date.Date && p.FilmId == query.FilmId);
             var getListSchedules = response.Select(p => new {p.RoomId, p.FilmId, p.StartTime, p.Id, p.EndTime});
             var film = _applicationDbContext.Films;
             var filmJoinSchedule = getListSchedules.Join(film, x => x.FilmId, y => y.Id, (x, y) => new

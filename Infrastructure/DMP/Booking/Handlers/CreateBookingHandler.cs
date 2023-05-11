@@ -41,6 +41,7 @@ public class BookingHandler : IBookingHandlers
             var booking = _mapper.Map<Domain.Entities.DMP.Booking>(command);
             booking.Id = Guid.NewGuid();
             booking.AccountId = _currentAccountService.Id;
+            booking.Status = 1;
             var bookingDetails = command.SeatId.Select(x => new BookingDetail
             {
                 BookingId = booking.Id,

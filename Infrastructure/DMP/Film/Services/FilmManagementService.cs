@@ -115,7 +115,8 @@ public class FilmManagementService : IFilmManagementService
                 Premiere = film.Premiere,
                 Duration = film.Duration,
                 Language = film.Language,
-                Rated = film.Rated
+                Rated = film.Rated,
+                Image = film.Image
             });
         }
         catch (Exception e)
@@ -156,7 +157,53 @@ public class FilmManagementService : IFilmManagementService
             throw;
         }
     }
-    
+
+    public async Task<Result<PaginationBaseResponse<ViewFilmResponse>>> ViewListFilmByCategoryAsync(ViewListFilmByCategoryQuery query, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        try
+        {
+            var filterQuery = await _filmRepository.ViewListFilmByCategoryAsync(query, cancellationToken);
+            var source = filterQuery.Select(p => new {p.Name, p.Image, p.ShortenUrl, p.Id, p.CategoryId, p.Actor, p.Director, p.Duration, p.Genre, p.Language, p.Premiere, p.Rated, p.Description});
+            var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
+            if (result.Result.Count == 0)
+            {
+                return Result<PaginationBaseResponse<ViewFilmResponse>>.Fail(
+                    _localizationService[LocalizationString.Film.FailedToViewList].Value.ToErrors(_localizationService));
+            }
+            return Result<PaginationBaseResponse<ViewFilmResponse>>.Succeed(new PaginationBaseResponse<ViewFilmResponse>()
+            {
+                CurrentPage = result.CurrentPage,
+                OrderBy = result.OrderBy,
+                OrderByDesc = result.OrderByDesc,
+                PageSize = result.PageSize,
+                TotalItems = result.TotalItems,
+                TotalPages = result.TotalPages,
+                Result = result.Result.Select(a => new ViewFilmResponse()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    ShortenUrl = a.ShortenUrl,
+                    Description = a.Description,
+                    CategoryId = a.CategoryId,
+                    Director = a.Director,
+                    Genre = a.Genre,
+                    Actor = a.Actor,
+                    Premiere = a.Premiere,
+                    Duration = a.Duration,
+                    Language = a.Language,
+                    Rated = a.Rated,
+                    Image = a.Image
+                }).ToList()
+            });
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewListFilmsAsync));
+
+            throw;
+        }
+    }
+
     public async Task<Result<FilmResult>> UpdateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken))
     {
         try

@@ -12,5 +12,6 @@ public interface IFilmManagementService
     Task<Result<FilmResult>> UpdateFilmAsync(Domain.Entities.DMP.Film film, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<PaginationBaseResponse<ViewFilmResponse>>> ViewListFilmsAsync(ViewListFilmsQuery query, CancellationToken cancellationToken = default(CancellationToken));
     Task<Result<ViewFilmResponse>> ViewFilmByShortenUrlAsync(string url, CancellationToken cancellationToken = default(CancellationToken));
+    Task<Result<PaginationBaseResponse<ViewFilmResponse>>> ViewListFilmByCategoryAsync(ViewListFilmByCategoryQuery query, CancellationToken cancellationToken = default(CancellationToken));
 
 }

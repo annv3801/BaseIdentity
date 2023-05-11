@@ -55,5 +55,7 @@ public class FilmProfile : Profile
             .ForMember(d => d.Rated, o => o.MapFrom(s => s.Rated));
         CreateMap<ViewListFilmsRequest, ViewListFilmsQuery>();
         CreateMap<ViewListFilmsRequest, ViewFilmQuery>();
+        CreateMap<ViewListFilmByCategoryRequest, ViewListFilmByCategoryQuery>();
+
     }
 }

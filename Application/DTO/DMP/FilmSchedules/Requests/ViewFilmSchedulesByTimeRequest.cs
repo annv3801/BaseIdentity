@@ -6,4 +6,5 @@ namespace Application.DTO.DMP.FilmSchedules.Requests;
 public class ViewListFilmSchedulesByTimeRequest
 {
     public DateTime Date { get; set; }
+    public Guid FilmId { get; set; }
 }

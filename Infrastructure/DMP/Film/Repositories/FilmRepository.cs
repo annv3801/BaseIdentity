@@ -1,4 +1,6 @@
+using System.Linq.Dynamic.Core;
 using Application.Common.Interfaces;
+using Application.DMP.Film.Queries;
 using Application.DMP.Film.Repositories;
 using Infrastructure.Common.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -28,5 +30,14 @@ public class FilmRepository : Repository<Domain.Entities.DMP.Film>, IFilmReposit
     public async Task<Domain.Entities.DMP.Film?> GetFilmByShortenUrlAsync(string url, CancellationToken cancellationToken = default(CancellationToken))
     {
         return await _applicationDbContext.Films.AsSplitQuery().FirstOrDefaultAsync(r => r.ShortenUrl == url, cancellationToken);
+    }
+
+    public async Task<IQueryable<Domain.Entities.DMP.Film>> ViewListFilmByCategoryAsync(ViewListFilmByCategoryQuery query, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        await Task.CompletedTask;
+        var category =  await _applicationDbContext.Categories.Where(x => x.ShortenUrl == query.CategorySlug).FirstOrDefaultAsync(cancellationToken);
+        return _applicationDbContext.Films.Where(x => x.CategoryId == category.Id)
+            .AsSplitQuery()
+            .AsQueryable();
     }
 }

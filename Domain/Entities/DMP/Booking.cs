@@ -9,4 +9,9 @@ public class Booking : AuditableEntity
     public Guid AccountId { get; set; }
     public Account Account { get; set; }
     public double Total { get; set; }
+    public double TotalBeforeDiscount { get; set; }
+    public double Discount { get; set; }
+    public string? CouponId { get; set; }
+    public int PaymentMethod { get; set; }
+    public int Status { get; set; }
 }

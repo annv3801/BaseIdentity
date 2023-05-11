@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230510151438_Init")]
-    partial class Init
+    [Migration("20230511144025_InitTable")]
+    partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,11 +33,17 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<double>("CouponId")
+                        .HasColumnType("float");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("CreatedById")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
@@ -45,7 +51,16 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid?>("LastModifiedById")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<double>("PaymentMethod")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalBeforeDiscount")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -717,13 +732,13 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             AccessFailedCount = 0,
-                            Created = new DateTime(2023, 5, 10, 15, 14, 37, 852, DateTimeKind.Utc).AddTicks(4000),
+                            Created = new DateTime(2023, 5, 11, 14, 40, 24, 874, DateTimeKind.Utc).AddTicks(4600),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Email = "nva030801@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nguyen",
                             Gender = true,
-                            LastModified = new DateTime(2023, 5, 10, 15, 14, 37, 852, DateTimeKind.Utc).AddTicks(4000),
+                            LastModified = new DateTime(2023, 5, 11, 14, 40, 24, 874, DateTimeKind.Utc).AddTicks(4600),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             LastName = "An",
                             LockoutEnabled = true,
@@ -737,7 +752,7 @@ namespace Infrastructure.Persistence.Migrations
                             PasswordHash = "AMJoiJQ9xLazxisVPXx+lBDRw7wfWBerhXipsLpHNGLXGAAKIeCnwi5XhIRbTbqovA==",
                             PhoneNumber = "0966093801",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "6E421D21-06A4-4282-8ABA-2FE8B48E6AFB",
+                            SecurityStamp = "2697F95D-969C-4308-B7DC-26AE9ED738E4",
                             Status = 3,
                             TwoFactorEnabled = false,
                             UserName = "nva3801"
@@ -895,10 +910,10 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6e"),
                             Code = "ROOT:ROOT:SYSADMIN",
-                            Created = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(6870),
+                            Created = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(5180),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The system admin permission",
-                            LastModified = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(6870),
+                            LastModified = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(5180),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "System Admin",
                             NormalizedName = "SYSTEM ADMIN"
@@ -907,10 +922,10 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d6f"),
                             Code = "ROOT:ROOT:SYSADMIN",
-                            Created = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(6900),
+                            Created = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(5190),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The supply chain user permission",
-                            LastModified = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(6900),
+                            LastModified = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(5190),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "SPC",
                             NormalizedName = "SPC"
@@ -965,10 +980,10 @@ namespace Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7e"),
-                            Created = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(8590),
+                            Created = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(6210),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The system Admin Role",
-                            LastModified = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(8590),
+                            LastModified = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(6210),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "System Admin",
                             NormalizedName = "SYSTEM ADMIN",
@@ -977,10 +992,10 @@ namespace Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
-                            Created = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(8600),
+                            Created = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(6220),
                             CreatedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Description = "The SP Role",
-                            LastModified = new DateTime(2023, 5, 10, 15, 14, 37, 853, DateTimeKind.Utc).AddTicks(8600),
+                            LastModified = new DateTime(2023, 5, 11, 14, 40, 24, 875, DateTimeKind.Utc).AddTicks(6220),
                             LastModifiedById = new Guid("49e3275a-d497-4b45-bbcb-3214f3769d7f"),
                             Name = "SP",
                             NormalizedName = "SP",

@@ -150,4 +150,30 @@ public class FilmController : ControllerBase
             throw;
         }
     }
+    
+    [HttpGet]
+    [LogAction]
+    [Route(Common.Url.DMP.Film.ViewListByCategory)]
+    [SwaggerResponse(StatusCodes.Status200OK, LocalizationString.Common.Success, typeof(SuccessResponse))]
+    [SwaggerResponse(StatusCodes.Status202Accepted, LocalizationString.Common.Error, typeof(FailureResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, LocalizationString.Common.DataValidationError, typeof(InvalidModelStateResponse))]
+    [Produces(Constants.MimeTypes.Application.Json)]
+    // [Cached]
+    public async Task<IActionResult>? ViewListFilmByCategoryAsync([FromQuery]ViewListFilmByCategoryRequest request, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        try
+        {
+            var query = _mapper.Map<ViewListFilmByCategoryQuery>(request);
+            var result = await _mediator.Send(query, cancellationToken);
+            if (result.Succeeded)
+                return Ok(new SuccessResponse(data: result.Data));
+            return Accepted(new FailureResponse(result.Errors));
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogCritical(e, nameof(ViewListFilmByCategoryAsync));
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
