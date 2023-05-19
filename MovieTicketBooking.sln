@@ -10,6 +10,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{E4A4D1FF-F70F-488F-B168-646F0DE282B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{6C9B41C5-2409-41E9-B20A-6597D47C7B0B}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\migrate.sh = scripts\migrate.sh
+		scripts\update-db.sh = scripts\update-db.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

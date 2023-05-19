@@ -655,19 +655,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/annv/.nuget/packages/": {}
+    "C:\\Users\\An\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/annv/Documents/Learn/BaseIdentity/Domain/Domain.csproj",
+      "projectUniqueName": "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "/Users/annv/Documents/Learn/BaseIdentity/Domain/Domain.csproj",
-      "packagesPath": "/Users/annv/.nuget/packages/",
-      "outputPath": "/Users/annv/Documents/Learn/BaseIdentity/Domain/obj/",
+      "projectPath": "D:\\Learn\\BaseIdentity\\Domain\\Domain.csproj",
+      "packagesPath": "C:\\Users\\An\\.nuget\\packages\\",
+      "outputPath": "D:\\Learn\\BaseIdentity\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/annv/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\An\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -715,12 +715,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.16, 6.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.16, 6.0.16]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.16, 6.0.16]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   },

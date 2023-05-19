@@ -265,7 +265,7 @@ public class FilmManagementService : IFilmManagementService
                 u => keyword.Length <= 0
                      || u.Name != null && u.Name.ToLower().Contains(keyword)
             ).AsSplitQuery();
-            var source = p1.Select(p => new {p.Name, p.ShortenUrl, p.Id, p.CategoryId, p.Actor, p.Director, p.Duration, p.Genre, p.Language, p.Premiere, p.Rated, p.Description});
+            var source = p1.Select(p => new {p.Name, p.Image, p.ShortenUrl, p.Id, p.CategoryId, p.Actor, p.Director, p.Duration, p.Genre, p.Language, p.Premiere, p.Rated, p.Description});
             var result = await _paginationService.PaginateAsync(source, query.Page, query.OrderBy, query.OrderByDesc, query.Size, cancellationToken);
             if (result.Result.Count == 0)
             {
@@ -293,7 +293,8 @@ public class FilmManagementService : IFilmManagementService
                     Premiere = a.Premiere,
                     Duration = a.Duration,
                     Language = a.Language,
-                    Rated = a.Rated
+                    Rated = a.Rated,
+                    Image = a.Image
                 }).ToList()
             });
         }

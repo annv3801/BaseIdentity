@@ -64,7 +64,7 @@ public class BookingManagementService : IBookingManagementService
             {
                 var stt = (i + 1).ToString();
                 var tenGhe = seatNames[i];
-                var tongTien = request.Total;
+                var tongTien = request.TotalBeforeDiscount;
 
                 var tableRow = $"<tr><td>{stt}</td><td>{p3.x.y.Name}</td><td>{p3.y.Name}</td><td>{p3.x.x.y.Name}</td><td>{p3.x.x.x.StartTime}</td><td style='font-weight:bold'>{tenGhe}</td><td>{(tongTien / seatNames.Count):N0}đ</td></tr>";
                 tableRows += tableRow;
@@ -99,9 +99,19 @@ public class BookingManagementService : IBookingManagementService
                         <th>Phòng Chiếu</th>
                         <th>Thời gian bắt đầu</th>
                         <th>Tên ghế</th>
+                        <th>Giảm giá</th>
                         <th>Tổng tiền</th>
                     </tr>
                     {tableRows}
+                    <tr>
+                        <td></td>
+                        <td style='font-weight:bold'>Giảm giá</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style='font-weight:bold'>{request.Discount:N0}đ</td>
+                    </tr>
                     <tr>
                         <td></td>
                         <td style='font-weight:bold'>Tổng tiền</td>

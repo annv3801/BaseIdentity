@@ -59,14 +59,21 @@ public class BookingController : ControllerBase
     [Route(Common.Url.DMP.Booking.PaymentVnpay)]
     public async Task<IActionResult> CreatePaymentUrl(PaymentInformationModel model)
     {
-        var test = new PaymentInformationModel()
+        var url = _vnPayService.CreatePaymentUrl(model);
+        return Ok(url);
+    }
+    
+    [HttpGet]
+    [Route(Common.Url.DMP.Booking.PaymentVnpayCallback)]
+    public async Task<IActionResult> PaymentCallback()
+    {
+        var response = _vnPayService.PaymentExecute(Request.Query);
+        var result = "";
+        if (response.VnPayResponseCode == "00")
         {
-            OrderType = "other",
-            Amount = 120000,
-            OrderDescription = "Test 1",
-            Name = "An"
-        };
-        var url = _vnPayService.CreatePaymentUrl(test);
-        return Redirect(url);
+            result = "http://localhost:3000/payment-success";
+        }
+
+        return Redirect(result);
     }
 }

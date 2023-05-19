@@ -9608,19 +9608,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/annv/.nuget/packages/": {}
+    "C:\\Users\\An\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/annv/Documents/Learn/BaseIdentity/WebApi/WebApi.csproj",
+      "projectUniqueName": "D:\\Learn\\BaseIdentity\\WebApi\\WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "/Users/annv/Documents/Learn/BaseIdentity/WebApi/WebApi.csproj",
-      "packagesPath": "/Users/annv/.nuget/packages/",
-      "outputPath": "/Users/annv/Documents/Learn/BaseIdentity/WebApi/obj/",
+      "projectPath": "D:\\Learn\\BaseIdentity\\WebApi\\WebApi.csproj",
+      "packagesPath": "C:\\Users\\An\\.nuget\\packages\\",
+      "outputPath": "D:\\Learn\\BaseIdentity\\WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/annv/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\An\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -9632,8 +9632,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/annv/Documents/Learn/BaseIdentity/Infrastructure/Infrastructure.csproj": {
-              "projectPath": "/Users/annv/Documents/Learn/BaseIdentity/Infrastructure/Infrastructure.csproj"
+            "D:\\Learn\\BaseIdentity\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "D:\\Learn\\BaseIdentity\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
@@ -9722,6 +9722,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.16, 6.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.16, 6.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.16, 6.0.16]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.16, 6.0.16]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -9730,7 +9748,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   },

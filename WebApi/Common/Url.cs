@@ -66,6 +66,7 @@ public static class Url
         {
             public const string Create = "DMP/Booking";
             public const string PaymentVnpay = "DMP/PaymentVnPay";
+            public const string PaymentVnpayCallback = "DMP/PaymentVnPay/Callback";
         }
         public static class Category
         {

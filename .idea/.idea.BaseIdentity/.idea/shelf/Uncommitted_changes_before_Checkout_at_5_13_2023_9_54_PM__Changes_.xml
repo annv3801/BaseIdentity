@@ -1,0 +1,44 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]" date="1683989661266" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 5/13/2023 9:54 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="Infrastructure/obj/Debug/net6.0/Infrastructure.csproj.AssemblyReference.cache" />
+    <option name="AFTER_PATH" value="Infrastructure/obj/Debug/net6.0/Infrastructure.csproj.AssemblyReference.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/Infrastructure.csproj.AssemblyReference.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WebApi/obj/Debug/net6.0/WebApi.assets.cache" />
+    <option name="AFTER_PATH" value="WebApi/obj/Debug/net6.0/WebApi.assets.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/WebApi.assets.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Application/obj/Debug/net6.0/Application.csproj.AssemblyReference.cache" />
+    <option name="AFTER_PATH" value="Application/obj/Debug/net6.0/Application.csproj.AssemblyReference.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/Application.csproj.AssemblyReference.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Domain/obj/Debug/net6.0/Domain.assets.cache" />
+    <option name="AFTER_PATH" value="Domain/obj/Debug/net6.0/Domain.assets.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/Domain.assets.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WebApi/obj/Debug/net6.0/WebApi.csproj.AssemblyReference.cache" />
+    <option name="AFTER_PATH" value="WebApi/obj/Debug/net6.0/WebApi.csproj.AssemblyReference.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/WebApi.csproj.AssemblyReference.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Application/obj/Debug/net6.0/Application.assets.cache" />
+    <option name="AFTER_PATH" value="Application/obj/Debug/net6.0/Application.assets.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/Application.assets.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Infrastructure/obj/Debug/net6.0/Infrastructure.assets.cache" />
+    <option name="AFTER_PATH" value="Infrastructure/obj/Debug/net6.0/Infrastructure.assets.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/Infrastructure.assets.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Domain/obj/Debug/net6.0/Domain.csproj.AssemblyReference.cache" />
+    <option name="AFTER_PATH" value="Domain/obj/Debug/net6.0/Domain.csproj.AssemblyReference.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.BaseIdentity/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_13_2023_9_54_PM_[Changes]/Domain.csproj.AssemblyReference.cache" />
+  </binary>
+</changelist>
